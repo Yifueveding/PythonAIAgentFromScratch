@@ -16,7 +16,7 @@ class ResearchResponse(BaseModel):
     tools_used: list[str]
     
 
-llm = ChatAnthropic(model="claude-3-5-sonnet-20241022")
+llm = ChatAnthropic(model="claude-sonnet-4-6")
 parser = PydanticOutputParser(pydantic_object=ResearchResponse)
 
 prompt = ChatPromptTemplate.from_messages(
@@ -47,7 +47,13 @@ query = input("What can i help you research? ")
 raw_response = agent_executor.invoke({"query": query})
 
 try:
-    structured_response = parser.parse(raw_response.get("output")[0]["text"])
+    output = raw_response.get("output")
+    if isinstance(output, list):
+        output = "\n".join(
+            block.get("text", str(block)) if isinstance(block, dict) else str(block)
+            for block in output
+        )
+    structured_response = parser.parse(output)
     print(structured_response)
 except Exception as e:
     print("Error parsing response", e, "Raw Response - ", raw_response)

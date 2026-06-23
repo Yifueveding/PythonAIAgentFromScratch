@@ -26,5 +26,17 @@ search_tool = Tool(
 )
 
 api_wrapper = WikipediaAPIWrapper(top_k_results=1, doc_content_chars_max=100)
-wiki_tool = WikipediaQueryRun(api_wrapper=api_wrapper)
+wiki = WikipediaQueryRun(api_wrapper=api_wrapper)
+
+def safe_wikipedia_search(query: str):
+    try:
+        return wiki.run(query)
+    except Exception as e:
+        return f"Wikipedia lookup failed: {e}"
+
+wiki_tool = Tool(
+    name="wikipedia",
+    func=safe_wikipedia_search,
+    description="Search Wikipedia for concise background information.",
+)
 
