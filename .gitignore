@@ -1,7 +1,14 @@
 .env
 sample.env
+sample*.env
 __pycache__/
 *.py[cod]
 gps_cluster_results.txt
 research_output.txt
 Positions/
+Vehicle/
+multi_truck_scenarios_*.json
+closed_loop_runs/
+closed_loop_image_solutions/
+two_day_scenarios/
+truck_correlations_*.csv
