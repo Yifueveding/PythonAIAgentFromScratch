@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -10,14 +11,20 @@ from langchain.tools import Tool
 from PIL import Image
 
 
-VEHICLE_NUMBER = 1994
+DEFAULT_VEHICLE_NUMBER = int(os.getenv("GPS_VEHICLE_NUMBER", "689"))
 IMAGE_SIZE = 32
 PCA_COMPONENTS = 21
 N_CLUSTERS = 10
-IMAGE_ROOT = Path(f"Vehicle_{VEHICLE_NUMBER}")
-CLUSTER_INDEX_PATH = Path(f"gps_cluster_index_{VEHICLE_NUMBER}.csv")
 
-_CLUSTER_MODEL = None
+_CLUSTER_MODELS = {}
+
+
+def _image_root(vehicle_number: int) -> Path:
+    return Path(f"Vehicle_{vehicle_number}")
+
+
+def _cluster_index_path(vehicle_number: int) -> Path:
+    return Path(f"gps_cluster_index_{vehicle_number}.csv")
 
 
 def _image_to_feature(path: Path) -> np.ndarray:
@@ -25,8 +32,12 @@ def _image_to_feature(path: Path) -> np.ndarray:
     return np.asarray(image, dtype=np.float32).reshape(-1) / 255.0
 
 
-def _load_image_features() -> tuple[list[str], np.ndarray]:
-    image_paths = sorted(IMAGE_ROOT.glob("*.png"))
+def _load_image_features(vehicle_number: int) -> tuple[list[str], np.ndarray]:
+    image_root = _image_root(vehicle_number)
+    image_paths = sorted(image_root.glob("*.png"))
+    if not image_paths:
+        raise ValueError(f"No PNG trajectory images found in {image_root}.")
+
     dates = [path.stem for path in image_paths]
     features = np.vstack([_image_to_feature(path) for path in image_paths])
     return dates, features
@@ -66,26 +77,33 @@ def _fit_kmeans(features: np.ndarray, n_clusters: int, max_iter: int = 100) -> t
     return labels, centroids
 
 
-def _write_cluster_index(dates: list[str], labels: np.ndarray, distances: np.ndarray) -> None:
-    with CLUSTER_INDEX_PATH.open("w", newline="", encoding="utf-8") as file:
+def _write_cluster_index(
+    vehicle_number: int,
+    dates: list[str],
+    labels: np.ndarray,
+    distances: np.ndarray,
+) -> None:
+    with _cluster_index_path(vehicle_number).open("w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerow(["date", "vehicle_number", "cluster", "distance_to_centroid"])
         for date, label, distance in zip(dates, labels, distances):
-            writer.writerow([date, VEHICLE_NUMBER, int(label), float(distance)])
+            writer.writerow([date, vehicle_number, int(label), float(distance)])
 
 
-def _build_cluster_model() -> dict:
-    dates, raw_features = _load_image_features()
+def _build_cluster_model(vehicle_number: int) -> dict:
+    image_root = _image_root(vehicle_number)
+    dates, raw_features = _load_image_features(vehicle_number)
     if len(dates) < N_CLUSTERS:
-        raise ValueError(f"Need at least {N_CLUSTERS} images in {IMAGE_ROOT} to cluster trajectories.")
+        raise ValueError(f"Need at least {N_CLUSTERS} images in {image_root} to cluster trajectories.")
 
     n_components = min(PCA_COMPONENTS, len(dates) - 1, raw_features.shape[1])
     mean, components, features = _fit_pca(raw_features, n_components)
     labels, centroids = _fit_kmeans(features, N_CLUSTERS)
     distances = np.linalg.norm(features - centroids[labels], axis=1)
-    _write_cluster_index(dates, labels, distances)
+    _write_cluster_index(vehicle_number, dates, labels, distances)
 
     return {
+        "vehicle_number": vehicle_number,
         "dates": dates,
         "mean": mean,
         "components": components,
@@ -96,11 +114,10 @@ def _build_cluster_model() -> dict:
     }
 
 
-def _get_cluster_model() -> dict:
-    global _CLUSTER_MODEL
-    if _CLUSTER_MODEL is None:
-        _CLUSTER_MODEL = _build_cluster_model()
-    return _CLUSTER_MODEL
+def _get_cluster_model(vehicle_number: int) -> dict:
+    if vehicle_number not in _CLUSTER_MODELS:
+        _CLUSTER_MODELS[vehicle_number] = _build_cluster_model(vehicle_number)
+    return _CLUSTER_MODELS[vehicle_number]
 
 
 def _extract_date(query: str) -> Optional[str]:
@@ -108,26 +125,43 @@ def _extract_date(query: str) -> Optional[str]:
     return match.group(0) if match else None
 
 
+def _extract_vehicle_number(query: str) -> int:
+    match = re.search(r"(?:vehicle|Vehicle|VEHICLE)[_\s-]*(\d+)", query)
+    return int(match.group(1)) if match else DEFAULT_VEHICLE_NUMBER
+
+
 def search_gps_cluster(query: str) -> str:
     """Look up the image cluster for a GPS trajectory date."""
-    model = _get_cluster_model()
+    vehicle_number = _extract_vehicle_number(query)
     date = _extract_date(query)
     if date is None:
         return json.dumps(
             {
                 "status": "missing_date",
                 "message": "Please include a date in YYYY-MM-DD format.",
-                "vehicle_number": VEHICLE_NUMBER,
+                "vehicle_number": vehicle_number,
             }
         )
 
-    image_path = IMAGE_ROOT / f"{date}.png"
+    try:
+        model = _get_cluster_model(vehicle_number)
+    except ValueError as e:
+        return json.dumps(
+            {
+                "status": "dataset_error",
+                "date": date,
+                "vehicle_number": vehicle_number,
+                "message": str(e),
+            }
+        )
+
+    image_path = _image_root(vehicle_number) / f"{date}.png"
     if not image_path.exists():
         return json.dumps(
             {
                 "status": "image_not_found",
                 "date": date,
-                "vehicle_number": VEHICLE_NUMBER,
+                "vehicle_number": vehicle_number,
                 "message": f"No GPS trajectory image exists at {image_path}.",
             }
         )
@@ -143,11 +177,11 @@ def search_gps_cluster(query: str) -> str:
         {
             "status": "ok",
             "date": date,
-            "vehicle_number": VEHICLE_NUMBER,
+            "vehicle_number": vehicle_number,
             "cluster": cluster,
             "distance_to_centroid": float(distances[cluster]),
             "similar_dates": [model["dates"][i] for i in nearest_indices if model["dates"][i] != date][:3],
-            "cluster_index_file": str(CLUSTER_INDEX_PATH),
+            "cluster_index_file": str(_cluster_index_path(vehicle_number)),
         }
     )
 
@@ -165,7 +199,10 @@ def save_gps_result(data: str, filename: str = "gps_cluster_results.txt") -> str
 search_tool = Tool(
     name="search",
     func=search_gps_cluster,
-    description="Query a GPS trajectory date in YYYY-MM-DD format and return its image cluster.",
+    description=(
+        "Query a GPS trajectory date in YYYY-MM-DD format and optional vehicle number "
+        "(for example, Vehicle 689) and return its image cluster."
+    ),
 )
 
 save_tool = Tool(

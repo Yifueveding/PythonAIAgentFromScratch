@@ -8,8 +8,6 @@ from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel
 from typing import Optional
 
-from gps_cluster_tools import save_tool, search_tool
-
 
 load_dotenv()
 load_dotenv("sample.env", override=False)
@@ -17,6 +15,8 @@ load_dotenv("sample.env", override=False)
 for env_key in ("ANTHROPIC_API_KEY", "ANTHROPIC_MODEL"):
     if os.getenv(env_key):
         os.environ[env_key] = os.environ[env_key].strip()
+
+from gps_cluster_tools import save_tool, search_tool
 
 
 class GPSClusterResponse(BaseModel):
@@ -38,9 +38,10 @@ prompt = ChatPromptTemplate.from_messages(
             "system",
             """
             You are a GPS trajectory recommendation assistant.
-            The user will ask for a date. Use the search tool to query the date and find
-            which GPS image cluster the trajectory belongs to. Then use the save tool to
-            save the recommendation.
+            The user will ask for a date and may include a vehicle number. Use Vehicle
+            689 by default unless the user asks for a different vehicle. Use the search
+            tool to query the date and vehicle and find which GPS image cluster the
+            trajectory belongs to. Then use the save tool to save the recommendation.
 
             Describe the result as a recommendation for how to categorize the upcoming
             GPS trajectory. Be concise and action-oriented. The recommendation should
@@ -67,7 +68,7 @@ agent = create_tool_calling_agent(
 )
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-query = input("Which GPS trajectory date should I categorize? ")
+query = input("Which Vehicle 689 GPS trajectory date should I categorize? ")
 
 try:
     raw_response = agent_executor.invoke({"query": query})
