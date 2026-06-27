@@ -1,0 +1,1243 @@
+{
+  "vehicles": [
+    689,
+    1994,
+    2546,
+    1560
+  ],
+  "inputs": {
+    "image_root": "Vehicle",
+    "passes_file": "vehicle_day_zone_passes.csv",
+    "temperature_file": "Other_data/temperature.csv",
+    "temperature_target_year": 2023,
+    "metadata_file": "Other_data/truck_purpose.csv",
+    "feedback_file": null
+  },
+  "closed_loop_design": {
+    "step_1": "Split 2023 data by date so future days do not leak into training.",
+    "step_2": "Extract pairwise features from pass points, trajectory images, optional temperature, and optional truck purpose.",
+    "step_3": "Learn feature weights from feedback when feedback labels are available.",
+    "step_4": "Score validation and test periods with learned weights.",
+    "step_5": "Append new feedback and rerun to correct truck correlation over time."
+  },
+  "feature_meaning": {
+    "pass_score": "Pearson pass correlation rescaled from [-1, 1] to [0, 1].",
+    "image_similarity": "Average same-date cosine similarity of trajectory image features.",
+    "purpose_match": "1 when truck purpose matches, 0 when it differs; omitted until metadata is provided.",
+    "temperature_similarity": "Similarity of average temperatures observed by each truck in the split; omitted until temperature data is provided."
+  },
+  "performance_goal": "Closed-loop performance is evaluated by how close validation/test truck correlations stay to the training baseline. Smaller absolute delta from training means better stability.",
+  "learned_weights": {
+    "pass_score": 0.4,
+    "image_similarity": 0.4,
+    "purpose_match": 0.1,
+    "temperature_similarity": 0.1
+  },
+  "feedback_pairs_used": 0,
+  "splits": {
+    "train": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-10-31",
+      "pairwise_relationships": [
+        {
+          "vehicle_a": 2546,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.6449552034799539,
+            "pass_correlation": 0.28991040695990783,
+            "image_similarity": 0.21840627788455336,
+            "purpose_match": 1.0,
+            "temperature_similarity": 0.9999207947564482
+          },
+          "learned_similarity": 0.5453366720214478,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 302,
+          "pass_features_compared": 2416,
+          "common_image_dates": 286,
+          "temperature_dates": 302,
+          "average_temperature": 24.08993694676208,
+          "most_similar_image_dates": [
+            "2023-09-28",
+            "2023-08-29",
+            "2023-10-04",
+            "2023-08-30",
+            "2023-10-02"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.6045061798177719,
+            "pass_correlation": 0.20901235963554374,
+            "image_similarity": 0.13516296079326975,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9645325570123905
+          },
+          "learned_similarity": 0.3923209119456557,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 123,
+          "pass_features_compared": 984,
+          "common_image_dates": 101,
+          "temperature_dates": 124,
+          "average_temperature": 24.974642890363526,
+          "most_similar_image_dates": [
+            "2023-03-18",
+            "2023-01-02",
+            "2023-01-25",
+            "2023-04-15",
+            "2023-01-07"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.558366659852814,
+            "pass_correlation": 0.11673331970562797,
+            "image_similarity": 0.13958166854441628,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.998517059572926
+          },
+          "learned_similarity": 0.3790310373161847,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 295,
+          "pass_features_compared": 2360,
+          "common_image_dates": 258,
+          "temperature_dates": 295,
+          "average_temperature": 24.054843567174025,
+          "most_similar_image_dates": [
+            "2023-02-05",
+            "2023-05-01",
+            "2023-03-18",
+            "2023-05-06",
+            "2023-10-21"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.524072288069786,
+            "pass_correlation": 0.04814457613957205,
+            "image_similarity": 0.14814828902082258,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9985962648164778
+          },
+          "learned_similarity": 0.3687478573178912,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 293,
+          "pass_features_compared": 2344,
+          "common_image_dates": 251,
+          "temperature_dates": 295,
+          "average_temperature": 24.052863436085232,
+          "most_similar_image_dates": [
+            "2023-04-19",
+            "2023-05-18",
+            "2023-01-29",
+            "2023-02-02",
+            "2023-06-08"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1994,
+          "features": {
+            "pass_score": 0.48496273474133694,
+            "pass_correlation": -0.030074530517326076,
+            "image_similarity": 0.12823454539678739,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9631288218288683
+          },
+          "learned_similarity": 0.34159179423813657,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 122,
+          "pass_features_compared": 976,
+          "common_image_dates": 89,
+          "temperature_dates": 124,
+          "average_temperature": 24.93954951077547,
+          "most_similar_image_dates": [
+            "2023-07-12",
+            "2023-03-17",
+            "2023-05-11",
+            "2023-09-07",
+            "2023-09-13"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.48765708420076553,
+            "pass_correlation": -0.024685831598468946,
+            "image_similarity": 0.12503693507785357,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9646117622559423
+          },
+          "learned_similarity": 0.3415387839370419,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 124,
+          "pass_features_compared": 992,
+          "common_image_dates": 103,
+          "temperature_dates": 124,
+          "average_temperature": 24.97662302145232,
+          "most_similar_image_dates": [
+            "2023-05-02",
+            "2023-04-16",
+            "2023-05-29",
+            "2023-02-27",
+            "2023-01-11"
+          ]
+        }
+      ]
+    },
+    "validation": {
+      "start_date": "2023-11-01",
+      "end_date": "2023-11-30",
+      "pairwise_relationships": [
+        {
+          "vehicle_a": 2546,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.7169430488769009,
+            "pass_correlation": 0.4338860977538016,
+            "image_similarity": 0.16002015875918524,
+            "purpose_match": 1.0,
+            "temperature_similarity": 0.9993208601532567
+          },
+          "learned_similarity": 0.5507173690697601,
+          "scenario_label": "partially_shared_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 21,
+          "temperature_dates": 29,
+          "average_temperature": 30.01526872605364,
+          "most_similar_image_dates": [
+            "2023-11-10",
+            "2023-11-14",
+            "2023-11-09",
+            "2023-11-07",
+            "2023-11-05"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.5853791086709982,
+            "pass_correlation": 0.17075821734199628,
+            "image_similarity": 0.12450644671029988,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9993208601532567
+          },
+          "learned_similarity": 0.3838863081678449,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 21,
+          "temperature_dates": 29,
+          "average_temperature": 30.01526872605364,
+          "most_similar_image_dates": [
+            "2023-11-13",
+            "2023-11-09",
+            "2023-11-14",
+            "2023-11-21",
+            "2023-11-03"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.5523224628798844,
+            "pass_correlation": 0.10464492575976889,
+            "image_similarity": 0.13618546724319458,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.972511425925926
+          },
+          "learned_similarity": 0.3726543146418242,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 9,
+          "pass_features_compared": 72,
+          "common_image_dates": 9,
+          "temperature_dates": 9,
+          "average_temperature": 30.719461574074074,
+          "most_similar_image_dates": [
+            "2023-11-25",
+            "2023-11-23",
+            "2023-11-26",
+            "2023-11-08",
+            "2023-11-24"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.5172034967943182,
+            "pass_correlation": 0.03440699358863634,
+            "image_similarity": 0.15455545435349147,
+            "purpose_match": 0.0,
+            "temperature_similarity": 1.0
+          },
+          "learned_similarity": 0.3687035804591239,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 30,
+          "pass_features_compared": 240,
+          "common_image_dates": 30,
+          "temperature_dates": 30,
+          "average_temperature": 30.03224722222222,
+          "most_similar_image_dates": [
+            "2023-11-07",
+            "2023-11-27",
+            "2023-11-09",
+            "2023-11-25",
+            "2023-11-02"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1994,
+          "features": {
+            "pass_score": 0.48762694589640126,
+            "pass_correlation": -0.024746108207197488,
+            "image_similarity": 0.15963814304106766,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.972511425925926
+          },
+          "learned_similarity": 0.3561571781675802,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 9,
+          "pass_features_compared": 72,
+          "common_image_dates": 9,
+          "temperature_dates": 9,
+          "average_temperature": 30.719461574074074,
+          "most_similar_image_dates": [
+            "2023-11-09",
+            "2023-11-23",
+            "2023-11-08",
+            "2023-11-25",
+            "2023-11-24"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.4860300310943222,
+            "pass_correlation": -0.02793993781135563,
+            "image_similarity": 0.1059130490757525,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9718322860791827
+          },
+          "learned_similarity": 0.33396046067594815,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 8,
+          "pass_features_compared": 64,
+          "common_image_dates": 4,
+          "temperature_dates": 9,
+          "average_temperature": 30.70248307790549,
+          "most_similar_image_dates": [
+            "2023-11-23",
+            "2023-11-24",
+            "2023-11-09",
+            "2023-11-07"
+          ]
+        }
+      ]
+    },
+    "test": {
+      "start_date": "2023-12-01",
+      "end_date": "2023-12-31",
+      "pairwise_relationships": [
+        {
+          "vehicle_a": 2546,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.6613072119370773,
+            "pass_correlation": 0.3226144238741545,
+            "image_similarity": 0.24972133489236945,
+            "purpose_match": 1.0,
+            "temperature_similarity": 0.9987568333333333
+          },
+          "learned_similarity": 0.5642871020651121,
+          "scenario_label": "partially_shared_route_behavior",
+          "common_pass_dates": 30,
+          "pass_features_compared": 240,
+          "common_image_dates": 21,
+          "temperature_dates": 30,
+          "average_temperature": 33.45499583333333,
+          "most_similar_image_dates": [
+            "2023-12-22",
+            "2023-12-16",
+            "2023-12-04",
+            "2023-12-05",
+            "2023-12-21"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.715322168769582,
+            "pass_correlation": 0.43064433753916403,
+            "image_similarity": 0.14032693207263947,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9698414166666667
+          },
+          "learned_similarity": 0.43924378200355524,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 7,
+          "pass_features_compared": 56,
+          "common_image_dates": 1,
+          "temperature_dates": 8,
+          "average_temperature": 32.732110416666664,
+          "most_similar_image_dates": [
+            "2023-12-07"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.5996188624203275,
+            "pass_correlation": 0.19923772484065502,
+            "image_similarity": 0.12491310663797238,
+            "purpose_match": 0.0,
+            "temperature_similarity": 1.0
+          },
+          "learned_similarity": 0.38981278762331995,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 31,
+          "pass_features_compared": 248,
+          "common_image_dates": 27,
+          "temperature_dates": 31,
+          "average_temperature": 33.42391666666666,
+          "most_similar_image_dates": [
+            "2023-12-10",
+            "2023-12-13",
+            "2023-12-20",
+            "2023-12-14",
+            "2023-12-02"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.569986443676064,
+            "pass_correlation": 0.13997288735212796,
+            "image_similarity": 0.12769604176282884,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9987568333333333
+          },
+          "learned_similarity": 0.3789486775088905,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 30,
+          "pass_features_compared": 240,
+          "common_image_dates": 20,
+          "temperature_dates": 30,
+          "average_temperature": 33.45499583333333,
+          "most_similar_image_dates": [
+            "2023-12-02",
+            "2023-12-28",
+            "2023-12-20",
+            "2023-12-21",
+            "2023-12-06"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1994,
+          "features": {
+            "pass_score": 0.4860300310943222,
+            "pass_correlation": -0.02793993781135563,
+            "image_similarity": 0.18995726108551025,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9710845833333334
+          },
+          "learned_similarity": 0.3675033752052663,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 8,
+          "pass_features_compared": 64,
+          "common_image_dates": 1,
+          "temperature_dates": 8,
+          "average_temperature": 32.70103125,
+          "most_similar_image_dates": [
+            "2023-12-07"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.4779244607155826,
+            "pass_correlation": -0.044151078568834795,
+            "image_similarity": 0.15962323546409607,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9710845833333334
+          },
+          "learned_similarity": 0.3521275368052048,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 8,
+          "pass_features_compared": 64,
+          "common_image_dates": 2,
+          "temperature_dates": 8,
+          "average_temperature": 32.70103125,
+          "most_similar_image_dates": [
+            "2023-12-07",
+            "2023-12-11"
+          ]
+        }
+      ]
+    }
+  },
+  "performance_vs_train": {
+    "validation": {
+      "goal": "Keep calculated split correlation close to training correlation.",
+      "tolerance": 0.05,
+      "mean_absolute_delta_from_train": 0.022481328443210057,
+      "pairwise": [
+        {
+          "vehicle_a": 2546,
+          "vehicle_b": 1560,
+          "train_similarity": 0.5453366720214478,
+          "validation_similarity": 0.5507173690697601,
+          "validation_delta_from_train": 0.005380697048312344,
+          "validation_absolute_delta_from_train": 0.005380697048312344,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 2546,
+          "train_similarity": 0.3790310373161847,
+          "validation_similarity": 0.3687035804591239,
+          "validation_delta_from_train": -0.010327456857060824,
+          "validation_absolute_delta_from_train": 0.010327456857060824,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1994,
+          "train_similarity": 0.34159179423813657,
+          "validation_similarity": 0.3561571781675802,
+          "validation_delta_from_train": 0.01456538392944362,
+          "validation_absolute_delta_from_train": 0.01456538392944362,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 1560,
+          "train_similarity": 0.3687478573178912,
+          "validation_similarity": 0.3838863081678449,
+          "validation_delta_from_train": 0.015138450849953689,
+          "validation_absolute_delta_from_train": 0.015138450849953689,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 2546,
+          "train_similarity": 0.3415387839370419,
+          "validation_similarity": 0.3726543146418242,
+          "validation_delta_from_train": 0.03111553070478229,
+          "validation_absolute_delta_from_train": 0.03111553070478229,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1560,
+          "train_similarity": 0.3923209119456557,
+          "validation_similarity": 0.33396046067594815,
+          "validation_delta_from_train": -0.05836045126970757,
+          "validation_absolute_delta_from_train": 0.05836045126970757,
+          "stability_label": "weaker_than_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        }
+      ]
+    },
+    "test": {
+      "goal": "Keep calculated split correlation close to training correlation.",
+      "tolerance": 0.05,
+      "mean_absolute_delta_from_train": 0.020559367405831846,
+      "pairwise": [
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 1560,
+          "train_similarity": 0.3687478573178912,
+          "test_similarity": 0.3789486775088905,
+          "test_delta_from_train": 0.010200820190999271,
+          "test_absolute_delta_from_train": 0.010200820190999271,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 2546,
+          "train_similarity": 0.3415387839370419,
+          "test_similarity": 0.3521275368052048,
+          "test_delta_from_train": 0.01058875286816291,
+          "test_absolute_delta_from_train": 0.01058875286816291,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 2546,
+          "train_similarity": 0.3790310373161847,
+          "test_similarity": 0.38981278762331995,
+          "test_delta_from_train": 0.01078175030713524,
+          "test_absolute_delta_from_train": 0.01078175030713524,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 2546,
+          "vehicle_b": 1560,
+          "train_similarity": 0.5453366720214478,
+          "test_similarity": 0.5642871020651121,
+          "test_delta_from_train": 0.018950430043664368,
+          "test_absolute_delta_from_train": 0.018950430043664368,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1994,
+          "train_similarity": 0.34159179423813657,
+          "test_similarity": 0.3675033752052663,
+          "test_delta_from_train": 0.025911580967129755,
+          "test_absolute_delta_from_train": 0.025911580967129755,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1560,
+          "train_similarity": 0.3923209119456557,
+          "test_similarity": 0.43924378200355524,
+          "test_delta_from_train": 0.046922870057899524,
+          "test_absolute_delta_from_train": 0.046922870057899524,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        }
+      ]
+    }
+  },
+  "llm_weight_update": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "updated_weights": {
+      "pass_score": 0.45,
+      "image_similarity": 0.35,
+      "purpose_match": 0.1,
+      "temperature_similarity": 0.1
+    },
+    "rationale": "Current weights (0.4/0.4/0.1/0.1) already yield strong stability: test mean absolute delta is 0.0206 and validation mean absolute delta is 0.0225, both well within the 0.05 tolerance. The one problematic pair is 689\u21941560, which shows the largest deviations (validation delta \u22120.058, test delta +0.047). Examining its features: pass_score shifts substantially across splits (train 0.605, val 0.486, test 0.715) while image_similarity is thin (only 1\u20134 common image dates in val/test vs 101 in train), making image_similarity noisy for low-overlap pairs. Slightly increasing pass_score weight to 0.45 and reducing image_similarity to 0.35 favors the more consistently populated feature across splits. purpose_match and temperature_similarity remain at 0.10 each \u2014 both are present and stable across all pairs, and their current contribution is appropriate given they act as secondary regularizers. This is a conservative nudge rather than a large rebalancing, preserving the already-good baseline stability.",
+    "expected_effect": "Modest reduction in test mean absolute delta for pairs with sparse image overlap (especially 689\u21941560 and 689\u21941994 where common_image_dates drop to 1\u20139 in val/test). Pass_score, computed from full pass-date counts (7\u201331 dates), remains better populated and more reliable in short windows. Overall mean absolute delta expected to remain near or below 0.020 on test, with marginal improvement on the outlier pair.",
+    "risks": [
+      "689\u21941560 test delta is already 0.047, near the 0.05 tolerance; if pass_score itself becomes noisy in future splits with fewer common pass dates, the higher pass_score weight could amplify rather than reduce drift.",
+      "Reducing image_similarity weight may slightly hurt pairs like 2546\u21941560 where image data is abundant (21\u2013286 common dates) and currently stable \u2014 monitor that pair for regression.",
+      "purpose_match is 1.0 only for 2546\u21941560 and 0.0 for all others; its contribution is almost a pair-specific bias term rather than a generalizable signal \u2014 if new vehicles with mixed purpose data are added, this weight may need reassessment.",
+      "Temperature_similarity is near 1.0 for all pairs across all splits, providing minimal discriminative signal; keeping it at 0.10 is safe but contributes little \u2014 it remains as a hedge against future seasonal variation."
+    ]
+  },
+  "llm_rescored_splits": {
+    "train": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-10-31",
+      "pairwise_relationships": [
+        {
+          "vehicle_a": 2546,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.6449552034799539,
+            "pass_correlation": 0.28991040695990783,
+            "image_similarity": 0.21840627788455336,
+            "purpose_match": 1.0,
+            "temperature_similarity": 0.9999207947564482
+          },
+          "learned_similarity": 0.5666641183012178,
+          "scenario_label": "partially_shared_route_behavior",
+          "common_pass_dates": 302,
+          "pass_features_compared": 2416,
+          "common_image_dates": 286,
+          "temperature_dates": 302,
+          "average_temperature": 24.08993694676208,
+          "most_similar_image_dates": [
+            "2023-09-28",
+            "2023-08-29",
+            "2023-10-04",
+            "2023-08-30",
+            "2023-10-02"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.6045061798177719,
+            "pass_correlation": 0.20901235963554374,
+            "image_similarity": 0.13516296079326975,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9645325570123905
+          },
+          "learned_similarity": 0.4157880728968808,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 123,
+          "pass_features_compared": 984,
+          "common_image_dates": 101,
+          "temperature_dates": 124,
+          "average_temperature": 24.974642890363526,
+          "most_similar_image_dates": [
+            "2023-03-18",
+            "2023-01-02",
+            "2023-01-25",
+            "2023-04-15",
+            "2023-01-07"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.558366659852814,
+            "pass_correlation": 0.11673331970562797,
+            "image_similarity": 0.13958166854441628,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.998517059572926
+          },
+          "learned_similarity": 0.39997028688160463,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 295,
+          "pass_features_compared": 2360,
+          "common_image_dates": 258,
+          "temperature_dates": 295,
+          "average_temperature": 24.054843567174025,
+          "most_similar_image_dates": [
+            "2023-02-05",
+            "2023-05-01",
+            "2023-03-18",
+            "2023-05-06",
+            "2023-10-21"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.524072288069786,
+            "pass_correlation": 0.04814457613957205,
+            "image_similarity": 0.14814828902082258,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9985962648164778
+          },
+          "learned_similarity": 0.3875440572703394,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 293,
+          "pass_features_compared": 2344,
+          "common_image_dates": 251,
+          "temperature_dates": 295,
+          "average_temperature": 24.052863436085232,
+          "most_similar_image_dates": [
+            "2023-04-19",
+            "2023-05-18",
+            "2023-01-29",
+            "2023-02-02",
+            "2023-06-08"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.48765708420076553,
+            "pass_correlation": -0.024685831598468946,
+            "image_similarity": 0.12503693507785357,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9646117622559423
+          },
+          "learned_similarity": 0.35966979139318744,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 124,
+          "pass_features_compared": 992,
+          "common_image_dates": 103,
+          "temperature_dates": 124,
+          "average_temperature": 24.97662302145232,
+          "most_similar_image_dates": [
+            "2023-05-02",
+            "2023-04-16",
+            "2023-05-29",
+            "2023-02-27",
+            "2023-01-11"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1994,
+          "features": {
+            "pass_score": 0.48496273474133694,
+            "pass_correlation": -0.030074530517326076,
+            "image_similarity": 0.12823454539678739,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9631288218288683
+          },
+          "learned_similarity": 0.35942820370536405,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 122,
+          "pass_features_compared": 976,
+          "common_image_dates": 89,
+          "temperature_dates": 124,
+          "average_temperature": 24.93954951077547,
+          "most_similar_image_dates": [
+            "2023-07-12",
+            "2023-03-17",
+            "2023-05-11",
+            "2023-09-07",
+            "2023-09-13"
+          ]
+        }
+      ]
+    },
+    "validation": {
+      "start_date": "2023-11-01",
+      "end_date": "2023-11-30",
+      "pairwise_relationships": [
+        {
+          "vehicle_a": 2546,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.7169430488769009,
+            "pass_correlation": 0.4338860977538016,
+            "image_similarity": 0.16002015875918524,
+            "purpose_match": 1.0,
+            "temperature_similarity": 0.9993208601532567
+          },
+          "learned_similarity": 0.578563513575646,
+          "scenario_label": "partially_shared_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 21,
+          "temperature_dates": 29,
+          "average_temperature": 30.01526872605364,
+          "most_similar_image_dates": [
+            "2023-11-10",
+            "2023-11-14",
+            "2023-11-09",
+            "2023-11-07",
+            "2023-11-05"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.5853791086709982,
+            "pass_correlation": 0.17075821734199628,
+            "image_similarity": 0.12450644671029988,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9993208601532567
+          },
+          "learned_similarity": 0.40692994126587984,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 21,
+          "temperature_dates": 29,
+          "average_temperature": 30.01526872605364,
+          "most_similar_image_dates": [
+            "2023-11-13",
+            "2023-11-09",
+            "2023-11-14",
+            "2023-11-21",
+            "2023-11-03"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.5523224628798844,
+            "pass_correlation": 0.10464492575976889,
+            "image_similarity": 0.13618546724319458,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.972511425925926
+          },
+          "learned_similarity": 0.3934611644236587,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 9,
+          "pass_features_compared": 72,
+          "common_image_dates": 9,
+          "temperature_dates": 9,
+          "average_temperature": 30.719461574074074,
+          "most_similar_image_dates": [
+            "2023-11-25",
+            "2023-11-23",
+            "2023-11-26",
+            "2023-11-08",
+            "2023-11-24"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.5172034967943182,
+            "pass_correlation": 0.03440699358863634,
+            "image_similarity": 0.15455545435349147,
+            "purpose_match": 0.0,
+            "temperature_similarity": 1.0
+          },
+          "learned_similarity": 0.38683598258116525,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 30,
+          "pass_features_compared": 240,
+          "common_image_dates": 30,
+          "temperature_dates": 30,
+          "average_temperature": 30.03224722222222,
+          "most_similar_image_dates": [
+            "2023-11-07",
+            "2023-11-27",
+            "2023-11-09",
+            "2023-11-25",
+            "2023-11-02"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1994,
+          "features": {
+            "pass_score": 0.48762694589640126,
+            "pass_correlation": -0.024746108207197488,
+            "image_similarity": 0.15963814304106766,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.972511425925926
+          },
+          "learned_similarity": 0.37255661831034687,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 9,
+          "pass_features_compared": 72,
+          "common_image_dates": 9,
+          "temperature_dates": 9,
+          "average_temperature": 30.719461574074074,
+          "most_similar_image_dates": [
+            "2023-11-09",
+            "2023-11-23",
+            "2023-11-08",
+            "2023-11-25",
+            "2023-11-24"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.4860300310943222,
+            "pass_correlation": -0.02793993781135563,
+            "image_similarity": 0.1059130490757525,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9718322860791827
+          },
+          "learned_similarity": 0.35296630977687665,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 8,
+          "pass_features_compared": 64,
+          "common_image_dates": 4,
+          "temperature_dates": 9,
+          "average_temperature": 30.70248307790549,
+          "most_similar_image_dates": [
+            "2023-11-23",
+            "2023-11-24",
+            "2023-11-09",
+            "2023-11-07"
+          ]
+        }
+      ]
+    },
+    "test": {
+      "start_date": "2023-12-01",
+      "end_date": "2023-12-31",
+      "pairwise_relationships": [
+        {
+          "vehicle_a": 2546,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.6613072119370773,
+            "pass_correlation": 0.3226144238741545,
+            "image_similarity": 0.24972133489236945,
+            "purpose_match": 1.0,
+            "temperature_similarity": 0.9987568333333333
+          },
+          "learned_similarity": 0.5848663959173475,
+          "scenario_label": "partially_shared_route_behavior",
+          "common_pass_dates": 30,
+          "pass_features_compared": 240,
+          "common_image_dates": 21,
+          "temperature_dates": 30,
+          "average_temperature": 33.45499583333333,
+          "most_similar_image_dates": [
+            "2023-12-22",
+            "2023-12-16",
+            "2023-12-04",
+            "2023-12-05",
+            "2023-12-21"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.715322168769582,
+            "pass_correlation": 0.43064433753916403,
+            "image_similarity": 0.14032693207263947,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9698414166666667
+          },
+          "learned_similarity": 0.46799354383840236,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 7,
+          "pass_features_compared": 56,
+          "common_image_dates": 1,
+          "temperature_dates": 8,
+          "average_temperature": 32.732110416666664,
+          "most_similar_image_dates": [
+            "2023-12-07"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.5996188624203275,
+            "pass_correlation": 0.19923772484065502,
+            "image_similarity": 0.12491310663797238,
+            "purpose_match": 0.0,
+            "temperature_similarity": 1.0
+          },
+          "learned_similarity": 0.4135480754124377,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 31,
+          "pass_features_compared": 248,
+          "common_image_dates": 27,
+          "temperature_dates": 31,
+          "average_temperature": 33.42391666666666,
+          "most_similar_image_dates": [
+            "2023-12-10",
+            "2023-12-13",
+            "2023-12-20",
+            "2023-12-14",
+            "2023-12-02"
+          ]
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 1560,
+          "features": {
+            "pass_score": 0.569986443676064,
+            "pass_correlation": 0.13997288735212796,
+            "image_similarity": 0.12769604176282884,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9987568333333333
+          },
+          "learned_similarity": 0.4010631976045522,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 30,
+          "pass_features_compared": 240,
+          "common_image_dates": 20,
+          "temperature_dates": 30,
+          "average_temperature": 33.45499583333333,
+          "most_similar_image_dates": [
+            "2023-12-02",
+            "2023-12-28",
+            "2023-12-20",
+            "2023-12-21",
+            "2023-12-06"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1994,
+          "features": {
+            "pass_score": 0.4860300310943222,
+            "pass_correlation": -0.02793993781135563,
+            "image_similarity": 0.18995726108551025,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9710845833333334
+          },
+          "learned_similarity": 0.3823070137057069,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 8,
+          "pass_features_compared": 64,
+          "common_image_dates": 1,
+          "temperature_dates": 8,
+          "average_temperature": 32.70103125,
+          "most_similar_image_dates": [
+            "2023-12-07"
+          ]
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 2546,
+          "features": {
+            "pass_score": 0.4779244607155826,
+            "pass_correlation": -0.044151078568834795,
+            "image_similarity": 0.15962323546409607,
+            "purpose_match": 0.0,
+            "temperature_similarity": 0.9710845833333334
+          },
+          "learned_similarity": 0.3680425980677791,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 8,
+          "pass_features_compared": 64,
+          "common_image_dates": 2,
+          "temperature_dates": 8,
+          "average_temperature": 32.70103125,
+          "most_similar_image_dates": [
+            "2023-12-07",
+            "2023-12-11"
+          ]
+        }
+      ]
+    }
+  },
+  "llm_performance_vs_train": {
+    "validation": {
+      "goal": "Keep calculated split correlation close to training correlation.",
+      "tolerance": 0.05,
+      "mean_absolute_delta_from_train": 0.025693522387644368,
+      "pairwise": [
+        {
+          "vehicle_a": 2546,
+          "vehicle_b": 1560,
+          "train_similarity": 0.5666641183012178,
+          "validation_similarity": 0.578563513575646,
+          "validation_delta_from_train": 0.011899395274428182,
+          "validation_absolute_delta_from_train": 0.011899395274428182,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1994,
+          "train_similarity": 0.35942820370536405,
+          "validation_similarity": 0.37255661831034687,
+          "validation_delta_from_train": 0.013128414604982819,
+          "validation_absolute_delta_from_train": 0.013128414604982819,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 2546,
+          "train_similarity": 0.39997028688160463,
+          "validation_similarity": 0.38683598258116525,
+          "validation_delta_from_train": -0.013134304300439381,
+          "validation_absolute_delta_from_train": 0.013134304300439381,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 1560,
+          "train_similarity": 0.3875440572703394,
+          "validation_similarity": 0.40692994126587984,
+          "validation_delta_from_train": 0.01938588399554042,
+          "validation_absolute_delta_from_train": 0.01938588399554042,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 2546,
+          "train_similarity": 0.35966979139318744,
+          "validation_similarity": 0.3934611644236587,
+          "validation_delta_from_train": 0.03379137303047125,
+          "validation_absolute_delta_from_train": 0.03379137303047125,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1560,
+          "train_similarity": 0.4157880728968808,
+          "validation_similarity": 0.35296630977687665,
+          "validation_delta_from_train": -0.06282176312000415,
+          "validation_absolute_delta_from_train": 0.06282176312000415,
+          "stability_label": "weaker_than_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        }
+      ]
+    },
+    "test": {
+      "goal": "Keep calculated split correlation close to training correlation.",
+      "tolerance": 0.05,
+      "mean_absolute_delta_from_train": 0.021459382349605278,
+      "pairwise": [
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 2546,
+          "train_similarity": 0.35966979139318744,
+          "test_similarity": 0.3680425980677791,
+          "test_delta_from_train": 0.00837280667459167,
+          "test_absolute_delta_from_train": 0.00837280667459167,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 1560,
+          "train_similarity": 0.3875440572703394,
+          "test_similarity": 0.4010631976045522,
+          "test_delta_from_train": 0.01351914033421281,
+          "test_absolute_delta_from_train": 0.01351914033421281,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 1994,
+          "vehicle_b": 2546,
+          "train_similarity": 0.39997028688160463,
+          "test_similarity": 0.4135480754124377,
+          "test_delta_from_train": 0.01357778853083308,
+          "test_absolute_delta_from_train": 0.01357778853083308,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 2546,
+          "vehicle_b": 1560,
+          "train_similarity": 0.5666641183012178,
+          "test_similarity": 0.5848663959173475,
+          "test_delta_from_train": 0.018202277616129692,
+          "test_absolute_delta_from_train": 0.018202277616129692,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1994,
+          "train_similarity": 0.35942820370536405,
+          "test_similarity": 0.3823070137057069,
+          "test_delta_from_train": 0.022878810000342864,
+          "test_absolute_delta_from_train": 0.022878810000342864,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 689,
+          "vehicle_b": 1560,
+          "train_similarity": 0.4157880728968808,
+          "test_similarity": 0.46799354383840236,
+          "test_delta_from_train": 0.05220547094152156,
+          "test_absolute_delta_from_train": 0.05220547094152156,
+          "stability_label": "stronger_than_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        }
+      ]
+    }
+  }
+}

@@ -44,17 +44,26 @@ def _filter_by_date(data: dict[str, object], start_date: str, end_date: str) -> 
     }
 
 
-def _load_temperature(path: Optional[Path]) -> dict[str, float]:
+def _load_temperature(path: Optional[Path], target_year: Optional[int] = None) -> dict[str, float]:
     if path is None or not path.exists():
         return {}
 
     with path.open(newline="", encoding="utf-8") as file:
-        reader = csv.DictReader(file)
+        reader = csv.DictReader(line for line in file if not line.startswith("#"))
         if reader.fieldnames is None:
             return {}
 
+        date_column = None
+        for candidate in ("date", "local_time", "time"):
+            if candidate in reader.fieldnames:
+                date_column = candidate
+                break
+
+        if date_column is None:
+            raise ValueError(f"{path} needs a date, local_time, or time column.")
+
         temp_column = None
-        for candidate in ("temperature", "temp", "temperature_f", "temperature_c"):
+        for candidate in ("temperature", "temp", "temperature_f", "temperature_c", "t2m"):
             if candidate in reader.fieldnames:
                 temp_column = candidate
                 break
@@ -62,10 +71,21 @@ def _load_temperature(path: Optional[Path]) -> dict[str, float]:
         if temp_column is None:
             raise ValueError(f"{path} needs a temperature column.")
 
+        daily_temperatures: dict[str, list[float]] = {}
+        for row in reader:
+            raw_date = row.get(date_column)
+            raw_temperature = row.get(temp_column)
+            if not raw_date or raw_temperature in ("", None):
+                continue
+
+            date = raw_date[:10]
+            if target_year is not None:
+                date = f"{target_year}{date[4:]}"
+            daily_temperatures.setdefault(date, []).append(float(raw_temperature))
+
         return {
-            row["date"]: float(row[temp_column])
-            for row in reader
-            if row.get("date") and row.get(temp_column) not in ("", None)
+            date: sum(values) / len(values)
+            for date, values in daily_temperatures.items()
         }
 
 
@@ -494,6 +514,7 @@ def build_closed_loop_run(
     image_root: Path,
     passes_file: Path,
     temperature_file: Optional[Path],
+    temperature_target_year: Optional[int],
     metadata_file: Optional[Path],
     feedback_file: Optional[Path],
     train_start: str,
@@ -512,7 +533,7 @@ def build_closed_loop_run(
         vehicle_id: _load_image_features(image_root, vehicle_id)
         for vehicle_id in vehicle_ids
     }
-    temperatures = _load_temperature(temperature_file)
+    temperatures = _load_temperature(temperature_file, temperature_target_year)
     metadata = _load_metadata(metadata_file)
     feedback = _load_feedback(feedback_file)
 
@@ -556,6 +577,7 @@ def build_closed_loop_run(
             "image_root": str(image_root),
             "passes_file": str(passes_file),
             "temperature_file": None if temperature_file is None else str(temperature_file),
+            "temperature_target_year": temperature_target_year,
             "metadata_file": None if metadata_file is None else str(metadata_file),
             "feedback_file": None if feedback_file is None else str(feedback_file),
         },
@@ -600,6 +622,7 @@ def main() -> None:
     parser.add_argument("--image-root", type=Path, default=DEFAULT_IMAGE_ROOT)
     parser.add_argument("--passes-file", type=Path, default=DEFAULT_PASSES_FILE)
     parser.add_argument("--temperature-file", type=Path)
+    parser.add_argument("--temperature-target-year", type=int)
     parser.add_argument("--metadata-file", type=Path)
     parser.add_argument("--feedback-file", type=Path)
     parser.add_argument("--train-start", default="2023-01-01")
@@ -619,6 +642,7 @@ def main() -> None:
         image_root=args.image_root,
         passes_file=args.passes_file,
         temperature_file=args.temperature_file,
+        temperature_target_year=args.temperature_target_year,
         metadata_file=args.metadata_file,
         feedback_file=args.feedback_file,
         train_start=args.train_start,
