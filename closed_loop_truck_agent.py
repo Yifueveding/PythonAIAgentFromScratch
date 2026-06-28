@@ -23,16 +23,17 @@ from multi_truck_scenario import (
 
 
 DEFAULT_OUTPUT_ROOT = Path("closed_loop_runs")
+DEFAULT_FLEET_FILE = Path("Other_data/West_Ang_Fleet.csv")
 DEFAULT_ROUTE_PATTERN_CLUSTERS = 10
 DEFAULT_BEHAVIOR_CLUSTERS = 3
 DEFAULT_STOP_PROFILE_WEIGHT = 0.8
 
 DEFAULT_WEIGHTS = {
-    "pass_score": 0.25,
-    "image_similarity": 0.25,
-    "distance_similarity": 0.3,
-    "purpose_match": 0.1,
-    "temperature_similarity": 0.1,
+    "pass_score": 0.22,
+    "image_similarity": 0.22,
+    "distance_similarity": 0.31,
+    "purpose_match": 0.15,
+    "fleet_feature_similarity": 0.1,
 }
 
 WEIGHT_KEYS = tuple(DEFAULT_WEIGHTS)
@@ -50,51 +51,6 @@ def _filter_by_date(data: dict[str, object], start_date: str, end_date: str) -> 
     }
 
 
-def _load_temperature(path: Optional[Path], target_year: Optional[int] = None) -> dict[str, float]:
-    if path is None or not path.exists():
-        return {}
-
-    with path.open(newline="", encoding="utf-8") as file:
-        reader = csv.DictReader(line for line in file if not line.startswith("#"))
-        if reader.fieldnames is None:
-            return {}
-
-        date_column = None
-        for candidate in ("date", "local_time", "time"):
-            if candidate in reader.fieldnames:
-                date_column = candidate
-                break
-
-        if date_column is None:
-            raise ValueError(f"{path} needs a date, local_time, or time column.")
-
-        temp_column = None
-        for candidate in ("temperature", "temp", "temperature_f", "temperature_c", "t2m"):
-            if candidate in reader.fieldnames:
-                temp_column = candidate
-                break
-
-        if temp_column is None:
-            raise ValueError(f"{path} needs a temperature column.")
-
-        daily_temperatures: dict[str, list[float]] = {}
-        for row in reader:
-            raw_date = row.get(date_column)
-            raw_temperature = row.get(temp_column)
-            if not raw_date or raw_temperature in ("", None):
-                continue
-
-            date = raw_date[:10]
-            if target_year is not None:
-                date = f"{target_year}{date[4:]}"
-            daily_temperatures.setdefault(date, []).append(float(raw_temperature))
-
-        return {
-            date: sum(values) / len(values)
-            for date, values in daily_temperatures.items()
-        }
-
-
 def _load_metadata(path: Optional[Path]) -> dict[int, dict[str, str]]:
     if path is None or not path.exists():
         return {}
@@ -110,6 +66,68 @@ def _load_metadata(path: Optional[Path]) -> dict[int, dict[str, str]]:
             for row in reader
             if row.get(vehicle_column)
         }
+
+
+def _parse_float(value: object) -> Optional[float]:
+    if value in ("", None):
+        return None
+    try:
+        return float(str(value).replace(",", ""))
+    except ValueError:
+        return None
+
+
+def _load_fleet_features(path: Optional[Path]) -> dict[int, dict[str, object]]:
+    if path is None or not path.exists():
+        return {}
+
+    with path.open(newline="", encoding="utf-8") as file:
+        rows = list(csv.reader(file))
+    if not rows:
+        return {}
+
+    header = rows[0]
+
+    def first_index(name: str) -> Optional[int]:
+        for index, value in enumerate(header):
+            if value == name:
+                return index
+        return None
+
+    vehicle_index = first_index("VehicleId")
+    if vehicle_index is None:
+        return {}
+
+    column_indexes = {
+        "functional_loc": first_index("Functional Loc."),
+        "asset_type": first_index("Asset Type"),
+        "age": first_index("Age"),
+        "kms": first_index("Km's"),
+        "duty_cycle": first_index("Duty Cycle"),
+    }
+
+    features: dict[int, dict[str, object]] = {}
+    for row in rows[1:]:
+        if len(row) <= vehicle_index or not row[vehicle_index].strip():
+            continue
+        try:
+            vehicle_id = int(row[vehicle_index])
+        except ValueError:
+            continue
+
+        values: dict[str, object] = {}
+        for key, index in column_indexes.items():
+            if index is None or len(row) <= index:
+                values[key] = None
+                continue
+            raw_value = row[index].strip()
+            values[key] = raw_value if raw_value != "" else None
+
+        values["age"] = _parse_float(values["age"])
+        values["kms"] = _parse_float(values["kms"])
+        features[vehicle_id] = values
+
+    return features
 
 
 def _load_feedback(path: Optional[Path]) -> dict[tuple[int, int], float]:
@@ -179,25 +197,6 @@ def _load_distances(path: Optional[Path]) -> dict[int, dict[str, float]]:
     return distances
 
 
-def _average_temperature_similarity(
-    left_dates: set[str],
-    right_dates: set[str],
-    temperatures: dict[str, float],
-) -> tuple[Optional[float], Optional[float], int]:
-    if not temperatures:
-        return None, None, 0
-
-    left_values = [temperatures[date] for date in left_dates if date in temperatures]
-    right_values = [temperatures[date] for date in right_dates if date in temperatures]
-    if not left_values or not right_values:
-        return None, None, 0
-
-    left_avg = sum(left_values) / len(left_values)
-    right_avg = sum(right_values) / len(right_values)
-    similarity = 1.0 - min(abs(left_avg - right_avg) / 50.0, 1.0)
-    return similarity, (left_avg + right_avg) / 2.0, min(len(left_values), len(right_values))
-
-
 def _purpose_match(left_id: int, right_id: int, metadata: dict[int, dict[str, str]]) -> Optional[float]:
     if not metadata:
         return None
@@ -209,6 +208,43 @@ def _purpose_match(left_id: int, right_id: int, metadata: dict[int, dict[str, st
     if not purpose_left or not purpose_right:
         return None
     return 1.0 if purpose_left == purpose_right else 0.0
+
+
+def _numeric_similarity(left: Optional[float], right: Optional[float]) -> Optional[float]:
+    if left is None or right is None:
+        return None
+    denominator = max(abs(left), abs(right), 1e-8)
+    if denominator == 1e-8:
+        return 1.0
+    return 1.0 - min(abs(left - right) / denominator, 1.0)
+
+
+def _categorical_similarity(left: object, right: object) -> Optional[float]:
+    if left in ("", None) or right in ("", None):
+        return None
+    return 1.0 if str(left).strip() == str(right).strip() else 0.0
+
+
+def _fleet_feature_similarity(
+    left_id: int,
+    right_id: int,
+    fleet_features: dict[int, dict[str, object]],
+) -> tuple[Optional[float], dict[str, Optional[float]]]:
+    left = fleet_features.get(left_id, {})
+    right = fleet_features.get(right_id, {})
+    if not left or not right:
+        return None, {}
+
+    components = {
+        "asset_type_match": _categorical_similarity(left.get("asset_type"), right.get("asset_type")),
+        "duty_cycle_match": _categorical_similarity(left.get("duty_cycle"), right.get("duty_cycle")),
+        "age_similarity": _numeric_similarity(left.get("age"), right.get("age")),
+        "kms_similarity": _numeric_similarity(left.get("kms"), right.get("kms")),
+    }
+    valid = [value for value in components.values() if value is not None]
+    if not valid:
+        return None, components
+    return sum(valid) / len(valid), components
 
 
 def _vehicle_purpose(vehicle_id: int, metadata: dict[int, dict[str, str]]) -> str:
@@ -503,9 +539,9 @@ def _build_pair_features(
     vehicle_ids: list[int],
     image_features: dict[int, dict[str, np.ndarray]],
     passes_by_vehicle: dict[int, dict[str, tuple[int, ...]]],
-    temperatures: dict[str, float],
     distances_by_vehicle: dict[int, dict[str, float]],
     metadata: dict[int, dict[str, str]],
+    fleet_features: dict[int, dict[str, object]],
     start_date: str,
     end_date: str,
     weights: dict[str, float],
@@ -527,12 +563,8 @@ def _build_pair_features(
             left_distances,
             right_distances,
         )
-        temp_sim, average_temperature, temp_dates = _average_temperature_similarity(
-            set(left_passes) | set(left_images),
-            set(right_passes) | set(right_images),
-            temperatures,
-        )
         purpose = _purpose_match(left_id, right_id, metadata)
+        fleet_similarity, fleet_components = _fleet_feature_similarity(left_id, right_id, fleet_features)
 
         features = {
             "pass_score": pass_score,
@@ -540,7 +572,7 @@ def _build_pair_features(
             "image_similarity": image_sim,
             "distance_similarity": distance_sim,
             "purpose_match": purpose,
-            "temperature_similarity": temp_sim,
+            "fleet_feature_similarity": fleet_similarity,
         }
         score = _score_features(features, weights)
 
@@ -559,8 +591,7 @@ def _build_pair_features(
                 "right_total_distance_km": right_total_distance,
                 "daily_distance_match": daily_distance_match,
                 "distance_pattern_match": distance_pattern_match,
-                "temperature_dates": temp_dates,
-                "average_temperature": average_temperature,
+                "fleet_feature_components": fleet_components,
                 "most_similar_image_dates": similar_dates,
             }
         )
@@ -1035,6 +1066,95 @@ def _build_validation_feedback_context(
     return context
 
 
+def _build_generated_scenario_from_cluster_choices(
+    vehicle_ids: list[int],
+    cluster_choices: dict[int, dict],
+    route_pattern_expectations: dict[int, dict],
+    truck_stop_behavior_graph: dict,
+    fleet_features: Optional[dict[int, dict[str, object]]] = None,
+    predicted_pairwise_correlations: Optional[list[dict]] = None,
+    scenario_method: str = "cluster_choice_scenario",
+) -> dict:
+    fleet_features = fleet_features or {}
+    cluster_lookup = _cluster_lookup(route_pattern_expectations)
+    profile_lookup = truck_stop_behavior_graph.get("truck_stop_profiles", {})
+    behavioral_cluster_lookup = {}
+    for cluster in truck_stop_behavior_graph.get("behavioral_clusters", []):
+        for vehicle_id in cluster.get("vehicles", []):
+            behavioral_cluster_lookup[int(vehicle_id)] = cluster.get("cluster")
+
+    truck_scenarios = []
+    generated_fleet_distance = 0.0
+    valid_distance_count = 0
+    for vehicle_id in vehicle_ids:
+        choice = cluster_choices.get(vehicle_id, {})
+        selected_cluster = choice.get("cluster")
+        selected_pattern = None
+        if selected_cluster is not None:
+            selected_pattern = cluster_lookup.get(vehicle_id, {}).get(int(selected_cluster))
+        selected_pattern = selected_pattern or {}
+
+        profile = profile_lookup.get(str(vehicle_id), {})
+        stop_weights = profile.get("weights", {})
+        ranked_stops = sorted(
+            stop_weights.items(),
+            key=lambda item: item[1],
+            reverse=True,
+        )
+        assigned_zone = ranked_stops[0][0] if ranked_stops else None
+        top_zone_weight = ranked_stops[0][1] if ranked_stops else None
+        candidate_zones = [
+            {"zone": zone, "weight": weight}
+            for zone, weight in ranked_stops[:5]
+        ]
+
+        expected_distance = choice.get("expected_distance_km")
+        if expected_distance is not None:
+            generated_fleet_distance += expected_distance
+            valid_distance_count += 1
+
+        truck_scenarios.append(
+            {
+                "vehicle_id": vehicle_id,
+                "behavioral_cluster": behavioral_cluster_lookup.get(vehicle_id),
+                "truck_purpose": profile.get("purpose"),
+                "fleet_features": fleet_features.get(vehicle_id, fleet_features.get(str(vehicle_id), {})),
+                "route_cluster": selected_cluster,
+                "route_cluster_prior": choice.get("cluster_prior"),
+                "expected_route_distance_km": expected_distance,
+                "assigned_stopping_zone": assigned_zone,
+                "assigned_zone_weight": top_zone_weight,
+                "candidate_stopping_zones": candidate_zones,
+                "route_example_dates": selected_pattern.get("example_dates", []),
+                "route_train_image_days": selected_pattern.get("train_image_days"),
+                "route_train_distance_days": selected_pattern.get("train_distance_days"),
+                "cluster_choice_method": choice.get("method"),
+                "rationale": choice.get("rationale", ""),
+            }
+        )
+
+    return {
+        "method": scenario_method,
+        "definition": (
+            "The generated scenario is materialized from the chosen truck-specific route "
+            "cluster. Each truck receives a route-cluster assignment, expected route "
+            "distance, and stopping-zone assignment from its historical stop profile."
+        ),
+        "scenario_variables": {
+            "route_cluster": "Chosen truck-specific route pattern cluster.",
+            "expected_route_distance_km": "Expected daily route distance implied by the chosen cluster.",
+            "assigned_stopping_zone": "Most frequent historical stopping zone for the truck.",
+            "predicted_pairwise_correlations": "LLM-generated truck-truck correlations when available.",
+        },
+        "trucks": truck_scenarios,
+        "predicted_pairwise_correlations": predicted_pairwise_correlations or [],
+        "generated_fleet_distance_km": (
+            generated_fleet_distance if valid_distance_count else None
+        ),
+        "valid_distance_count": valid_distance_count,
+    }
+
+
 def _build_cluster_choice_realism_validation(
     vehicle_ids: list[int],
     distances_by_vehicle: dict[int, dict[str, float]],
@@ -1153,6 +1273,7 @@ def _summarize_for_llm(run: dict) -> dict:
             "behavioral_clusters": run["truck_stop_behavior_graph"]["behavioral_clusters"],
             "truck_similarity_matrix": run["truck_stop_behavior_graph"]["truck_similarity_matrix"],
         },
+        "fleet_features": run.get("fleet_features", {}),
         "route_pattern_expectations": run["route_pattern_expectations"],
         "recent_behavior_context": run.get("recent_behavior_context"),
         "dominant_cluster_choices": run["dominant_cluster_choices"],
@@ -1177,6 +1298,7 @@ def _summarize_for_llm(run: dict) -> dict:
                     "common_distance_dates": row["common_distance_dates"],
                     "daily_distance_match": row["daily_distance_match"],
                     "distance_pattern_match": row["distance_pattern_match"],
+                    "fleet_feature_components": row.get("fleet_feature_components"),
                     "scenario_label": row["scenario_label"],
                 }
                 for row in split["pairwise_relationships"]
@@ -1252,7 +1374,7 @@ Return this schema:
     "image_similarity": 0.0,
     "distance_similarity": 0.0,
     "purpose_match": 0.0,
-    "temperature_similarity": 0.0
+    "fleet_feature_similarity": 0.0
   }},
   "rationale": "short explanation",
   "expected_effect": "short explanation",
@@ -1336,6 +1458,7 @@ def _request_llm_scenario_generation(
             "behavioral_clusters": run["truck_stop_behavior_graph"]["behavioral_clusters"],
             "truck_similarity_matrix": run["truck_stop_behavior_graph"]["truck_similarity_matrix"],
         },
+        "fleet_features": run.get("fleet_features", {}),
         "route_pattern_expectations": run["route_pattern_expectations"],
         "recent_behavior_context": run.get("recent_behavior_context"),
         "validation_feedback_context": run.get("validation_feedback_context"),
@@ -1349,6 +1472,7 @@ def _request_llm_scenario_generation(
                 "common_pass_dates": row["common_pass_dates"],
                 "common_image_dates": row["common_image_dates"],
                 "common_distance_dates": row["common_distance_dates"],
+                "fleet_feature_components": row.get("fleet_feature_components"),
             }
             for row in run["splits"]["train"]["pairwise_relationships"]
         ],
@@ -1359,10 +1483,12 @@ You are a route-scenario generator for a fleet of trucks.
 Task:
 - Choose exactly one route cluster for each truck.
 - Generate truck-to-truck correlation values directly, without using a fixed linear feature formula.
+- The final operational scenario will be constructed from your chosen clusters, so each choice should be treated as the generated route scenario for that truck.
 - Use the truck-stop behavioral clusters as the high-level scenario context.
 - If recent_behavior_context is provided, generate the target scenario using that recent behavior as the strongest future-condition signal.
 - If validation_feedback_context is provided, use it to revise route-cluster choices for the test scenario. This is allowed feedback; do not use test-period ground truth.
 - Route clusters are truck-specific. A high-frequency cluster is usually more likely, but you may choose a lower-frequency cluster if distance, image, pass, or correlation evidence justifies it.
+- Fleet attributes such as asset type, age, kilometers, and duty cycle are optional reasoning evidence for whether trucks should behave similarly.
 - Truck purpose is already represented in the truck similarity graph; parking duration is not used.
 - Use only the training evidence in the input. Do not assume held-out validation/test results.
 
@@ -1438,6 +1564,15 @@ Return this schema:
         "provider": provider,
         "model": resolved_model,
         "cluster_choices": cluster_choices,
+        "generated_scenario": _build_generated_scenario_from_cluster_choices(
+            run["vehicles"],
+            cluster_choices,
+            run["route_pattern_expectations"],
+            run["truck_stop_behavior_graph"],
+            run.get("fleet_features", {}),
+            pairwise,
+            "llm_chosen_cluster_scenario",
+        ),
         "predicted_pairwise_correlations": pairwise,
         "scenario_rationale": parsed.get("scenario_rationale", ""),
         "risks": parsed.get("risks", []),
@@ -1496,10 +1631,9 @@ def build_closed_loop_run(
     vehicle_ids: list[int],
     image_root: Path,
     passes_file: Path,
-    temperature_file: Optional[Path],
-    temperature_target_year: Optional[int],
     distance_file: Optional[Path],
     metadata_file: Optional[Path],
+    fleet_file: Optional[Path],
     feedback_file: Optional[Path],
     train_start: str,
     train_end: str,
@@ -1523,9 +1657,9 @@ def build_closed_loop_run(
         vehicle_id: _load_image_features(image_root, vehicle_id)
         for vehicle_id in vehicle_ids
     }
-    temperatures = _load_temperature(temperature_file, temperature_target_year)
     distances_by_vehicle = _load_distances(distance_file)
     metadata = _load_metadata(metadata_file)
+    fleet_features = _load_fleet_features(fleet_file)
     feedback = _load_feedback(feedback_file)
     truck_stop_behavior_graph = _build_truck_stop_behavior_graph(
         vehicle_ids,
@@ -1542,9 +1676,9 @@ def build_closed_loop_run(
         vehicle_ids,
         image_features,
         passes_by_vehicle,
-        temperatures,
         distances_by_vehicle,
         metadata,
+        fleet_features,
         train_start,
         train_end,
         DEFAULT_WEIGHTS,
@@ -1599,9 +1733,9 @@ def build_closed_loop_run(
                 vehicle_ids,
                 image_features,
                 passes_by_vehicle,
-                temperatures,
                 distances_by_vehicle,
                 metadata,
+                fleet_features,
                 start_date,
                 end_date,
                 learned_weights,
@@ -1613,10 +1747,9 @@ def build_closed_loop_run(
         "inputs": {
             "image_root": str(image_root),
             "passes_file": str(passes_file),
-            "temperature_file": None if temperature_file is None else str(temperature_file),
-            "temperature_target_year": temperature_target_year,
             "distance_file": None if distance_file is None else str(distance_file),
             "metadata_file": None if metadata_file is None else str(metadata_file),
+            "fleet_file": None if fleet_file is None else str(fleet_file),
             "feedback_file": None if feedback_file is None else str(feedback_file),
             "route_pattern_clusters": route_pattern_clusters,
             "behavior_clusters": behavior_clusters,
@@ -1629,8 +1762,8 @@ def build_closed_loop_run(
             "step_1": "Split 2023 data by date so future days do not leak into training.",
             "step_2": "Build a truck-stop correlation graph from stop frequencies and truck purpose, then cluster trucks by behavioral similarity.",
             "step_3": "Cluster each truck's training route images and weight route patterns by that truck's own pattern frequency.",
-            "step_4": "Give behavioral cluster summaries and route-pattern priors to the LLM for scenario generation.",
-            "step_5": "Use each truck's prior-weighted route-pattern distance as the generated scenario route-distance expectation.",
+            "step_4": "Give behavioral cluster summaries and route-pattern priors to the LLM, choose one route cluster per truck, and materialize the scenario from those chosen clusters.",
+            "step_5": "Use each chosen route cluster's expected distance and stopping-zone assignment as the generated scenario.",
             "step_6": "Validate the full multi-truck scenario against held-out real per-truck and fleet-total distances.",
             "step_7": "Learn feature weights from feedback when feedback labels are available, then score validation and test periods.",
             "step_8": "Append new feedback and rerun to correct truck correlation over time.",
@@ -1640,7 +1773,7 @@ def build_closed_loop_run(
             "image_similarity": "Average same-date cosine similarity of trajectory image features.",
             "distance_similarity": "Similarity of same-date real daily distances, combining total distance match, daily distance match, and distance-pattern correlation.",
             "purpose_match": "1 when truck purpose matches, 0 when it differs; omitted until metadata is provided.",
-            "temperature_similarity": "Similarity of average temperatures observed by each truck in the split; omitted until temperature data is provided.",
+            "fleet_feature_similarity": "Optional similarity from fleet metadata: asset type, age, kilometers, and duty cycle.",
         },
         "performance_goal": (
             "Closed-loop performance is evaluated by how well generated scenario "
@@ -1651,11 +1784,40 @@ def build_closed_loop_run(
         "truck_stop_behavior_graph": truck_stop_behavior_graph,
         "route_pattern_expectations": route_pattern_expectations,
         "dominant_cluster_choices": dominant_cluster_choices,
+        "dominant_generated_scenario": _build_generated_scenario_from_cluster_choices(
+            vehicle_ids,
+            dominant_cluster_choices,
+            route_pattern_expectations,
+            truck_stop_behavior_graph,
+            fleet_features,
+            scenario_method="dominant_training_cluster_scenario",
+        ),
         "recent_behavior_context": recent_behavior_context,
         "recent_context_cluster_choices": recent_context_cluster_choices,
+        "recent_context_generated_scenario": _build_generated_scenario_from_cluster_choices(
+            vehicle_ids,
+            recent_context_cluster_choices,
+            route_pattern_expectations,
+            truck_stop_behavior_graph,
+            fleet_features,
+            scenario_method="recent_context_cluster_scenario",
+        ),
         "validation_feedback_context": validation_feedback_context,
         "validation_feedback_cluster_choices": validation_feedback_cluster_choices,
+        "validation_feedback_generated_scenario": (
+            _build_generated_scenario_from_cluster_choices(
+                vehicle_ids,
+                validation_feedback_cluster_choices,
+                route_pattern_expectations,
+                truck_stop_behavior_graph,
+                fleet_features,
+                scenario_method="validation_feedback_cluster_scenario",
+            )
+            if validation_feedback_cluster_choices is not None
+            else None
+        ),
         "learned_weights": learned_weights,
+        "fleet_features": {str(vehicle_id): fleet_features.get(vehicle_id, {}) for vehicle_id in vehicle_ids},
         "feedback_pairs_used": len(feedback),
         "splits": split_results,
         "performance_vs_train": _build_performance_vs_train(split_results),
@@ -1708,10 +1870,9 @@ def main() -> None:
     parser.add_argument("vehicles", nargs="+", type=int)
     parser.add_argument("--image-root", type=Path, default=DEFAULT_IMAGE_ROOT)
     parser.add_argument("--passes-file", type=Path, default=DEFAULT_PASSES_FILE)
-    parser.add_argument("--temperature-file", type=Path)
-    parser.add_argument("--temperature-target-year", type=int)
     parser.add_argument("--distance-file", type=Path)
     parser.add_argument("--metadata-file", type=Path)
+    parser.add_argument("--fleet-file", type=Path, default=DEFAULT_FLEET_FILE)
     parser.add_argument("--feedback-file", type=Path)
     parser.add_argument("--train-start", default="2023-01-01")
     parser.add_argument("--train-end", default="2023-10-31")
@@ -1735,10 +1896,9 @@ def main() -> None:
         args.vehicles,
         image_root=args.image_root,
         passes_file=args.passes_file,
-        temperature_file=args.temperature_file,
-        temperature_target_year=args.temperature_target_year,
         distance_file=args.distance_file,
         metadata_file=args.metadata_file,
+        fleet_file=args.fleet_file,
         feedback_file=args.feedback_file,
         train_start=args.train_start,
         train_end=args.train_end,

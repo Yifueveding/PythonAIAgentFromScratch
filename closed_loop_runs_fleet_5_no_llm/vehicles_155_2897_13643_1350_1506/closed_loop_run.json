@@ -1,0 +1,5434 @@
+{
+  "vehicles": [
+    155,
+    2897,
+    13643,
+    1350,
+    1506
+  ],
+  "inputs": {
+    "image_root": "Vehicle",
+    "passes_file": "vehicle_day_zone_passes.csv",
+    "distance_file": "vehicle_daily_distance_speed.csv",
+    "metadata_file": "Other_data/truck_purpose.csv",
+    "fleet_file": "Other_data/West_Ang_Fleet.csv",
+    "feedback_file": null,
+    "route_pattern_clusters": 10,
+    "behavior_clusters": 3,
+    "stop_profile_weight": 0.8,
+    "scenario_context_start": null,
+    "scenario_context_end": null,
+    "use_validation_feedback": true
+  },
+  "closed_loop_design": {
+    "step_1": "Split 2023 data by date so future days do not leak into training.",
+    "step_2": "Build a truck-stop correlation graph from stop frequencies and truck purpose, then cluster trucks by behavioral similarity.",
+    "step_3": "Cluster each truck's training route images and weight route patterns by that truck's own pattern frequency.",
+    "step_4": "Give behavioral cluster summaries and route-pattern priors to the LLM, choose one route cluster per truck, and materialize the scenario from those chosen clusters.",
+    "step_5": "Use each chosen route cluster's expected distance and stopping-zone assignment as the generated scenario.",
+    "step_6": "Validate the full multi-truck scenario against held-out real per-truck and fleet-total distances.",
+    "step_7": "Learn feature weights from feedback when feedback labels are available, then score validation and test periods.",
+    "step_8": "Append new feedback and rerun to correct truck correlation over time."
+  },
+  "feature_meaning": {
+    "pass_score": "Pearson pass correlation rescaled from [-1, 1] to [0, 1].",
+    "image_similarity": "Average same-date cosine similarity of trajectory image features.",
+    "distance_similarity": "Similarity of same-date real daily distances, combining total distance match, daily distance match, and distance-pattern correlation.",
+    "purpose_match": "1 when truck purpose matches, 0 when it differs; omitted until metadata is provided.",
+    "fleet_feature_similarity": "Optional similarity from fleet metadata: asset type, age, kilometers, and duty cycle."
+  },
+  "performance_goal": "Closed-loop performance is evaluated by how well generated scenario route distances resemble real held-out route behavior for the full set of trucks. Pairwise distance similarity and train stability are retained as secondary diagnostics.",
+  "truck_stop_behavior_graph": {
+    "method": {
+      "edge_weight": "w_is = alpha * normalized_stop_frequency; duration is omitted.",
+      "truck_similarity": "rho_ij = lambda * sim(stop_profile_i, stop_profile_j) + (1-lambda) * sim(purpose_i, purpose_j).",
+      "stop_profile_weight_lambda": 0.8,
+      "purpose_weight": 0.19999999999999996
+    },
+    "stops": [
+      "passes_zone_1",
+      "passes_zone_2",
+      "passes_zone_3",
+      "passes_zone_4",
+      "passes_zone_5",
+      "passes_zone_6",
+      "passes_zone_7",
+      "passes_zone_8"
+    ],
+    "truck_stop_edges": [
+      {
+        "vehicle_id": 155,
+        "stop": "passes_zone_1",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 155,
+        "stop": "passes_zone_2",
+        "weight": 0.056105610561056105,
+        "frequency_days": 17.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 155,
+        "stop": "passes_zone_3",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 155,
+        "stop": "passes_zone_4",
+        "weight": 0.04950495049504951,
+        "frequency_days": 15.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 155,
+        "stop": "passes_zone_5",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 155,
+        "stop": "passes_zone_6",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 155,
+        "stop": "passes_zone_7",
+        "weight": 0.026402640264026403,
+        "frequency_days": 8.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 155,
+        "stop": "passes_zone_8",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 2897,
+        "stop": "passes_zone_1",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 2897,
+        "stop": "passes_zone_2",
+        "weight": 0.20723684210526316,
+        "frequency_days": 63.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 2897,
+        "stop": "passes_zone_3",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 2897,
+        "stop": "passes_zone_4",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 2897,
+        "stop": "passes_zone_5",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 2897,
+        "stop": "passes_zone_6",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 2897,
+        "stop": "passes_zone_7",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 2897,
+        "stop": "passes_zone_8",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 13643,
+        "stop": "passes_zone_1",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 13643,
+        "stop": "passes_zone_2",
+        "weight": 0.07236842105263158,
+        "frequency_days": 22.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 13643,
+        "stop": "passes_zone_3",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 13643,
+        "stop": "passes_zone_4",
+        "weight": 0.01644736842105263,
+        "frequency_days": 5.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 13643,
+        "stop": "passes_zone_5",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 13643,
+        "stop": "passes_zone_6",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 13643,
+        "stop": "passes_zone_7",
+        "weight": 0.006578947368421052,
+        "frequency_days": 2.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 13643,
+        "stop": "passes_zone_8",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 1350,
+        "stop": "passes_zone_1",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 1350,
+        "stop": "passes_zone_2",
+        "weight": 0.01644736842105263,
+        "frequency_days": 5.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 1350,
+        "stop": "passes_zone_3",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 1350,
+        "stop": "passes_zone_4",
+        "weight": 0.4605263157894737,
+        "frequency_days": 140.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 1350,
+        "stop": "passes_zone_5",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 1350,
+        "stop": "passes_zone_6",
+        "weight": 0.17105263157894737,
+        "frequency_days": 52.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 1350,
+        "stop": "passes_zone_7",
+        "weight": 0.2894736842105263,
+        "frequency_days": 88.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 1350,
+        "stop": "passes_zone_8",
+        "weight": 0.09539473684210527,
+        "frequency_days": 29.0,
+        "observed_days": 304
+      },
+      {
+        "vehicle_id": 1506,
+        "stop": "passes_zone_1",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 1506,
+        "stop": "passes_zone_2",
+        "weight": 0.36633663366336633,
+        "frequency_days": 111.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 1506,
+        "stop": "passes_zone_3",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 1506,
+        "stop": "passes_zone_4",
+        "weight": 0.006600660066006601,
+        "frequency_days": 2.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 1506,
+        "stop": "passes_zone_5",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 1506,
+        "stop": "passes_zone_6",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 1506,
+        "stop": "passes_zone_7",
+        "weight": 0.0231023102310231,
+        "frequency_days": 7.0,
+        "observed_days": 303
+      },
+      {
+        "vehicle_id": 1506,
+        "stop": "passes_zone_8",
+        "weight": 0.0,
+        "frequency_days": 0.0,
+        "observed_days": 303
+      }
+    ],
+    "truck_stop_profiles": {
+      "155": {
+        "purpose": "Mobile_Eq",
+        "weights": {
+          "passes_zone_1": 0.0,
+          "passes_zone_2": 0.056105610561056105,
+          "passes_zone_3": 0.0,
+          "passes_zone_4": 0.04950495049504951,
+          "passes_zone_5": 0.0,
+          "passes_zone_6": 0.0,
+          "passes_zone_7": 0.026402640264026403,
+          "passes_zone_8": 0.0
+        }
+      },
+      "2897": {
+        "purpose": "Fixed_plant",
+        "weights": {
+          "passes_zone_1": 0.0,
+          "passes_zone_2": 0.20723684210526316,
+          "passes_zone_3": 0.0,
+          "passes_zone_4": 0.0,
+          "passes_zone_5": 0.0,
+          "passes_zone_6": 0.0,
+          "passes_zone_7": 0.0,
+          "passes_zone_8": 0.0
+        }
+      },
+      "13643": {
+        "purpose": "Mobile_Eq",
+        "weights": {
+          "passes_zone_1": 0.0,
+          "passes_zone_2": 0.07236842105263158,
+          "passes_zone_3": 0.0,
+          "passes_zone_4": 0.01644736842105263,
+          "passes_zone_5": 0.0,
+          "passes_zone_6": 0.0,
+          "passes_zone_7": 0.006578947368421052,
+          "passes_zone_8": 0.0
+        }
+      },
+      "1350": {
+        "purpose": "Mobile_Eq",
+        "weights": {
+          "passes_zone_1": 0.0,
+          "passes_zone_2": 0.01644736842105263,
+          "passes_zone_3": 0.0,
+          "passes_zone_4": 0.4605263157894737,
+          "passes_zone_5": 0.0,
+          "passes_zone_6": 0.17105263157894737,
+          "passes_zone_7": 0.2894736842105263,
+          "passes_zone_8": 0.09539473684210527
+        }
+      },
+      "1506": {
+        "purpose": "Support",
+        "weights": {
+          "passes_zone_1": 0.0,
+          "passes_zone_2": 0.36633663366336633,
+          "passes_zone_3": 0.0,
+          "passes_zone_4": 0.006600660066006601,
+          "passes_zone_5": 0.0,
+          "passes_zone_6": 0.0,
+          "passes_zone_7": 0.0231023102310231,
+          "passes_zone_8": 0.0
+        }
+      }
+    },
+    "truck_similarity_matrix": {
+      "vehicles": [
+        155,
+        2897,
+        13643,
+        1350,
+        1506
+      ],
+      "rho": [
+        [
+          0.9999999999999999,
+          0.565685424949238,
+          0.8831567096242944,
+          0.7467590853573393,
+          0.590198494283709
+        ],
+        [
+          0.565685424949238,
+          1.0,
+          0.7770589828114924,
+          0.022750051809747297,
+          0.7982848917431196
+        ],
+        [
+          0.8831567096242944,
+          0.7770589828114924,
+          1.0000000000000002,
+          0.3980754348697308,
+          0.7830136280539464
+        ],
+        [
+          0.7467590853573393,
+          0.022750051809747297,
+          0.3980754348697308,
+          1.0,
+          0.05935054923307003
+        ],
+        [
+          0.590198494283709,
+          0.7982848917431196,
+          0.7830136280539464,
+          0.05935054923307003,
+          1.0000000000000002
+        ]
+      ],
+      "pairwise": [
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 13643,
+          "stop_profile_similarity": 0.853945887030368,
+          "purpose_similarity": 1.0,
+          "rho": 0.8831567096242944
+        },
+        {
+          "vehicle_a": 1506,
+          "vehicle_b": 2897,
+          "stop_profile_similarity": 0.9978561146788995,
+          "purpose_similarity": 0.0,
+          "rho": 0.7982848917431196
+        },
+        {
+          "vehicle_a": 1506,
+          "vehicle_b": 13643,
+          "stop_profile_similarity": 0.9787670350674329,
+          "purpose_similarity": 0.0,
+          "rho": 0.7830136280539464
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 13643,
+          "stop_profile_similarity": 0.9713237285143655,
+          "purpose_similarity": 0.0,
+          "rho": 0.7770589828114924
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1350,
+          "stop_profile_similarity": 0.6834488566966741,
+          "purpose_similarity": 1.0,
+          "rho": 0.7467590853573393
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1506,
+          "stop_profile_similarity": 0.7377481178546362,
+          "purpose_similarity": 0.0,
+          "rho": 0.590198494283709
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 2897,
+          "stop_profile_similarity": 0.7071067811865475,
+          "purpose_similarity": 0.0,
+          "rho": 0.565685424949238
+        },
+        {
+          "vehicle_a": 1350,
+          "vehicle_b": 13643,
+          "stop_profile_similarity": 0.24759429358716353,
+          "purpose_similarity": 1.0,
+          "rho": 0.3980754348697308
+        },
+        {
+          "vehicle_a": 1350,
+          "vehicle_b": 1506,
+          "stop_profile_similarity": 0.07418818654133753,
+          "purpose_similarity": 0.0,
+          "rho": 0.05935054923307003
+        },
+        {
+          "vehicle_a": 1350,
+          "vehicle_b": 2897,
+          "stop_profile_similarity": 0.02843756476218412,
+          "purpose_similarity": 0.0,
+          "rho": 0.022750051809747297
+        }
+      ]
+    },
+    "behavioral_clusters": [
+      {
+        "cluster": 0,
+        "vehicles": [
+          155,
+          13643,
+          1350
+        ],
+        "size": 3,
+        "top_stops": [
+          {
+            "stop": "passes_zone_4",
+            "mean_weight": 0.1754928782351919
+          },
+          {
+            "stop": "passes_zone_7",
+            "mean_weight": 0.1074850906143246
+          },
+          {
+            "stop": "passes_zone_6",
+            "mean_weight": 0.05701754385964913
+          }
+        ],
+        "purpose_counts": {
+          "Mobile_Eq": 3
+        }
+      },
+      {
+        "cluster": 1,
+        "vehicles": [
+          2897
+        ],
+        "size": 1,
+        "top_stops": [
+          {
+            "stop": "passes_zone_2",
+            "mean_weight": 0.20723684210526316
+          },
+          {
+            "stop": "passes_zone_1",
+            "mean_weight": 0.0
+          },
+          {
+            "stop": "passes_zone_3",
+            "mean_weight": 0.0
+          }
+        ],
+        "purpose_counts": {
+          "Fixed_plant": 1
+        }
+      },
+      {
+        "cluster": 2,
+        "vehicles": [
+          1506
+        ],
+        "size": 1,
+        "top_stops": [
+          {
+            "stop": "passes_zone_2",
+            "mean_weight": 0.36633663366336633
+          },
+          {
+            "stop": "passes_zone_7",
+            "mean_weight": 0.0231023102310231
+          },
+          {
+            "stop": "passes_zone_4",
+            "mean_weight": 0.006600660066006601
+          }
+        ],
+        "purpose_counts": {
+          "Support": 1
+        }
+      }
+    ]
+  },
+  "route_pattern_expectations": {
+    "155": {
+      "generated_average_distance_km": 43.54486798679868,
+      "selected_cluster": 4,
+      "selected_cluster_prior": 0.13861386138613863,
+      "route_patterns": [
+        {
+          "cluster": 4,
+          "prior_probability": 0.13861386138613863,
+          "train_image_days": 42,
+          "train_distance_days": 42,
+          "average_distance_km": 35.70454761904762,
+          "example_dates": [
+            "2023-02-05",
+            "2023-03-03",
+            "2023-03-05",
+            "2023-03-06",
+            "2023-03-13"
+          ]
+        },
+        {
+          "cluster": 7,
+          "prior_probability": 0.1353135313531353,
+          "train_image_days": 41,
+          "train_distance_days": 41,
+          "average_distance_km": 41.46612195121951,
+          "example_dates": [
+            "2023-01-06",
+            "2023-03-14",
+            "2023-03-20",
+            "2023-04-05",
+            "2023-04-11"
+          ]
+        },
+        {
+          "cluster": 0,
+          "prior_probability": 0.1254125412541254,
+          "train_image_days": 38,
+          "train_distance_days": 38,
+          "average_distance_km": 44.69573684210527,
+          "example_dates": [
+            "2023-01-01",
+            "2023-01-02",
+            "2023-01-13",
+            "2023-01-17",
+            "2023-01-19"
+          ]
+        },
+        {
+          "cluster": 8,
+          "prior_probability": 0.12211221122112212,
+          "train_image_days": 37,
+          "train_distance_days": 37,
+          "average_distance_km": 35.824243243243245,
+          "example_dates": [
+            "2023-01-04",
+            "2023-01-23",
+            "2023-01-24",
+            "2023-02-01",
+            "2023-02-02"
+          ]
+        },
+        {
+          "cluster": 6,
+          "prior_probability": 0.11221122112211221,
+          "train_image_days": 34,
+          "train_distance_days": 34,
+          "average_distance_km": 39.81673529411765,
+          "example_dates": [
+            "2023-01-05",
+            "2023-01-07",
+            "2023-01-08",
+            "2023-02-03",
+            "2023-02-20"
+          ]
+        },
+        {
+          "cluster": 9,
+          "prior_probability": 0.11221122112211221,
+          "train_image_days": 34,
+          "train_distance_days": 34,
+          "average_distance_km": 34.441647058823534,
+          "example_dates": [
+            "2023-01-09",
+            "2023-01-10",
+            "2023-01-22",
+            "2023-02-04",
+            "2023-02-06"
+          ]
+        },
+        {
+          "cluster": 1,
+          "prior_probability": 0.10561056105610561,
+          "train_image_days": 32,
+          "train_distance_days": 32,
+          "average_distance_km": 44.894,
+          "example_dates": [
+            "2023-01-11",
+            "2023-01-12",
+            "2023-01-14",
+            "2023-01-15",
+            "2023-01-16"
+          ]
+        },
+        {
+          "cluster": 2,
+          "prior_probability": 0.0594059405940594,
+          "train_image_days": 18,
+          "train_distance_days": 18,
+          "average_distance_km": 44.533722222222224,
+          "example_dates": [
+            "2023-01-30",
+            "2023-02-15",
+            "2023-03-09",
+            "2023-03-10",
+            "2023-03-26"
+          ]
+        },
+        {
+          "cluster": 5,
+          "prior_probability": 0.056105610561056105,
+          "train_image_days": 17,
+          "train_distance_days": 17,
+          "average_distance_km": 91.08000000000001,
+          "example_dates": [
+            "2023-01-03",
+            "2023-01-28",
+            "2023-02-27",
+            "2023-03-22",
+            "2023-04-07"
+          ]
+        },
+        {
+          "cluster": 3,
+          "prior_probability": 0.033003300330033,
+          "train_image_days": 10,
+          "train_distance_days": 10,
+          "average_distance_km": 65.90979999999999,
+          "example_dates": [
+            "2023-02-19",
+            "2023-03-27",
+            "2023-05-21",
+            "2023-07-06",
+            "2023-07-07"
+          ]
+        }
+      ],
+      "method": "training_route_pattern_prior_weighted_distance"
+    },
+    "2897": {
+      "generated_average_distance_km": 15.238384868421056,
+      "selected_cluster": 1,
+      "selected_cluster_prior": 0.3059210526315789,
+      "route_patterns": [
+        {
+          "cluster": 1,
+          "prior_probability": 0.3059210526315789,
+          "train_image_days": 93,
+          "train_distance_days": 93,
+          "average_distance_km": 32.867935483870966,
+          "example_dates": [
+            "2023-01-03",
+            "2023-01-06",
+            "2023-01-09",
+            "2023-01-12",
+            "2023-01-20"
+          ]
+        },
+        {
+          "cluster": 3,
+          "prior_probability": 0.24671052631578946,
+          "train_image_days": 75,
+          "train_distance_days": 75,
+          "average_distance_km": 4.034866666666667,
+          "example_dates": [
+            "2023-01-04",
+            "2023-01-05",
+            "2023-01-13",
+            "2023-01-19",
+            "2023-01-21"
+          ]
+        },
+        {
+          "cluster": 2,
+          "prior_probability": 0.08223684210526316,
+          "train_image_days": 25,
+          "train_distance_days": 25,
+          "average_distance_km": 9.30752,
+          "example_dates": [
+            "2023-01-07",
+            "2023-01-10",
+            "2023-02-04",
+            "2023-02-07",
+            "2023-02-27"
+          ]
+        },
+        {
+          "cluster": 6,
+          "prior_probability": 0.08223684210526316,
+          "train_image_days": 25,
+          "train_distance_days": 25,
+          "average_distance_km": 9.72212,
+          "example_dates": [
+            "2023-01-29",
+            "2023-02-11",
+            "2023-03-12",
+            "2023-03-19",
+            "2023-03-26"
+          ]
+        },
+        {
+          "cluster": 9,
+          "prior_probability": 0.0756578947368421,
+          "train_image_days": 23,
+          "train_distance_days": 23,
+          "average_distance_km": 8.690391304347825,
+          "example_dates": [
+            "2023-01-01",
+            "2023-01-11",
+            "2023-01-14",
+            "2023-01-15",
+            "2023-03-05"
+          ]
+        },
+        {
+          "cluster": 0,
+          "prior_probability": 0.0625,
+          "train_image_days": 19,
+          "train_distance_days": 19,
+          "average_distance_km": 6.057736842105264,
+          "example_dates": [
+            "2023-01-08",
+            "2023-02-05",
+            "2023-02-12",
+            "2023-02-26",
+            "2023-03-09"
+          ]
+        },
+        {
+          "cluster": 8,
+          "prior_probability": 0.05263157894736842,
+          "train_image_days": 16,
+          "train_distance_days": 16,
+          "average_distance_km": 10.73,
+          "example_dates": [
+            "2023-01-02",
+            "2023-01-25",
+            "2023-02-28",
+            "2023-03-04",
+            "2023-03-14"
+          ]
+        },
+        {
+          "cluster": 7,
+          "prior_probability": 0.046052631578947366,
+          "train_image_days": 14,
+          "train_distance_days": 14,
+          "average_distance_km": 11.5415,
+          "example_dates": [
+            "2023-01-16",
+            "2023-01-17",
+            "2023-01-18",
+            "2023-03-20",
+            "2023-03-27"
+          ]
+        },
+        {
+          "cluster": 4,
+          "prior_probability": 0.02631578947368421,
+          "train_image_days": 8,
+          "train_distance_days": 8,
+          "average_distance_km": 10.73425,
+          "example_dates": [
+            "2023-02-06",
+            "2023-02-10",
+            "2023-05-02",
+            "2023-06-19",
+            "2023-06-26"
+          ]
+        },
+        {
+          "cluster": 5,
+          "prior_probability": 0.019736842105263157,
+          "train_image_days": 6,
+          "train_distance_days": 6,
+          "average_distance_km": 10.547333333333333,
+          "example_dates": [
+            "2023-01-22",
+            "2023-03-21",
+            "2023-04-07",
+            "2023-06-18",
+            "2023-07-25"
+          ]
+        }
+      ],
+      "method": "training_route_pattern_prior_weighted_distance"
+    },
+    "13643": {
+      "generated_average_distance_km": 40.42550328947368,
+      "selected_cluster": 4,
+      "selected_cluster_prior": 0.16447368421052633,
+      "route_patterns": [
+        {
+          "cluster": 4,
+          "prior_probability": 0.16447368421052633,
+          "train_image_days": 50,
+          "train_distance_days": 50,
+          "average_distance_km": 40.18896,
+          "example_dates": [
+            "2023-01-07",
+            "2023-01-12",
+            "2023-01-15",
+            "2023-01-22",
+            "2023-01-23"
+          ]
+        },
+        {
+          "cluster": 5,
+          "prior_probability": 0.15460526315789475,
+          "train_image_days": 47,
+          "train_distance_days": 47,
+          "average_distance_km": 26.183808510638297,
+          "example_dates": [
+            "2023-01-02",
+            "2023-01-03",
+            "2023-01-08",
+            "2023-01-09",
+            "2023-01-21"
+          ]
+        },
+        {
+          "cluster": 3,
+          "prior_probability": 0.12828947368421054,
+          "train_image_days": 39,
+          "train_distance_days": 39,
+          "average_distance_km": 36.0874358974359,
+          "example_dates": [
+            "2023-01-24",
+            "2023-02-14",
+            "2023-02-28",
+            "2023-03-01",
+            "2023-03-16"
+          ]
+        },
+        {
+          "cluster": 6,
+          "prior_probability": 0.09868421052631579,
+          "train_image_days": 30,
+          "train_distance_days": 30,
+          "average_distance_km": 34.73523333333333,
+          "example_dates": [
+            "2023-01-11",
+            "2023-01-13",
+            "2023-02-22",
+            "2023-03-06",
+            "2023-03-07"
+          ]
+        },
+        {
+          "cluster": 2,
+          "prior_probability": 0.09539473684210527,
+          "train_image_days": 29,
+          "train_distance_days": 29,
+          "average_distance_km": 47.3338275862069,
+          "example_dates": [
+            "2023-01-17",
+            "2023-01-26",
+            "2023-02-02",
+            "2023-02-10",
+            "2023-02-12"
+          ]
+        },
+        {
+          "cluster": 1,
+          "prior_probability": 0.08881578947368421,
+          "train_image_days": 27,
+          "train_distance_days": 27,
+          "average_distance_km": 33.70444444444444,
+          "example_dates": [
+            "2023-01-10",
+            "2023-01-14",
+            "2023-01-25",
+            "2023-02-01",
+            "2023-02-09"
+          ]
+        },
+        {
+          "cluster": 7,
+          "prior_probability": 0.08223684210526316,
+          "train_image_days": 25,
+          "train_distance_days": 25,
+          "average_distance_km": 26.93476,
+          "example_dates": [
+            "2023-01-04",
+            "2023-01-05",
+            "2023-01-06",
+            "2023-01-16",
+            "2023-02-06"
+          ]
+        },
+        {
+          "cluster": 8,
+          "prior_probability": 0.07894736842105263,
+          "train_image_days": 24,
+          "train_distance_days": 24,
+          "average_distance_km": 71.83958333333332,
+          "example_dates": [
+            "2023-01-18",
+            "2023-01-19",
+            "2023-01-20",
+            "2023-03-20",
+            "2023-03-22"
+          ]
+        },
+        {
+          "cluster": 9,
+          "prior_probability": 0.07894736842105263,
+          "train_image_days": 24,
+          "train_distance_days": 24,
+          "average_distance_km": 28.372874999999997,
+          "example_dates": [
+            "2023-02-16",
+            "2023-03-30",
+            "2023-04-02",
+            "2023-04-03",
+            "2023-04-18"
+          ]
+        },
+        {
+          "cluster": 0,
+          "prior_probability": 0.029605263157894735,
+          "train_image_days": 9,
+          "train_distance_days": 9,
+          "average_distance_km": 137.62555555555556,
+          "example_dates": [
+            "2023-01-01",
+            "2023-02-24",
+            "2023-04-20",
+            "2023-04-21",
+            "2023-07-16"
+          ]
+        }
+      ],
+      "method": "training_route_pattern_prior_weighted_distance"
+    },
+    "1350": {
+      "generated_average_distance_km": 130.1509174917492,
+      "selected_cluster": 9,
+      "selected_cluster_prior": 0.14521452145214522,
+      "route_patterns": [
+        {
+          "cluster": 9,
+          "prior_probability": 0.14521452145214522,
+          "train_image_days": 44,
+          "train_distance_days": 44,
+          "average_distance_km": 132.90475,
+          "example_dates": [
+            "2023-01-11",
+            "2023-01-12",
+            "2023-01-17",
+            "2023-01-19",
+            "2023-01-20"
+          ]
+        },
+        {
+          "cluster": 4,
+          "prior_probability": 0.13861386138613863,
+          "train_image_days": 42,
+          "train_distance_days": 42,
+          "average_distance_km": 104.00957142857143,
+          "example_dates": [
+            "2023-01-29",
+            "2023-02-01",
+            "2023-02-08",
+            "2023-02-09",
+            "2023-02-25"
+          ]
+        },
+        {
+          "cluster": 5,
+          "prior_probability": 0.1188118811881188,
+          "train_image_days": 36,
+          "train_distance_days": 36,
+          "average_distance_km": 172.07313888888888,
+          "example_dates": [
+            "2023-01-09",
+            "2023-01-14",
+            "2023-01-15",
+            "2023-01-24",
+            "2023-01-28"
+          ]
+        },
+        {
+          "cluster": 6,
+          "prior_probability": 0.10891089108910891,
+          "train_image_days": 33,
+          "train_distance_days": 33,
+          "average_distance_km": 139.7580909090909,
+          "example_dates": [
+            "2023-01-05",
+            "2023-01-13",
+            "2023-01-16",
+            "2023-01-18",
+            "2023-02-10"
+          ]
+        },
+        {
+          "cluster": 0,
+          "prior_probability": 0.10561056105610561,
+          "train_image_days": 32,
+          "train_distance_days": 32,
+          "average_distance_km": 87.77071875,
+          "example_dates": [
+            "2023-01-01",
+            "2023-01-06",
+            "2023-01-08",
+            "2023-01-23",
+            "2023-02-04"
+          ]
+        },
+        {
+          "cluster": 8,
+          "prior_probability": 0.0891089108910891,
+          "train_image_days": 27,
+          "train_distance_days": 27,
+          "average_distance_km": 147.67151851851852,
+          "example_dates": [
+            "2023-01-03",
+            "2023-01-27",
+            "2023-01-30",
+            "2023-02-05",
+            "2023-02-18"
+          ]
+        },
+        {
+          "cluster": 3,
+          "prior_probability": 0.08250825082508251,
+          "train_image_days": 25,
+          "train_distance_days": 25,
+          "average_distance_km": 118.05072,
+          "example_dates": [
+            "2023-01-02",
+            "2023-01-21",
+            "2023-02-14",
+            "2023-02-16",
+            "2023-02-17"
+          ]
+        },
+        {
+          "cluster": 7,
+          "prior_probability": 0.07920792079207921,
+          "train_image_days": 24,
+          "train_distance_days": 24,
+          "average_distance_km": 185.64620833333333,
+          "example_dates": [
+            "2023-01-07",
+            "2023-02-11",
+            "2023-02-12",
+            "2023-03-12",
+            "2023-03-28"
+          ]
+        },
+        {
+          "cluster": 1,
+          "prior_probability": 0.06930693069306931,
+          "train_image_days": 21,
+          "train_distance_days": 21,
+          "average_distance_km": 78.45719047619048,
+          "example_dates": [
+            "2023-01-04",
+            "2023-01-22",
+            "2023-02-03",
+            "2023-02-15",
+            "2023-03-05"
+          ]
+        },
+        {
+          "cluster": 2,
+          "prior_probability": 0.0627062706270627,
+          "train_image_days": 19,
+          "train_distance_days": 19,
+          "average_distance_km": 134.87868421052633,
+          "example_dates": [
+            "2023-01-10",
+            "2023-01-26",
+            "2023-02-02",
+            "2023-02-07",
+            "2023-02-20"
+          ]
+        }
+      ],
+      "method": "training_route_pattern_prior_weighted_distance"
+    },
+    "1506": {
+      "generated_average_distance_km": 93.76027392739273,
+      "selected_cluster": 7,
+      "selected_cluster_prior": 0.16831683168316833,
+      "route_patterns": [
+        {
+          "cluster": 7,
+          "prior_probability": 0.16831683168316833,
+          "train_image_days": 51,
+          "train_distance_days": 51,
+          "average_distance_km": 66.09445098039215,
+          "example_dates": [
+            "2023-01-06",
+            "2023-01-09",
+            "2023-02-01",
+            "2023-02-02",
+            "2023-02-04"
+          ]
+        },
+        {
+          "cluster": 2,
+          "prior_probability": 0.16501650165016502,
+          "train_image_days": 50,
+          "train_distance_days": 50,
+          "average_distance_km": 202.21186,
+          "example_dates": [
+            "2023-01-10",
+            "2023-01-15",
+            "2023-01-16",
+            "2023-01-22",
+            "2023-01-23"
+          ]
+        },
+        {
+          "cluster": 4,
+          "prior_probability": 0.1551155115511551,
+          "train_image_days": 47,
+          "train_distance_days": 47,
+          "average_distance_km": 68.19380851063829,
+          "example_dates": [
+            "2023-01-01",
+            "2023-01-04",
+            "2023-01-24",
+            "2023-01-29",
+            "2023-02-06"
+          ]
+        },
+        {
+          "cluster": 0,
+          "prior_probability": 0.09570957095709572,
+          "train_image_days": 29,
+          "train_distance_days": 29,
+          "average_distance_km": 62.779137931034484,
+          "example_dates": [
+            "2023-01-08",
+            "2023-01-20",
+            "2023-02-05",
+            "2023-02-17",
+            "2023-02-18"
+          ]
+        },
+        {
+          "cluster": 8,
+          "prior_probability": 0.0924092409240924,
+          "train_image_days": 28,
+          "train_distance_days": 28,
+          "average_distance_km": 67.00385714285714,
+          "example_dates": [
+            "2023-01-13",
+            "2023-01-19",
+            "2023-01-25",
+            "2023-02-07",
+            "2023-02-15"
+          ]
+        },
+        {
+          "cluster": 1,
+          "prior_probability": 0.0891089108910891,
+          "train_image_days": 27,
+          "train_distance_days": 27,
+          "average_distance_km": 92.18307407407407,
+          "example_dates": [
+            "2023-05-05",
+            "2023-05-27",
+            "2023-05-28",
+            "2023-05-29",
+            "2023-05-30"
+          ]
+        },
+        {
+          "cluster": 9,
+          "prior_probability": 0.06930693069306931,
+          "train_image_days": 21,
+          "train_distance_days": 21,
+          "average_distance_km": 63.54447619047619,
+          "example_dates": [
+            "2023-01-02",
+            "2023-01-03",
+            "2023-01-05",
+            "2023-01-07",
+            "2023-01-11"
+          ]
+        },
+        {
+          "cluster": 3,
+          "prior_probability": 0.0627062706270627,
+          "train_image_days": 19,
+          "train_distance_days": 19,
+          "average_distance_km": 141.04868421052632,
+          "example_dates": [
+            "2023-01-21",
+            "2023-01-26",
+            "2023-02-03",
+            "2023-02-14",
+            "2023-04-11"
+          ]
+        },
+        {
+          "cluster": 6,
+          "prior_probability": 0.0594059405940594,
+          "train_image_days": 18,
+          "train_distance_days": 18,
+          "average_distance_km": 51.65961111111111,
+          "example_dates": [
+            "2023-02-13",
+            "2023-03-24",
+            "2023-03-25",
+            "2023-05-22",
+            "2023-06-13"
+          ]
+        },
+        {
+          "cluster": 5,
+          "prior_probability": 0.0429042904290429,
+          "train_image_days": 13,
+          "train_distance_days": 13,
+          "average_distance_km": 45.61276923076923,
+          "example_dates": [
+            "2023-01-14",
+            "2023-01-17",
+            "2023-01-18",
+            "2023-01-28",
+            "2023-02-09"
+          ]
+        }
+      ],
+      "method": "training_route_pattern_prior_weighted_distance"
+    }
+  },
+  "dominant_cluster_choices": {
+    "155": {
+      "cluster": 4,
+      "expected_distance_km": 35.70454761904762,
+      "cluster_prior": 0.13861386138613863,
+      "method": "dominant_training_route_pattern",
+      "rationale": "Highest-frequency training route pattern for this truck."
+    },
+    "2897": {
+      "cluster": 1,
+      "expected_distance_km": 32.867935483870966,
+      "cluster_prior": 0.3059210526315789,
+      "method": "dominant_training_route_pattern",
+      "rationale": "Highest-frequency training route pattern for this truck."
+    },
+    "13643": {
+      "cluster": 4,
+      "expected_distance_km": 40.18896,
+      "cluster_prior": 0.16447368421052633,
+      "method": "dominant_training_route_pattern",
+      "rationale": "Highest-frequency training route pattern for this truck."
+    },
+    "1350": {
+      "cluster": 9,
+      "expected_distance_km": 132.90475,
+      "cluster_prior": 0.14521452145214522,
+      "method": "dominant_training_route_pattern",
+      "rationale": "Highest-frequency training route pattern for this truck."
+    },
+    "1506": {
+      "cluster": 7,
+      "expected_distance_km": 66.09445098039215,
+      "cluster_prior": 0.16831683168316833,
+      "method": "dominant_training_route_pattern",
+      "rationale": "Highest-frequency training route pattern for this truck."
+    }
+  },
+  "dominant_generated_scenario": {
+    "method": "dominant_training_cluster_scenario",
+    "definition": "The generated scenario is materialized from the chosen truck-specific route cluster. Each truck receives a route-cluster assignment, expected route distance, and stopping-zone assignment from its historical stop profile.",
+    "scenario_variables": {
+      "route_cluster": "Chosen truck-specific route pattern cluster.",
+      "expected_route_distance_km": "Expected daily route distance implied by the chosen cluster.",
+      "assigned_stopping_zone": "Most frequent historical stopping zone for the truck.",
+      "predicted_pairwise_correlations": "LLM-generated truck-truck correlations when available."
+    },
+    "trucks": [
+      {
+        "vehicle_id": 155,
+        "behavioral_cluster": 0,
+        "truck_purpose": "Mobile_Eq",
+        "fleet_features": {
+          "functional_loc": "301803D6581",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 11.75068493150685,
+          "kms": 231064.6,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 4,
+        "route_cluster_prior": 0.13861386138613863,
+        "expected_route_distance_km": 35.70454761904762,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.056105610561056105,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.056105610561056105
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.04950495049504951
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.026402640264026403
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-02-05",
+          "2023-03-03",
+          "2023-03-05",
+          "2023-03-06",
+          "2023-03-13"
+        ],
+        "route_train_image_days": 42,
+        "route_train_distance_days": 42,
+        "cluster_choice_method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 2897,
+        "behavioral_cluster": 1,
+        "truck_purpose": "Fixed_plant",
+        "fleet_features": {
+          "functional_loc": "301803R9686",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 2.128767123287671,
+          "kms": 13832.3,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 1,
+        "route_cluster_prior": 0.3059210526315789,
+        "expected_route_distance_km": 32.867935483870966,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.20723684210526316,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.20723684210526316
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_5",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-03",
+          "2023-01-06",
+          "2023-01-09",
+          "2023-01-12",
+          "2023-01-20"
+        ],
+        "route_train_image_days": 93,
+        "route_train_distance_days": 93,
+        "cluster_choice_method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 13643,
+        "behavioral_cluster": 0,
+        "truck_purpose": "Mobile_Eq",
+        "fleet_features": {
+          "functional_loc": "301803CS8237",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 4.791780821917809,
+          "kms": 70930.4,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 4,
+        "route_cluster_prior": 0.16447368421052633,
+        "expected_route_distance_km": 40.18896,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.07236842105263158,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.07236842105263158
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.01644736842105263
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.006578947368421052
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-07",
+          "2023-01-12",
+          "2023-01-15",
+          "2023-01-22",
+          "2023-01-23"
+        ],
+        "route_train_image_days": 50,
+        "route_train_distance_days": 50,
+        "cluster_choice_method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 1350,
+        "behavioral_cluster": 0,
+        "truck_purpose": "Mobile_Eq",
+        "fleet_features": {
+          "functional_loc": "301803R8400",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 3.6794520547945204,
+          "kms": 152796.3,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 9,
+        "route_cluster_prior": 0.14521452145214522,
+        "expected_route_distance_km": 132.90475,
+        "assigned_stopping_zone": "passes_zone_4",
+        "assigned_zone_weight": 0.4605263157894737,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.4605263157894737
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.2894736842105263
+          },
+          {
+            "zone": "passes_zone_6",
+            "weight": 0.17105263157894737
+          },
+          {
+            "zone": "passes_zone_8",
+            "weight": 0.09539473684210527
+          },
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.01644736842105263
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-11",
+          "2023-01-12",
+          "2023-01-17",
+          "2023-01-19",
+          "2023-01-20"
+        ],
+        "route_train_image_days": 44,
+        "route_train_distance_days": 44,
+        "cluster_choice_method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 1506,
+        "behavioral_cluster": 2,
+        "truck_purpose": "Support",
+        "fleet_features": {
+          "functional_loc": "301803R8504",
+          "asset_type": "AMBULANCE",
+          "age": 3.665753424657534,
+          "kms": 77486.1,
+          "duty_cycle": "AMBULANCE"
+        },
+        "route_cluster": 7,
+        "route_cluster_prior": 0.16831683168316833,
+        "expected_route_distance_km": 66.09445098039215,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.36633663366336633,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.36633663366336633
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.0231023102310231
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.006600660066006601
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-06",
+          "2023-01-09",
+          "2023-02-01",
+          "2023-02-02",
+          "2023-02-04"
+        ],
+        "route_train_image_days": 51,
+        "route_train_distance_days": 51,
+        "cluster_choice_method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      }
+    ],
+    "predicted_pairwise_correlations": [],
+    "generated_fleet_distance_km": 307.76064408331075,
+    "valid_distance_count": 5
+  },
+  "recent_behavior_context": null,
+  "recent_context_cluster_choices": {
+    "155": {
+      "cluster": 4,
+      "expected_distance_km": 35.70454761904762,
+      "cluster_prior": 0.13861386138613863,
+      "method": "dominant_training_route_pattern",
+      "rationale": "Highest-frequency training route pattern for this truck."
+    },
+    "2897": {
+      "cluster": 1,
+      "expected_distance_km": 32.867935483870966,
+      "cluster_prior": 0.3059210526315789,
+      "method": "dominant_training_route_pattern",
+      "rationale": "Highest-frequency training route pattern for this truck."
+    },
+    "13643": {
+      "cluster": 4,
+      "expected_distance_km": 40.18896,
+      "cluster_prior": 0.16447368421052633,
+      "method": "dominant_training_route_pattern",
+      "rationale": "Highest-frequency training route pattern for this truck."
+    },
+    "1350": {
+      "cluster": 9,
+      "expected_distance_km": 132.90475,
+      "cluster_prior": 0.14521452145214522,
+      "method": "dominant_training_route_pattern",
+      "rationale": "Highest-frequency training route pattern for this truck."
+    },
+    "1506": {
+      "cluster": 7,
+      "expected_distance_km": 66.09445098039215,
+      "cluster_prior": 0.16831683168316833,
+      "method": "dominant_training_route_pattern",
+      "rationale": "Highest-frequency training route pattern for this truck."
+    }
+  },
+  "recent_context_generated_scenario": {
+    "method": "recent_context_cluster_scenario",
+    "definition": "The generated scenario is materialized from the chosen truck-specific route cluster. Each truck receives a route-cluster assignment, expected route distance, and stopping-zone assignment from its historical stop profile.",
+    "scenario_variables": {
+      "route_cluster": "Chosen truck-specific route pattern cluster.",
+      "expected_route_distance_km": "Expected daily route distance implied by the chosen cluster.",
+      "assigned_stopping_zone": "Most frequent historical stopping zone for the truck.",
+      "predicted_pairwise_correlations": "LLM-generated truck-truck correlations when available."
+    },
+    "trucks": [
+      {
+        "vehicle_id": 155,
+        "behavioral_cluster": 0,
+        "truck_purpose": "Mobile_Eq",
+        "fleet_features": {
+          "functional_loc": "301803D6581",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 11.75068493150685,
+          "kms": 231064.6,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 4,
+        "route_cluster_prior": 0.13861386138613863,
+        "expected_route_distance_km": 35.70454761904762,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.056105610561056105,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.056105610561056105
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.04950495049504951
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.026402640264026403
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-02-05",
+          "2023-03-03",
+          "2023-03-05",
+          "2023-03-06",
+          "2023-03-13"
+        ],
+        "route_train_image_days": 42,
+        "route_train_distance_days": 42,
+        "cluster_choice_method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 2897,
+        "behavioral_cluster": 1,
+        "truck_purpose": "Fixed_plant",
+        "fleet_features": {
+          "functional_loc": "301803R9686",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 2.128767123287671,
+          "kms": 13832.3,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 1,
+        "route_cluster_prior": 0.3059210526315789,
+        "expected_route_distance_km": 32.867935483870966,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.20723684210526316,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.20723684210526316
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_5",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-03",
+          "2023-01-06",
+          "2023-01-09",
+          "2023-01-12",
+          "2023-01-20"
+        ],
+        "route_train_image_days": 93,
+        "route_train_distance_days": 93,
+        "cluster_choice_method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 13643,
+        "behavioral_cluster": 0,
+        "truck_purpose": "Mobile_Eq",
+        "fleet_features": {
+          "functional_loc": "301803CS8237",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 4.791780821917809,
+          "kms": 70930.4,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 4,
+        "route_cluster_prior": 0.16447368421052633,
+        "expected_route_distance_km": 40.18896,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.07236842105263158,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.07236842105263158
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.01644736842105263
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.006578947368421052
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-07",
+          "2023-01-12",
+          "2023-01-15",
+          "2023-01-22",
+          "2023-01-23"
+        ],
+        "route_train_image_days": 50,
+        "route_train_distance_days": 50,
+        "cluster_choice_method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 1350,
+        "behavioral_cluster": 0,
+        "truck_purpose": "Mobile_Eq",
+        "fleet_features": {
+          "functional_loc": "301803R8400",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 3.6794520547945204,
+          "kms": 152796.3,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 9,
+        "route_cluster_prior": 0.14521452145214522,
+        "expected_route_distance_km": 132.90475,
+        "assigned_stopping_zone": "passes_zone_4",
+        "assigned_zone_weight": 0.4605263157894737,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.4605263157894737
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.2894736842105263
+          },
+          {
+            "zone": "passes_zone_6",
+            "weight": 0.17105263157894737
+          },
+          {
+            "zone": "passes_zone_8",
+            "weight": 0.09539473684210527
+          },
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.01644736842105263
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-11",
+          "2023-01-12",
+          "2023-01-17",
+          "2023-01-19",
+          "2023-01-20"
+        ],
+        "route_train_image_days": 44,
+        "route_train_distance_days": 44,
+        "cluster_choice_method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 1506,
+        "behavioral_cluster": 2,
+        "truck_purpose": "Support",
+        "fleet_features": {
+          "functional_loc": "301803R8504",
+          "asset_type": "AMBULANCE",
+          "age": 3.665753424657534,
+          "kms": 77486.1,
+          "duty_cycle": "AMBULANCE"
+        },
+        "route_cluster": 7,
+        "route_cluster_prior": 0.16831683168316833,
+        "expected_route_distance_km": 66.09445098039215,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.36633663366336633,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.36633663366336633
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.0231023102310231
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.006600660066006601
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-06",
+          "2023-01-09",
+          "2023-02-01",
+          "2023-02-02",
+          "2023-02-04"
+        ],
+        "route_train_image_days": 51,
+        "route_train_distance_days": 51,
+        "cluster_choice_method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      }
+    ],
+    "predicted_pairwise_correlations": [],
+    "generated_fleet_distance_km": 307.76064408331075,
+    "valid_distance_count": 5
+  },
+  "validation_feedback_context": {
+    "purpose": "Validation feedback for revising route-cluster choices before generating the test scenario.",
+    "start_date": "2023-11-01",
+    "end_date": "2023-11-30",
+    "vehicles": {
+      "155": {
+        "recent_start": "2023-11-01",
+        "recent_end": "2023-11-30",
+        "recent_average_distance_km": 46.421166666666664,
+        "recent_distance_days": 30,
+        "closest_route_clusters_by_recent_distance": [
+          {
+            "cluster": 1,
+            "prior_probability": 0.10561056105610561,
+            "average_distance_km": 44.894,
+            "recent_distance_gap_km": 1.5271666666666661,
+            "recent_relative_distance_gap": 0.032898067332789986
+          },
+          {
+            "cluster": 0,
+            "prior_probability": 0.1254125412541254,
+            "average_distance_km": 44.69573684210527,
+            "recent_distance_gap_km": 1.7254298245613953,
+            "recent_relative_distance_gap": 0.03716903189769168
+          },
+          {
+            "cluster": 2,
+            "prior_probability": 0.0594059405940594,
+            "average_distance_km": 44.533722222222224,
+            "recent_distance_gap_km": 1.8874444444444407,
+            "recent_relative_distance_gap": 0.04065913418328078
+          },
+          {
+            "cluster": 7,
+            "prior_probability": 0.1353135313531353,
+            "average_distance_km": 41.46612195121951,
+            "recent_distance_gap_km": 4.955044715447151,
+            "recent_relative_distance_gap": 0.10674106385622546
+          },
+          {
+            "cluster": 6,
+            "prior_probability": 0.11221122112211221,
+            "average_distance_km": 39.81673529411765,
+            "recent_distance_gap_km": 6.604431372549016,
+            "recent_relative_distance_gap": 0.14227198165813043
+          }
+        ]
+      },
+      "2897": {
+        "recent_start": "2023-11-01",
+        "recent_end": "2023-11-30",
+        "recent_average_distance_km": 15.51806896551724,
+        "recent_distance_days": 29,
+        "closest_route_clusters_by_recent_distance": [
+          {
+            "cluster": 7,
+            "prior_probability": 0.046052631578947366,
+            "average_distance_km": 11.5415,
+            "recent_distance_gap_km": 3.9765689655172416,
+            "recent_relative_distance_gap": 0.25625411089186356
+          },
+          {
+            "cluster": 4,
+            "prior_probability": 0.02631578947368421,
+            "average_distance_km": 10.73425,
+            "recent_distance_gap_km": 4.783818965517241,
+            "recent_relative_distance_gap": 0.3082741142694612
+          },
+          {
+            "cluster": 8,
+            "prior_probability": 0.05263157894736842,
+            "average_distance_km": 10.73,
+            "recent_distance_gap_km": 4.78806896551724,
+            "recent_relative_distance_gap": 0.3085479885517216
+          },
+          {
+            "cluster": 5,
+            "prior_probability": 0.019736842105263157,
+            "average_distance_km": 10.547333333333333,
+            "recent_distance_gap_km": 4.970735632183908,
+            "recent_relative_distance_gap": 0.3203192126049574
+          },
+          {
+            "cluster": 6,
+            "prior_probability": 0.08223684210526316,
+            "average_distance_km": 9.72212,
+            "recent_distance_gap_km": 5.7959489655172405,
+            "recent_relative_distance_gap": 0.37349679128224267
+          }
+        ]
+      },
+      "13643": {
+        "recent_start": "2023-11-01",
+        "recent_end": "2023-11-30",
+        "recent_average_distance_km": 32.743793103448276,
+        "recent_distance_days": 29,
+        "closest_route_clusters_by_recent_distance": [
+          {
+            "cluster": 1,
+            "prior_probability": 0.08881578947368421,
+            "average_distance_km": 33.70444444444444,
+            "recent_distance_gap_km": 0.960651340996165,
+            "recent_relative_distance_gap": 0.029338425696777262
+          },
+          {
+            "cluster": 6,
+            "prior_probability": 0.09868421052631579,
+            "average_distance_km": 34.73523333333333,
+            "recent_distance_gap_km": 1.9914402298850575,
+            "recent_relative_distance_gap": 0.0608188618708117
+          },
+          {
+            "cluster": 3,
+            "prior_probability": 0.12828947368421054,
+            "average_distance_km": 36.0874358974359,
+            "recent_distance_gap_km": 3.3436427939876268,
+            "recent_relative_distance_gap": 0.10211531643337635
+          },
+          {
+            "cluster": 9,
+            "prior_probability": 0.07894736842105263,
+            "average_distance_km": 28.372874999999997,
+            "recent_distance_gap_km": 4.370918103448279,
+            "recent_relative_distance_gap": 0.1334884474025086
+          },
+          {
+            "cluster": 7,
+            "prior_probability": 0.08223684210526316,
+            "average_distance_km": 26.93476,
+            "recent_distance_gap_km": 5.809033103448275,
+            "recent_relative_distance_gap": 0.17740867971818822
+          }
+        ]
+      },
+      "1350": {
+        "recent_start": "2023-11-01",
+        "recent_end": "2023-11-30",
+        "recent_average_distance_km": 134.58975862068965,
+        "recent_distance_days": 29,
+        "closest_route_clusters_by_recent_distance": [
+          {
+            "cluster": 2,
+            "prior_probability": 0.0627062706270627,
+            "average_distance_km": 134.87868421052633,
+            "recent_distance_gap_km": 0.2889255898366798,
+            "recent_relative_distance_gap": 0.002146713039667084
+          },
+          {
+            "cluster": 9,
+            "prior_probability": 0.14521452145214522,
+            "average_distance_km": 132.90475,
+            "recent_distance_gap_km": 1.6850086206896435,
+            "recent_relative_distance_gap": 0.012519590182477804
+          },
+          {
+            "cluster": 6,
+            "prior_probability": 0.10891089108910891,
+            "average_distance_km": 139.7580909090909,
+            "recent_distance_gap_km": 5.1683322884012455,
+            "recent_relative_distance_gap": 0.038400635690023076
+          },
+          {
+            "cluster": 8,
+            "prior_probability": 0.0891089108910891,
+            "average_distance_km": 147.67151851851852,
+            "recent_distance_gap_km": 13.081759897828874,
+            "recent_relative_distance_gap": 0.09719729072920631
+          },
+          {
+            "cluster": 3,
+            "prior_probability": 0.08250825082508251,
+            "average_distance_km": 118.05072,
+            "recent_distance_gap_km": 16.539038620689652,
+            "recent_relative_distance_gap": 0.1228848226654536
+          }
+        ]
+      },
+      "1506": {
+        "recent_start": "2023-11-01",
+        "recent_end": "2023-11-30",
+        "recent_average_distance_km": 88.21379310344827,
+        "recent_distance_days": 29,
+        "closest_route_clusters_by_recent_distance": [
+          {
+            "cluster": 1,
+            "prior_probability": 0.0891089108910891,
+            "average_distance_km": 92.18307407407407,
+            "recent_distance_gap_km": 3.969280970625803,
+            "recent_relative_distance_gap": 0.044996148912574585
+          },
+          {
+            "cluster": 4,
+            "prior_probability": 0.1551155115511551,
+            "average_distance_km": 68.19380851063829,
+            "recent_distance_gap_km": 20.019984592809976,
+            "recent_relative_distance_gap": 0.22694846110213798
+          },
+          {
+            "cluster": 8,
+            "prior_probability": 0.0924092409240924,
+            "average_distance_km": 67.00385714285714,
+            "recent_distance_gap_km": 21.209935960591125,
+            "recent_relative_distance_gap": 0.24043786367646888
+          },
+          {
+            "cluster": 7,
+            "prior_probability": 0.16831683168316833,
+            "average_distance_km": 66.09445098039215,
+            "recent_distance_gap_km": 22.119342123056114,
+            "recent_relative_distance_gap": 0.25074697895732445
+          },
+          {
+            "cluster": 9,
+            "prior_probability": 0.06930693069306931,
+            "average_distance_km": 63.54447619047619,
+            "recent_distance_gap_km": 24.66931691297208,
+            "recent_relative_distance_gap": 0.27965373718872266
+          }
+        ]
+      }
+    }
+  },
+  "validation_feedback_cluster_choices": {
+    "155": {
+      "cluster": 1,
+      "expected_distance_km": 44.894,
+      "cluster_prior": 0.10561056105610561,
+      "method": "closest_to_recent_context_distance",
+      "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+    },
+    "2897": {
+      "cluster": 7,
+      "expected_distance_km": 11.5415,
+      "cluster_prior": 0.046052631578947366,
+      "method": "closest_to_recent_context_distance",
+      "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+    },
+    "13643": {
+      "cluster": 1,
+      "expected_distance_km": 33.70444444444444,
+      "cluster_prior": 0.08881578947368421,
+      "method": "closest_to_recent_context_distance",
+      "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+    },
+    "1350": {
+      "cluster": 2,
+      "expected_distance_km": 134.87868421052633,
+      "cluster_prior": 0.0627062706270627,
+      "method": "closest_to_recent_context_distance",
+      "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+    },
+    "1506": {
+      "cluster": 1,
+      "expected_distance_km": 92.18307407407407,
+      "cluster_prior": 0.0891089108910891,
+      "method": "closest_to_recent_context_distance",
+      "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+    }
+  },
+  "validation_feedback_generated_scenario": {
+    "method": "validation_feedback_cluster_scenario",
+    "definition": "The generated scenario is materialized from the chosen truck-specific route cluster. Each truck receives a route-cluster assignment, expected route distance, and stopping-zone assignment from its historical stop profile.",
+    "scenario_variables": {
+      "route_cluster": "Chosen truck-specific route pattern cluster.",
+      "expected_route_distance_km": "Expected daily route distance implied by the chosen cluster.",
+      "assigned_stopping_zone": "Most frequent historical stopping zone for the truck.",
+      "predicted_pairwise_correlations": "LLM-generated truck-truck correlations when available."
+    },
+    "trucks": [
+      {
+        "vehicle_id": 155,
+        "behavioral_cluster": 0,
+        "truck_purpose": "Mobile_Eq",
+        "fleet_features": {
+          "functional_loc": "301803D6581",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 11.75068493150685,
+          "kms": 231064.6,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 1,
+        "route_cluster_prior": 0.10561056105610561,
+        "expected_route_distance_km": 44.894,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.056105610561056105,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.056105610561056105
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.04950495049504951
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.026402640264026403
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-11",
+          "2023-01-12",
+          "2023-01-14",
+          "2023-01-15",
+          "2023-01-16"
+        ],
+        "route_train_image_days": 32,
+        "route_train_distance_days": 32,
+        "cluster_choice_method": "closest_to_recent_context_distance",
+        "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+      },
+      {
+        "vehicle_id": 2897,
+        "behavioral_cluster": 1,
+        "truck_purpose": "Fixed_plant",
+        "fleet_features": {
+          "functional_loc": "301803R9686",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 2.128767123287671,
+          "kms": 13832.3,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 7,
+        "route_cluster_prior": 0.046052631578947366,
+        "expected_route_distance_km": 11.5415,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.20723684210526316,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.20723684210526316
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_5",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-16",
+          "2023-01-17",
+          "2023-01-18",
+          "2023-03-20",
+          "2023-03-27"
+        ],
+        "route_train_image_days": 14,
+        "route_train_distance_days": 14,
+        "cluster_choice_method": "closest_to_recent_context_distance",
+        "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+      },
+      {
+        "vehicle_id": 13643,
+        "behavioral_cluster": 0,
+        "truck_purpose": "Mobile_Eq",
+        "fleet_features": {
+          "functional_loc": "301803CS8237",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 4.791780821917809,
+          "kms": 70930.4,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 1,
+        "route_cluster_prior": 0.08881578947368421,
+        "expected_route_distance_km": 33.70444444444444,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.07236842105263158,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.07236842105263158
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.01644736842105263
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.006578947368421052
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-10",
+          "2023-01-14",
+          "2023-01-25",
+          "2023-02-01",
+          "2023-02-09"
+        ],
+        "route_train_image_days": 27,
+        "route_train_distance_days": 27,
+        "cluster_choice_method": "closest_to_recent_context_distance",
+        "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+      },
+      {
+        "vehicle_id": 1350,
+        "behavioral_cluster": 0,
+        "truck_purpose": "Mobile_Eq",
+        "fleet_features": {
+          "functional_loc": "301803R8400",
+          "asset_type": "LIGHT VEHICLE",
+          "age": 3.6794520547945204,
+          "kms": 152796.3,
+          "duty_cycle": "MEDIUM"
+        },
+        "route_cluster": 2,
+        "route_cluster_prior": 0.0627062706270627,
+        "expected_route_distance_km": 134.87868421052633,
+        "assigned_stopping_zone": "passes_zone_4",
+        "assigned_zone_weight": 0.4605263157894737,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.4605263157894737
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.2894736842105263
+          },
+          {
+            "zone": "passes_zone_6",
+            "weight": 0.17105263157894737
+          },
+          {
+            "zone": "passes_zone_8",
+            "weight": 0.09539473684210527
+          },
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.01644736842105263
+          }
+        ],
+        "route_example_dates": [
+          "2023-01-10",
+          "2023-01-26",
+          "2023-02-02",
+          "2023-02-07",
+          "2023-02-20"
+        ],
+        "route_train_image_days": 19,
+        "route_train_distance_days": 19,
+        "cluster_choice_method": "closest_to_recent_context_distance",
+        "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+      },
+      {
+        "vehicle_id": 1506,
+        "behavioral_cluster": 2,
+        "truck_purpose": "Support",
+        "fleet_features": {
+          "functional_loc": "301803R8504",
+          "asset_type": "AMBULANCE",
+          "age": 3.665753424657534,
+          "kms": 77486.1,
+          "duty_cycle": "AMBULANCE"
+        },
+        "route_cluster": 1,
+        "route_cluster_prior": 0.0891089108910891,
+        "expected_route_distance_km": 92.18307407407407,
+        "assigned_stopping_zone": "passes_zone_2",
+        "assigned_zone_weight": 0.36633663366336633,
+        "candidate_stopping_zones": [
+          {
+            "zone": "passes_zone_2",
+            "weight": 0.36633663366336633
+          },
+          {
+            "zone": "passes_zone_7",
+            "weight": 0.0231023102310231
+          },
+          {
+            "zone": "passes_zone_4",
+            "weight": 0.006600660066006601
+          },
+          {
+            "zone": "passes_zone_1",
+            "weight": 0.0
+          },
+          {
+            "zone": "passes_zone_3",
+            "weight": 0.0
+          }
+        ],
+        "route_example_dates": [
+          "2023-05-05",
+          "2023-05-27",
+          "2023-05-28",
+          "2023-05-29",
+          "2023-05-30"
+        ],
+        "route_train_image_days": 27,
+        "route_train_distance_days": 27,
+        "cluster_choice_method": "closest_to_recent_context_distance",
+        "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+      }
+    ],
+    "predicted_pairwise_correlations": [],
+    "generated_fleet_distance_km": 317.2017027290448,
+    "valid_distance_count": 5
+  },
+  "learned_weights": {
+    "pass_score": 0.22,
+    "image_similarity": 0.22,
+    "distance_similarity": 0.31,
+    "purpose_match": 0.15,
+    "fleet_feature_similarity": 0.1
+  },
+  "fleet_features": {
+    "155": {
+      "functional_loc": "301803D6581",
+      "asset_type": "LIGHT VEHICLE",
+      "age": 11.75068493150685,
+      "kms": 231064.6,
+      "duty_cycle": "MEDIUM"
+    },
+    "2897": {
+      "functional_loc": "301803R9686",
+      "asset_type": "LIGHT VEHICLE",
+      "age": 2.128767123287671,
+      "kms": 13832.3,
+      "duty_cycle": "MEDIUM"
+    },
+    "13643": {
+      "functional_loc": "301803CS8237",
+      "asset_type": "LIGHT VEHICLE",
+      "age": 4.791780821917809,
+      "kms": 70930.4,
+      "duty_cycle": "MEDIUM"
+    },
+    "1350": {
+      "functional_loc": "301803R8400",
+      "asset_type": "LIGHT VEHICLE",
+      "age": 3.6794520547945204,
+      "kms": 152796.3,
+      "duty_cycle": "MEDIUM"
+    },
+    "1506": {
+      "functional_loc": "301803R8504",
+      "asset_type": "AMBULANCE",
+      "age": 3.665753424657534,
+      "kms": 77486.1,
+      "duty_cycle": "AMBULANCE"
+    }
+  },
+  "feedback_pairs_used": 0,
+  "splits": {
+    "train": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-10-31",
+      "pairwise_relationships": [
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 13643,
+          "features": {
+            "pass_score": 0.537550737488982,
+            "pass_correlation": 0.07510147497796388,
+            "image_similarity": 0.5302389956727969,
+            "distance_similarity": 0.7057258173678168,
+            "purpose_match": 1.0,
+            "fleet_feature_similarity": 0.678689881446206
+          },
+          "learned_similarity": 0.6715577328242351,
+          "scenario_label": "partially_shared_route_behavior",
+          "common_pass_dates": 303,
+          "pass_features_compared": 2424,
+          "common_image_dates": 303,
+          "common_distance_dates": 303,
+          "left_total_distance_km": 13194.095,
+          "right_total_distance_km": 12260.715,
+          "daily_distance_match": 0.6722156126576294,
+          "distance_pattern_match": 0.5157040919458981,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.4077873630216834,
+            "kms_similarity": 0.30697216276314065
+          },
+          "most_similar_image_dates": [
+            "2023-04-24",
+            "2023-04-26",
+            "2023-08-04",
+            "2023-08-03",
+            "2023-03-30"
+          ]
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1350,
+          "features": {
+            "pass_score": 0.4992032343748853,
+            "pass_correlation": -0.0015935312502294275,
+            "image_similarity": 0.13274849330179936,
+            "distance_similarity": 0.4139719136079549,
+            "purpose_match": 1.0,
+            "fleet_feature_similarity": 0.7435993800620795
+          },
+          "learned_similarity": 0.4917206113135446,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 303,
+          "pass_features_compared": 2424,
+          "common_image_dates": 302,
+          "common_distance_dates": 303,
+          "left_total_distance_km": 13194.095,
+          "right_total_distance_km": 39309.658,
+          "daily_distance_match": 0.36620759525120267,
+          "distance_pattern_match": 0.5400630224326947,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.31312660293774774,
+            "kms_similarity": 0.6612709173105702
+          },
+          "most_similar_image_dates": [
+            "2023-03-06",
+            "2023-02-19",
+            "2023-04-07",
+            "2023-02-15",
+            "2023-10-02"
+          ]
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1350,
+          "features": {
+            "pass_score": 0.4901477146386749,
+            "pass_correlation": -0.01970457072265025,
+            "image_similarity": 0.12162513353188734,
+            "distance_similarity": 0.38149011694148555,
+            "purpose_match": 1.0,
+            "fleet_feature_similarity": 0.8080206955183324
+          },
+          "learned_similarity": 0.48365403240121746,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 304,
+          "pass_features_compared": 2432,
+          "common_image_dates": 303,
+          "common_distance_dates": 304,
+          "left_total_distance_km": 12289.353,
+          "right_total_distance_km": 39435.946,
+          "daily_distance_match": 0.3252868079539627,
+          "distance_pattern_match": 0.5075553395049657,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.7678673527730131,
+            "kms_similarity": 0.4642154293003168
+          },
+          "most_similar_image_dates": [
+            "2023-03-06",
+            "2023-01-23",
+            "2023-09-03",
+            "2023-04-22",
+            "2023-05-18"
+          ]
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.601144080503986,
+            "pass_correlation": 0.20228816100797206,
+            "image_similarity": 0.43333230225412367,
+            "distance_similarity": 0.4653898667183842,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.42010093115511093
+          },
+          "learned_similarity": 0.41386575600499437,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 303,
+          "pass_features_compared": 2424,
+          "common_image_dates": 303,
+          "common_distance_dates": 303,
+          "left_total_distance_km": 12263.878,
+          "right_total_distance_km": 28409.363,
+          "daily_distance_match": 0.47960452124512953,
+          "distance_pattern_match": 0.4848807078102558,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.765008576329331,
+            "kms_similarity": 0.9153951482911127
+          },
+          "most_similar_image_dates": [
+            "2023-05-23",
+            "2023-08-10",
+            "2023-03-25",
+            "2023-10-14",
+            "2023-06-17"
+          ]
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 13643,
+          "features": {
+            "pass_score": 0.6222014845408218,
+            "pass_correlation": 0.24440296908164366,
+            "image_similarity": 0.15752287909976745,
+            "distance_similarity": 0.4185182253820927,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.6598165382724174
+          },
+          "learned_similarity": 0.3672616636966201,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 304,
+          "pass_features_compared": 2432,
+          "common_image_dates": 304,
+          "common_distance_dates": 304,
+          "left_total_distance_km": 4632.469,
+          "right_total_distance_km": 12289.353,
+          "daily_distance_match": 0.3688393937808123,
+          "distance_pattern_match": 0.5097654950170187,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.44425385934819894,
+            "kms_similarity": 0.19501229374147055
+          },
+          "most_similar_image_dates": [
+            "2023-05-05",
+            "2023-02-15",
+            "2023-04-11",
+            "2023-10-06",
+            "2023-01-30"
+          ]
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.5150291282987208,
+            "pass_correlation": 0.030058256597441758,
+            "image_similarity": 0.38957732419995283,
+            "distance_similarity": 0.47793483332801245,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.16182617805434235
+          },
+          "learned_similarity": 0.3633558356868263,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 302,
+          "pass_features_compared": 2416,
+          "common_image_dates": 302,
+          "common_distance_dates": 302,
+          "left_total_distance_km": 13159.984,
+          "right_total_distance_km": 28386.248,
+          "daily_distance_match": 0.5133043020455117,
+          "distance_pattern_match": 0.4568959907181844,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.31196083003031005,
+            "kms_similarity": 0.33534388218705935
+          },
+          "most_similar_image_dates": [
+            "2023-06-14",
+            "2023-02-07",
+            "2023-04-12",
+            "2023-09-05",
+            "2023-07-02"
+          ]
+        },
+        {
+          "vehicle_a": 1350,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.4646604992852197,
+            "pass_correlation": -0.07067900142956066,
+            "image_similarity": 0.13858471382162627,
+            "distance_similarity": 0.5816933661235364,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.3758493139617973
+          },
+          "learned_similarity": 0.3506238217779821,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 303,
+          "pass_features_compared": 2424,
+          "common_image_dates": 302,
+          "common_distance_dates": 303,
+          "left_total_distance_km": 39372.957,
+          "right_total_distance_km": 28409.363,
+          "daily_distance_match": 0.5157357624400631,
+          "distance_pattern_match": 0.5077992663031873,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.996276991809382,
+            "kms_similarity": 0.5071202640378073
+          },
+          "most_similar_image_dates": [
+            "2023-06-09",
+            "2023-03-06",
+            "2023-03-20",
+            "2023-01-26",
+            "2023-09-12"
+          ]
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 2897,
+          "features": {
+            "pass_score": 0.5504797949877053,
+            "pass_correlation": 0.10095958997541052,
+            "image_similarity": 0.1723493228577348,
+            "distance_similarity": 0.40272350063334345,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.560256113847757
+          },
+          "learned_similarity": 0.339892302507109,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 303,
+          "pass_features_compared": 2424,
+          "common_image_dates": 303,
+          "common_distance_dates": 303,
+          "left_total_distance_km": 13194.095,
+          "right_total_distance_km": 4623.926,
+          "daily_distance_match": 0.3529626741401045,
+          "distance_pattern_match": 0.5047536283623921,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.1811611098158079,
+            "kms_similarity": 0.059863345575219995
+          },
+          "most_similar_image_dates": [
+            "2023-02-03",
+            "2023-04-28",
+            "2023-10-03",
+            "2023-05-19",
+            "2023-04-06"
+          ]
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.662211820460286,
+            "pass_correlation": 0.32442364092057197,
+            "image_similarity": 0.14727992037919782,
+            "distance_similarity": 0.31140084000136004,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.1898076990843253
+          },
+          "learned_similarity": 0.29360321329354055,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 303,
+          "pass_features_compared": 2424,
+          "common_image_dates": 303,
+          "common_distance_dates": 303,
+          "left_total_distance_km": 4599.189,
+          "right_total_distance_km": 28409.363,
+          "daily_distance_match": 0.22284965925556663,
+          "distance_pattern_match": 0.5494629584652415,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.5807174887892377,
+            "kms_similarity": 0.1785133075480635
+          },
+          "most_similar_image_dates": [
+            "2023-05-06",
+            "2023-04-04",
+            "2023-01-24",
+            "2023-04-02",
+            "2023-03-08"
+          ]
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1350,
+          "features": {
+            "pass_score": 0.4724647593493046,
+            "pass_correlation": -0.05507048130139079,
+            "image_similarity": 0.12723102899139174,
+            "distance_similarity": 0.2514181790943242,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.6672707971200191
+          },
+          "learned_similarity": 0.2765997886661956,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 304,
+          "pass_features_compared": 2432,
+          "common_image_dates": 303,
+          "common_distance_dates": 304,
+          "left_total_distance_km": 4632.469,
+          "right_total_distance_km": 39435.946,
+          "daily_distance_match": 0.14564660150869208,
+          "distance_pattern_match": 0.49113975078386596,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.5785554728220401,
+            "kms_similarity": 0.09052771565803619
+          },
+          "most_similar_image_dates": [
+            "2023-01-23",
+            "2023-10-25",
+            "2023-06-10",
+            "2023-03-01",
+            "2023-08-08"
+          ]
+        }
+      ]
+    },
+    "validation": {
+      "start_date": "2023-11-01",
+      "end_date": "2023-11-30",
+      "pairwise_relationships": [
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 13643,
+          "features": {
+            "pass_score": 0.7855174468699264,
+            "pass_correlation": 0.5710348937398528,
+            "image_similarity": 0.5378986555954506,
+            "distance_similarity": 0.6411458412324217,
+            "purpose_match": 1.0,
+            "fleet_feature_similarity": 0.678689881446206
+          },
+          "learned_similarity": 0.7077757414690542,
+          "scenario_label": "partially_shared_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 29,
+          "common_distance_dates": 29,
+          "left_total_distance_km": 1354.767,
+          "right_total_distance_km": 949.57,
+          "daily_distance_match": 0.6703615981051843,
+          "distance_pattern_match": 0.5521657321787482,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.4077873630216834,
+            "kms_similarity": 0.30697216276314065
+          },
+          "most_similar_image_dates": [
+            "2023-11-11",
+            "2023-11-24",
+            "2023-11-14",
+            "2023-11-19",
+            "2023-11-25"
+          ]
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1350,
+          "features": {
+            "pass_score": 0.5238206877224187,
+            "pass_correlation": 0.04764137544483738,
+            "image_similarity": 0.1365518419650094,
+            "distance_similarity": 0.4370792482392618,
+            "purpose_match": 1.0,
+            "fleet_feature_similarity": 0.7435993800620795
+          },
+          "learned_similarity": 0.5051364614916133,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 29,
+          "common_distance_dates": 29,
+          "left_total_distance_km": 1354.767,
+          "right_total_distance_km": 3903.103,
+          "daily_distance_match": 0.40550575905379993,
+          "distance_pattern_match": 0.5586319988073742,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.31312660293774774,
+            "kms_similarity": 0.6612709173105702
+          },
+          "most_similar_image_dates": [
+            "2023-11-05",
+            "2023-11-15",
+            "2023-11-10",
+            "2023-11-06",
+            "2023-11-03"
+          ]
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1350,
+          "features": {
+            "pass_score": 0.47794546867363547,
+            "pass_correlation": -0.044109062652729104,
+            "image_similarity": 0.11843263428529789,
+            "distance_similarity": 0.3430125964590387,
+            "purpose_match": 1.0,
+            "fleet_feature_similarity": 0.8080206955183324
+          },
+          "learned_similarity": 0.46833915710510055,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 29,
+          "common_distance_dates": 29,
+          "left_total_distance_km": 949.57,
+          "right_total_distance_km": 3903.103,
+          "daily_distance_match": 0.31035112946808574,
+          "distance_pattern_match": 0.47540074098759777,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.7678673527730131,
+            "kms_similarity": 0.4642154293003168
+          },
+          "most_similar_image_dates": [
+            "2023-11-21",
+            "2023-11-11",
+            "2023-11-06",
+            "2023-11-04",
+            "2023-11-05"
+          ]
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.6589034920692572,
+            "pass_correlation": 0.31780698413851455,
+            "image_similarity": 0.49329966614986287,
+            "distance_similarity": 0.4440495340878696,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.42010093115511093
+          },
+          "learned_similarity": 0.43315014349095715,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 29,
+          "common_distance_dates": 29,
+          "left_total_distance_km": 949.57,
+          "right_total_distance_km": 2558.2,
+          "daily_distance_match": 0.46754483628866034,
+          "distance_pattern_match": 0.49341699402592176,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.765008576329331,
+            "kms_similarity": 0.9153951482911127
+          },
+          "most_similar_image_dates": [
+            "2023-11-09",
+            "2023-11-20",
+            "2023-11-26",
+            "2023-11-12",
+            "2023-11-16"
+          ]
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 13643,
+          "features": {
+            "pass_score": 0.6389686688304952,
+            "pass_correlation": 0.2779373376609903,
+            "image_similarity": 0.17360642019273906,
+            "distance_similarity": 0.43459545680420014,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.6598165382724174
+          },
+          "learned_similarity": 0.3794727650216553,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 29,
+          "common_distance_dates": 29,
+          "left_total_distance_km": 450.024,
+          "right_total_distance_km": 949.57,
+          "daily_distance_match": 0.3849878480201108,
+          "distance_pattern_match": 0.44487453574590224,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.44425385934819894,
+            "kms_similarity": 0.19501229374147055
+          },
+          "most_similar_image_dates": [
+            "2023-11-30",
+            "2023-11-29",
+            "2023-11-15",
+            "2023-11-13",
+            "2023-11-28"
+          ]
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.5592909548852674,
+            "pass_correlation": 0.11858190977053466,
+            "image_similarity": 0.390311850170637,
+            "distance_similarity": 0.4822726639910207,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.16182617805434235
+          },
+          "learned_similarity": 0.3745997607549496,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 29,
+          "common_distance_dates": 29,
+          "left_total_distance_km": 1354.767,
+          "right_total_distance_km": 2558.2,
+          "daily_distance_match": 0.5027055359604827,
+          "distance_pattern_match": 0.41453423695230257,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.31196083003031005,
+            "kms_similarity": 0.33534388218705935
+          },
+          "most_similar_image_dates": [
+            "2023-11-04",
+            "2023-11-15",
+            "2023-11-01",
+            "2023-11-27",
+            "2023-11-09"
+          ]
+        },
+        {
+          "vehicle_a": 1350,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.4549977498312359,
+            "pass_correlation": -0.09000450033752813,
+            "image_similarity": 0.13241954748358192,
+            "distance_similarity": 0.5449139840279226,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.3758493139617973
+          },
+          "learned_similarity": 0.33574007185409566,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 29,
+          "common_distance_dates": 29,
+          "left_total_distance_km": 3903.103,
+          "right_total_distance_km": 2558.2,
+          "daily_distance_match": 0.5244664165756808,
+          "distance_pattern_match": 0.45484830235538776,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.996276991809382,
+            "kms_similarity": 0.5071202640378073
+          },
+          "most_similar_image_dates": [
+            "2023-11-24",
+            "2023-11-01",
+            "2023-11-17",
+            "2023-11-15",
+            "2023-11-11"
+          ]
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 2897,
+          "features": {
+            "pass_score": 0.49122807017543857,
+            "pass_correlation": -0.017543859649122806,
+            "image_similarity": 0.20280627617291336,
+            "distance_similarity": 0.3633801142795634,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.560256113847757
+          },
+          "learned_similarity": 0.3213610030080778,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 29,
+          "common_distance_dates": 29,
+          "left_total_distance_km": 1354.767,
+          "right_total_distance_km": 450.024,
+          "daily_distance_match": 0.3373194717070427,
+          "distance_pattern_match": 0.4206427179879706,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.1811611098158079,
+            "kms_similarity": 0.059863345575219995
+          },
+          "most_similar_image_dates": [
+            "2023-11-13",
+            "2023-11-29",
+            "2023-11-15",
+            "2023-11-30",
+            "2023-11-27"
+          ]
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.6340491153927783,
+            "pass_correlation": 0.2680982307855566,
+            "image_similarity": 0.19083537694452138,
+            "distance_similarity": 0.3199874012702302,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.1898076990843253
+          },
+          "learned_similarity": 0.2996514526164098,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 29,
+          "common_distance_dates": 29,
+          "left_total_distance_km": 450.024,
+          "right_total_distance_km": 2558.2,
+          "daily_distance_match": 0.21842644037126008,
+          "distance_pattern_match": 0.56562144868687,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.5807174887892377,
+            "kms_similarity": 0.1785133075480635
+          },
+          "most_similar_image_dates": [
+            "2023-11-28",
+            "2023-11-27",
+            "2023-11-15",
+            "2023-11-30",
+            "2023-11-29"
+          ]
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1350,
+          "features": {
+            "pass_score": 0.4744778345831228,
+            "pass_correlation": -0.05104433083375434,
+            "image_similarity": 0.128679355285291,
+            "distance_similarity": 0.24803819456766116,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.6672707971200191
+          },
+          "learned_similarity": 0.2763135017990279,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 29,
+          "pass_features_compared": 232,
+          "common_image_dates": 29,
+          "common_distance_dates": 29,
+          "left_total_distance_km": 450.024,
+          "right_total_distance_km": 3903.103,
+          "daily_distance_match": 0.1457761787869501,
+          "distance_pattern_match": 0.4830393723258096,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.5785554728220401,
+            "kms_similarity": 0.09052771565803619
+          },
+          "most_similar_image_dates": [
+            "2023-11-11",
+            "2023-11-18",
+            "2023-11-06",
+            "2023-11-17",
+            "2023-11-10"
+          ]
+        }
+      ]
+    },
+    "test": {
+      "start_date": "2023-12-01",
+      "end_date": "2023-12-31",
+      "pairwise_relationships": [
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 13643,
+          "features": {
+            "pass_score": 0.8528129638316861,
+            "pass_correlation": 0.7056259276633724,
+            "image_similarity": 0.5080341678755037,
+            "distance_similarity": 0.7325019342465627,
+            "purpose_match": 1.0,
+            "fleet_feature_similarity": 0.678689881446206
+          },
+          "learned_similarity": 0.7443309567366369,
+          "scenario_label": "partially_shared_route_behavior",
+          "common_pass_dates": 30,
+          "pass_features_compared": 240,
+          "common_image_dates": 29,
+          "common_distance_dates": 30,
+          "left_total_distance_km": 1075.183,
+          "right_total_distance_km": 1086.313,
+          "daily_distance_match": 0.6765595410834767,
+          "distance_pattern_match": 0.5311919275002179,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.4077873630216834,
+            "kms_similarity": 0.30697216276314065
+          },
+          "most_similar_image_dates": [
+            "2023-12-24",
+            "2023-12-30",
+            "2023-12-27",
+            "2023-12-16",
+            "2023-12-07"
+          ]
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1350,
+          "features": {
+            "pass_score": 0.48604853365173056,
+            "pass_correlation": -0.027902932696538908,
+            "image_similarity": 0.12409536792866645,
+            "distance_similarity": 0.407707880636967,
+            "purpose_match": 1.0,
+            "fleet_feature_similarity": 0.8080206955183324
+          },
+          "learned_similarity": 0.49142317089698034,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 31,
+          "pass_features_compared": 248,
+          "common_image_dates": 31,
+          "common_distance_dates": 31,
+          "left_total_distance_km": 1110.526,
+          "right_total_distance_km": 3978.303,
+          "daily_distance_match": 0.3126309401787719,
+          "distance_pattern_match": 0.631347045908528,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.7678673527730131,
+            "kms_similarity": 0.4642154293003168
+          },
+          "most_similar_image_dates": [
+            "2023-12-20",
+            "2023-12-26",
+            "2023-12-15",
+            "2023-12-28",
+            "2023-12-13"
+          ]
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1350,
+          "features": {
+            "pass_score": 0.480120171329066,
+            "pass_correlation": -0.039759657341867996,
+            "image_similarity": 0.13743886775497732,
+            "distance_similarity": 0.3769744535811099,
+            "purpose_match": 1.0,
+            "fleet_feature_similarity": 0.7435993800620795
+          },
+          "learned_similarity": 0.47708500721484154,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 30,
+          "pass_features_compared": 240,
+          "common_image_dates": 29,
+          "common_distance_dates": 30,
+          "left_total_distance_km": 1075.183,
+          "right_total_distance_km": 3854.188,
+          "daily_distance_match": 0.3202418838037672,
+          "distance_pattern_match": 0.5317166210477379,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.31312660293774774,
+            "kms_similarity": 0.6612709173105702
+          },
+          "most_similar_image_dates": [
+            "2023-12-20",
+            "2023-12-26",
+            "2023-12-08",
+            "2023-12-03",
+            "2023-12-09"
+          ]
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.630066495428618,
+            "pass_correlation": 0.260132990857236,
+            "image_similarity": 0.40083544184604,
+            "distance_similarity": 0.4821202496942291,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.42010093115511093
+          },
+          "learned_similarity": 0.4182657967211469,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 31,
+          "pass_features_compared": 248,
+          "common_image_dates": 31,
+          "common_distance_dates": 31,
+          "left_total_distance_km": 1110.526,
+          "right_total_distance_km": 3185.721,
+          "daily_distance_match": 0.4121507289565166,
+          "distance_pattern_match": 0.6856151494516827,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.765008576329331,
+            "kms_similarity": 0.9153951482911127
+          },
+          "most_similar_image_dates": [
+            "2023-12-29",
+            "2023-12-22",
+            "2023-12-06",
+            "2023-12-19",
+            "2023-12-27"
+          ]
+        },
+        {
+          "vehicle_a": 1350,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.44636794701704646,
+            "pass_correlation": -0.10726410596590712,
+            "image_similarity": 0.15515223145484924,
+            "distance_similarity": 0.6611066149297821,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.3758493139617973
+          },
+          "learned_similarity": 0.3748624212882292,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 31,
+          "pass_features_compared": 248,
+          "common_image_dates": 31,
+          "common_distance_dates": 31,
+          "left_total_distance_km": 3978.303,
+          "right_total_distance_km": 3185.721,
+          "daily_distance_match": 0.5672643437723496,
+          "distance_pattern_match": 0.615281653474464,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.996276991809382,
+            "kms_similarity": 0.5071202640378073
+          },
+          "most_similar_image_dates": [
+            "2023-12-07",
+            "2023-12-31",
+            "2023-12-20",
+            "2023-12-12",
+            "2023-12-05"
+          ]
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.5863742225807236,
+            "pass_correlation": 0.1727484451614471,
+            "image_similarity": 0.32325136828525314,
+            "distance_similarity": 0.47667889991160156,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.16182617805434235
+          },
+          "learned_similarity": 0.3640707067685456,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 30,
+          "pass_features_compared": 240,
+          "common_image_dates": 29,
+          "common_distance_dates": 30,
+          "left_total_distance_km": 1075.183,
+          "right_total_distance_km": 3115.26,
+          "daily_distance_match": 0.38339801508330373,
+          "distance_pattern_match": 0.7015044101447182,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.31196083003031005,
+            "kms_similarity": 0.33534388218705935
+          },
+          "most_similar_image_dates": [
+            "2023-12-27",
+            "2023-12-06",
+            "2023-12-29",
+            "2023-12-10",
+            "2023-12-24"
+          ]
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 13643,
+          "features": {
+            "pass_score": 0.49647954244221326,
+            "pass_correlation": -0.007040915115573489,
+            "image_similarity": 0.08172984120826568,
+            "distance_similarity": 0.33546931852231454,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.6598165382724174
+          },
+          "learned_similarity": 0.29718320697226464,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 31,
+          "pass_features_compared": 248,
+          "common_image_dates": 31,
+          "common_distance_dates": 31,
+          "left_total_distance_km": 288.611,
+          "right_total_distance_km": 1110.526,
+          "daily_distance_match": 0.25815619301656484,
+          "distance_pattern_match": 0.48836500618447637,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.44425385934819894,
+            "kms_similarity": 0.19501229374147055
+          },
+          "most_similar_image_dates": [
+            "2023-12-22",
+            "2023-12-28",
+            "2023-12-12",
+            "2023-12-23",
+            "2023-12-11"
+          ]
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 2897,
+          "features": {
+            "pass_score": 0.49484316806098244,
+            "pass_correlation": -0.010313663878035114,
+            "image_similarity": 0.08700819930125928,
+            "distance_similarity": 0.30146702694772776,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.560256113847757
+          },
+          "learned_similarity": 0.2774876905582645,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 30,
+          "pass_features_compared": 240,
+          "common_image_dates": 29,
+          "common_distance_dates": 30,
+          "left_total_distance_km": 1075.183,
+          "right_total_distance_km": 286.269,
+          "daily_distance_match": 0.24519928375075437,
+          "distance_pattern_match": 0.3929503775666366,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.1811611098158079,
+            "kms_similarity": 0.059863345575219995
+          },
+          "most_similar_image_dates": [
+            "2023-12-12",
+            "2023-12-28",
+            "2023-12-22",
+            "2023-12-26",
+            "2023-12-11"
+          ]
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1506,
+          "features": {
+            "pass_score": 0.6462885182917786,
+            "pass_correlation": 0.29257703658355727,
+            "image_similarity": 0.08333326263293143,
+            "distance_similarity": 0.24679025530964038,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.1898076990843253
+          },
+          "learned_similarity": 0.25600254085785723,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 31,
+          "pass_features_compared": 248,
+          "common_image_dates": 31,
+          "common_distance_dates": 31,
+          "left_total_distance_km": 288.611,
+          "right_total_distance_km": 3185.721,
+          "daily_distance_match": 0.13172661992039453,
+          "distance_pattern_match": 0.5180489557831428,
+          "fleet_feature_components": {
+            "asset_type_match": 0.0,
+            "duty_cycle_match": 0.0,
+            "age_similarity": 0.5807174887892377,
+            "kms_similarity": 0.1785133075480635
+          },
+          "most_similar_image_dates": [
+            "2023-12-22",
+            "2023-12-28",
+            "2023-12-12",
+            "2023-12-05",
+            "2023-12-29"
+          ]
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1350,
+          "features": {
+            "pass_score": 0.47573692069690154,
+            "pass_correlation": -0.04852615860619697,
+            "image_similarity": 0.10241548317454514,
+            "distance_similarity": 0.194466881005215,
+            "purpose_match": 0.0,
+            "fleet_feature_similarity": 0.6672707971200191
+          },
+          "learned_similarity": 0.2542053416753368,
+          "scenario_label": "mostly_independent_route_behavior",
+          "common_pass_dates": 31,
+          "pass_features_compared": 248,
+          "common_image_dates": 31,
+          "common_distance_dates": 31,
+          "left_total_distance_km": 288.611,
+          "right_total_distance_km": 3978.303,
+          "daily_distance_match": 0.09192990296625515,
+          "distance_pattern_match": 0.4189244810037616,
+          "fleet_feature_components": {
+            "asset_type_match": 1.0,
+            "duty_cycle_match": 1.0,
+            "age_similarity": 0.5785554728220401,
+            "kms_similarity": 0.09052771565803619
+          },
+          "most_similar_image_dates": [
+            "2023-12-26",
+            "2023-12-19",
+            "2023-12-29",
+            "2023-12-20",
+            "2023-12-12"
+          ]
+        }
+      ]
+    }
+  },
+  "performance_vs_train": {
+    "validation": {
+      "goal": "Keep calculated split correlation close to training correlation.",
+      "tolerance": 0.05,
+      "mean_absolute_delta_from_train": 0.014743772361108054,
+      "pairwise": [
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1350,
+          "train_similarity": 0.2765997886661956,
+          "validation_similarity": 0.2763135017990279,
+          "validation_delta_from_train": -0.00028628686716769547,
+          "validation_absolute_delta_from_train": 0.00028628686716769547,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1506,
+          "train_similarity": 0.29360321329354055,
+          "validation_similarity": 0.2996514526164098,
+          "validation_delta_from_train": 0.006048239322869242,
+          "validation_absolute_delta_from_train": 0.006048239322869242,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1506,
+          "train_similarity": 0.3633558356868263,
+          "validation_similarity": 0.3745997607549496,
+          "validation_delta_from_train": 0.011243925068123328,
+          "validation_absolute_delta_from_train": 0.011243925068123328,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 13643,
+          "train_similarity": 0.3672616636966201,
+          "validation_similarity": 0.3794727650216553,
+          "validation_delta_from_train": 0.012211101325035167,
+          "validation_absolute_delta_from_train": 0.012211101325035167,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1350,
+          "train_similarity": 0.4917206113135446,
+          "validation_similarity": 0.5051364614916133,
+          "validation_delta_from_train": 0.013415850178068678,
+          "validation_absolute_delta_from_train": 0.013415850178068678,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 1350,
+          "vehicle_b": 1506,
+          "train_similarity": 0.3506238217779821,
+          "validation_similarity": 0.33574007185409566,
+          "validation_delta_from_train": -0.014883749923886469,
+          "validation_absolute_delta_from_train": 0.014883749923886469,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1350,
+          "train_similarity": 0.48365403240121746,
+          "validation_similarity": 0.46833915710510055,
+          "validation_delta_from_train": -0.015314875296116914,
+          "validation_absolute_delta_from_train": 0.015314875296116914,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 2897,
+          "train_similarity": 0.339892302507109,
+          "validation_similarity": 0.3213610030080778,
+          "validation_delta_from_train": -0.018531299499031206,
+          "validation_absolute_delta_from_train": 0.018531299499031206,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1506,
+          "train_similarity": 0.41386575600499437,
+          "validation_similarity": 0.43315014349095715,
+          "validation_delta_from_train": 0.019284387485962784,
+          "validation_absolute_delta_from_train": 0.019284387485962784,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 13643,
+          "train_similarity": 0.6715577328242351,
+          "validation_similarity": 0.7077757414690542,
+          "validation_delta_from_train": 0.036218008644819055,
+          "validation_absolute_delta_from_train": 0.036218008644819055,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        }
+      ]
+    },
+    "test": {
+      "goal": "Keep calculated split correlation close to training correlation.",
+      "tolerance": 0.05,
+      "mean_absolute_delta_from_train": 0.03170096659147287,
+      "pairwise": [
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1506,
+          "train_similarity": 0.3633558356868263,
+          "test_similarity": 0.3640707067685456,
+          "test_delta_from_train": 0.0007148710817193038,
+          "test_absolute_delta_from_train": 0.0007148710817193038,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1506,
+          "train_similarity": 0.41386575600499437,
+          "test_similarity": 0.4182657967211469,
+          "test_delta_from_train": 0.00440004071615252,
+          "test_absolute_delta_from_train": 0.00440004071615252,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1350,
+          "train_similarity": 0.48365403240121746,
+          "test_similarity": 0.49142317089698034,
+          "test_delta_from_train": 0.007769138495762884,
+          "test_absolute_delta_from_train": 0.007769138495762884,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1350,
+          "train_similarity": 0.4917206113135446,
+          "test_similarity": 0.47708500721484154,
+          "test_delta_from_train": -0.01463560409870307,
+          "test_absolute_delta_from_train": 0.01463560409870307,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1350,
+          "train_similarity": 0.2765997886661956,
+          "test_similarity": 0.2542053416753368,
+          "test_delta_from_train": -0.022394446990858796,
+          "test_absolute_delta_from_train": 0.022394446990858796,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 1350,
+          "vehicle_b": 1506,
+          "train_similarity": 0.3506238217779821,
+          "test_similarity": 0.3748624212882292,
+          "test_delta_from_train": 0.024238599510247094,
+          "test_absolute_delta_from_train": 0.024238599510247094,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1506,
+          "train_similarity": 0.29360321329354055,
+          "test_similarity": 0.25600254085785723,
+          "test_delta_from_train": -0.037600672435683324,
+          "test_absolute_delta_from_train": 0.037600672435683324,
+          "stability_label": "stable_close_to_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 2897,
+          "train_similarity": 0.339892302507109,
+          "test_similarity": 0.2774876905582645,
+          "test_delta_from_train": -0.0624046119488445,
+          "test_absolute_delta_from_train": 0.0624046119488445,
+          "stability_label": "weaker_than_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 13643,
+          "train_similarity": 0.3672616636966201,
+          "test_similarity": 0.29718320697226464,
+          "test_delta_from_train": -0.07007845672435548,
+          "test_absolute_delta_from_train": 0.07007845672435548,
+          "stability_label": "weaker_than_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 13643,
+          "train_similarity": 0.6715577328242351,
+          "test_similarity": 0.7443309567366369,
+          "test_delta_from_train": 0.07277322391240171,
+          "test_absolute_delta_from_train": 0.07277322391240171,
+          "stability_label": "stronger_than_training",
+          "target": "smaller absolute delta means better closed-loop stability"
+        }
+      ]
+    }
+  },
+  "scenario_realism_validation": {
+    "goal": "Validate the generated multi-truck scenario against real held-out route distances, using each truck's training route-pattern priors as the generated expected route distance.",
+    "formula": "0.70 * mean per-truck relative distance error + 0.30 * fleet-total relative distance error",
+    "route_pattern_generation": "Each truck's route clusters are weighted by that truck's own training frequency prior.",
+    "train_generated_route_expectations": [
+      {
+        "vehicle_id": 155,
+        "generated_average_distance_km": 43.54486798679868,
+        "selected_cluster": 4,
+        "selected_cluster_prior": 0.13861386138613863,
+        "route_patterns": [
+          {
+            "cluster": 4,
+            "prior_probability": 0.13861386138613863,
+            "train_image_days": 42,
+            "train_distance_days": 42,
+            "average_distance_km": 35.70454761904762,
+            "example_dates": [
+              "2023-02-05",
+              "2023-03-03",
+              "2023-03-05",
+              "2023-03-06",
+              "2023-03-13"
+            ]
+          },
+          {
+            "cluster": 7,
+            "prior_probability": 0.1353135313531353,
+            "train_image_days": 41,
+            "train_distance_days": 41,
+            "average_distance_km": 41.46612195121951,
+            "example_dates": [
+              "2023-01-06",
+              "2023-03-14",
+              "2023-03-20",
+              "2023-04-05",
+              "2023-04-11"
+            ]
+          },
+          {
+            "cluster": 0,
+            "prior_probability": 0.1254125412541254,
+            "train_image_days": 38,
+            "train_distance_days": 38,
+            "average_distance_km": 44.69573684210527,
+            "example_dates": [
+              "2023-01-01",
+              "2023-01-02",
+              "2023-01-13",
+              "2023-01-17",
+              "2023-01-19"
+            ]
+          },
+          {
+            "cluster": 8,
+            "prior_probability": 0.12211221122112212,
+            "train_image_days": 37,
+            "train_distance_days": 37,
+            "average_distance_km": 35.824243243243245,
+            "example_dates": [
+              "2023-01-04",
+              "2023-01-23",
+              "2023-01-24",
+              "2023-02-01",
+              "2023-02-02"
+            ]
+          },
+          {
+            "cluster": 6,
+            "prior_probability": 0.11221122112211221,
+            "train_image_days": 34,
+            "train_distance_days": 34,
+            "average_distance_km": 39.81673529411765,
+            "example_dates": [
+              "2023-01-05",
+              "2023-01-07",
+              "2023-01-08",
+              "2023-02-03",
+              "2023-02-20"
+            ]
+          },
+          {
+            "cluster": 9,
+            "prior_probability": 0.11221122112211221,
+            "train_image_days": 34,
+            "train_distance_days": 34,
+            "average_distance_km": 34.441647058823534,
+            "example_dates": [
+              "2023-01-09",
+              "2023-01-10",
+              "2023-01-22",
+              "2023-02-04",
+              "2023-02-06"
+            ]
+          },
+          {
+            "cluster": 1,
+            "prior_probability": 0.10561056105610561,
+            "train_image_days": 32,
+            "train_distance_days": 32,
+            "average_distance_km": 44.894,
+            "example_dates": [
+              "2023-01-11",
+              "2023-01-12",
+              "2023-01-14",
+              "2023-01-15",
+              "2023-01-16"
+            ]
+          },
+          {
+            "cluster": 2,
+            "prior_probability": 0.0594059405940594,
+            "train_image_days": 18,
+            "train_distance_days": 18,
+            "average_distance_km": 44.533722222222224,
+            "example_dates": [
+              "2023-01-30",
+              "2023-02-15",
+              "2023-03-09",
+              "2023-03-10",
+              "2023-03-26"
+            ]
+          },
+          {
+            "cluster": 5,
+            "prior_probability": 0.056105610561056105,
+            "train_image_days": 17,
+            "train_distance_days": 17,
+            "average_distance_km": 91.08000000000001,
+            "example_dates": [
+              "2023-01-03",
+              "2023-01-28",
+              "2023-02-27",
+              "2023-03-22",
+              "2023-04-07"
+            ]
+          },
+          {
+            "cluster": 3,
+            "prior_probability": 0.033003300330033,
+            "train_image_days": 10,
+            "train_distance_days": 10,
+            "average_distance_km": 65.90979999999999,
+            "example_dates": [
+              "2023-02-19",
+              "2023-03-27",
+              "2023-05-21",
+              "2023-07-06",
+              "2023-07-07"
+            ]
+          }
+        ],
+        "method": "training_route_pattern_prior_weighted_distance"
+      },
+      {
+        "vehicle_id": 2897,
+        "generated_average_distance_km": 15.238384868421056,
+        "selected_cluster": 1,
+        "selected_cluster_prior": 0.3059210526315789,
+        "route_patterns": [
+          {
+            "cluster": 1,
+            "prior_probability": 0.3059210526315789,
+            "train_image_days": 93,
+            "train_distance_days": 93,
+            "average_distance_km": 32.867935483870966,
+            "example_dates": [
+              "2023-01-03",
+              "2023-01-06",
+              "2023-01-09",
+              "2023-01-12",
+              "2023-01-20"
+            ]
+          },
+          {
+            "cluster": 3,
+            "prior_probability": 0.24671052631578946,
+            "train_image_days": 75,
+            "train_distance_days": 75,
+            "average_distance_km": 4.034866666666667,
+            "example_dates": [
+              "2023-01-04",
+              "2023-01-05",
+              "2023-01-13",
+              "2023-01-19",
+              "2023-01-21"
+            ]
+          },
+          {
+            "cluster": 2,
+            "prior_probability": 0.08223684210526316,
+            "train_image_days": 25,
+            "train_distance_days": 25,
+            "average_distance_km": 9.30752,
+            "example_dates": [
+              "2023-01-07",
+              "2023-01-10",
+              "2023-02-04",
+              "2023-02-07",
+              "2023-02-27"
+            ]
+          },
+          {
+            "cluster": 6,
+            "prior_probability": 0.08223684210526316,
+            "train_image_days": 25,
+            "train_distance_days": 25,
+            "average_distance_km": 9.72212,
+            "example_dates": [
+              "2023-01-29",
+              "2023-02-11",
+              "2023-03-12",
+              "2023-03-19",
+              "2023-03-26"
+            ]
+          },
+          {
+            "cluster": 9,
+            "prior_probability": 0.0756578947368421,
+            "train_image_days": 23,
+            "train_distance_days": 23,
+            "average_distance_km": 8.690391304347825,
+            "example_dates": [
+              "2023-01-01",
+              "2023-01-11",
+              "2023-01-14",
+              "2023-01-15",
+              "2023-03-05"
+            ]
+          },
+          {
+            "cluster": 0,
+            "prior_probability": 0.0625,
+            "train_image_days": 19,
+            "train_distance_days": 19,
+            "average_distance_km": 6.057736842105264,
+            "example_dates": [
+              "2023-01-08",
+              "2023-02-05",
+              "2023-02-12",
+              "2023-02-26",
+              "2023-03-09"
+            ]
+          },
+          {
+            "cluster": 8,
+            "prior_probability": 0.05263157894736842,
+            "train_image_days": 16,
+            "train_distance_days": 16,
+            "average_distance_km": 10.73,
+            "example_dates": [
+              "2023-01-02",
+              "2023-01-25",
+              "2023-02-28",
+              "2023-03-04",
+              "2023-03-14"
+            ]
+          },
+          {
+            "cluster": 7,
+            "prior_probability": 0.046052631578947366,
+            "train_image_days": 14,
+            "train_distance_days": 14,
+            "average_distance_km": 11.5415,
+            "example_dates": [
+              "2023-01-16",
+              "2023-01-17",
+              "2023-01-18",
+              "2023-03-20",
+              "2023-03-27"
+            ]
+          },
+          {
+            "cluster": 4,
+            "prior_probability": 0.02631578947368421,
+            "train_image_days": 8,
+            "train_distance_days": 8,
+            "average_distance_km": 10.73425,
+            "example_dates": [
+              "2023-02-06",
+              "2023-02-10",
+              "2023-05-02",
+              "2023-06-19",
+              "2023-06-26"
+            ]
+          },
+          {
+            "cluster": 5,
+            "prior_probability": 0.019736842105263157,
+            "train_image_days": 6,
+            "train_distance_days": 6,
+            "average_distance_km": 10.547333333333333,
+            "example_dates": [
+              "2023-01-22",
+              "2023-03-21",
+              "2023-04-07",
+              "2023-06-18",
+              "2023-07-25"
+            ]
+          }
+        ],
+        "method": "training_route_pattern_prior_weighted_distance"
+      },
+      {
+        "vehicle_id": 13643,
+        "generated_average_distance_km": 40.42550328947368,
+        "selected_cluster": 4,
+        "selected_cluster_prior": 0.16447368421052633,
+        "route_patterns": [
+          {
+            "cluster": 4,
+            "prior_probability": 0.16447368421052633,
+            "train_image_days": 50,
+            "train_distance_days": 50,
+            "average_distance_km": 40.18896,
+            "example_dates": [
+              "2023-01-07",
+              "2023-01-12",
+              "2023-01-15",
+              "2023-01-22",
+              "2023-01-23"
+            ]
+          },
+          {
+            "cluster": 5,
+            "prior_probability": 0.15460526315789475,
+            "train_image_days": 47,
+            "train_distance_days": 47,
+            "average_distance_km": 26.183808510638297,
+            "example_dates": [
+              "2023-01-02",
+              "2023-01-03",
+              "2023-01-08",
+              "2023-01-09",
+              "2023-01-21"
+            ]
+          },
+          {
+            "cluster": 3,
+            "prior_probability": 0.12828947368421054,
+            "train_image_days": 39,
+            "train_distance_days": 39,
+            "average_distance_km": 36.0874358974359,
+            "example_dates": [
+              "2023-01-24",
+              "2023-02-14",
+              "2023-02-28",
+              "2023-03-01",
+              "2023-03-16"
+            ]
+          },
+          {
+            "cluster": 6,
+            "prior_probability": 0.09868421052631579,
+            "train_image_days": 30,
+            "train_distance_days": 30,
+            "average_distance_km": 34.73523333333333,
+            "example_dates": [
+              "2023-01-11",
+              "2023-01-13",
+              "2023-02-22",
+              "2023-03-06",
+              "2023-03-07"
+            ]
+          },
+          {
+            "cluster": 2,
+            "prior_probability": 0.09539473684210527,
+            "train_image_days": 29,
+            "train_distance_days": 29,
+            "average_distance_km": 47.3338275862069,
+            "example_dates": [
+              "2023-01-17",
+              "2023-01-26",
+              "2023-02-02",
+              "2023-02-10",
+              "2023-02-12"
+            ]
+          },
+          {
+            "cluster": 1,
+            "prior_probability": 0.08881578947368421,
+            "train_image_days": 27,
+            "train_distance_days": 27,
+            "average_distance_km": 33.70444444444444,
+            "example_dates": [
+              "2023-01-10",
+              "2023-01-14",
+              "2023-01-25",
+              "2023-02-01",
+              "2023-02-09"
+            ]
+          },
+          {
+            "cluster": 7,
+            "prior_probability": 0.08223684210526316,
+            "train_image_days": 25,
+            "train_distance_days": 25,
+            "average_distance_km": 26.93476,
+            "example_dates": [
+              "2023-01-04",
+              "2023-01-05",
+              "2023-01-06",
+              "2023-01-16",
+              "2023-02-06"
+            ]
+          },
+          {
+            "cluster": 8,
+            "prior_probability": 0.07894736842105263,
+            "train_image_days": 24,
+            "train_distance_days": 24,
+            "average_distance_km": 71.83958333333332,
+            "example_dates": [
+              "2023-01-18",
+              "2023-01-19",
+              "2023-01-20",
+              "2023-03-20",
+              "2023-03-22"
+            ]
+          },
+          {
+            "cluster": 9,
+            "prior_probability": 0.07894736842105263,
+            "train_image_days": 24,
+            "train_distance_days": 24,
+            "average_distance_km": 28.372874999999997,
+            "example_dates": [
+              "2023-02-16",
+              "2023-03-30",
+              "2023-04-02",
+              "2023-04-03",
+              "2023-04-18"
+            ]
+          },
+          {
+            "cluster": 0,
+            "prior_probability": 0.029605263157894735,
+            "train_image_days": 9,
+            "train_distance_days": 9,
+            "average_distance_km": 137.62555555555556,
+            "example_dates": [
+              "2023-01-01",
+              "2023-02-24",
+              "2023-04-20",
+              "2023-04-21",
+              "2023-07-16"
+            ]
+          }
+        ],
+        "method": "training_route_pattern_prior_weighted_distance"
+      },
+      {
+        "vehicle_id": 1350,
+        "generated_average_distance_km": 130.1509174917492,
+        "selected_cluster": 9,
+        "selected_cluster_prior": 0.14521452145214522,
+        "route_patterns": [
+          {
+            "cluster": 9,
+            "prior_probability": 0.14521452145214522,
+            "train_image_days": 44,
+            "train_distance_days": 44,
+            "average_distance_km": 132.90475,
+            "example_dates": [
+              "2023-01-11",
+              "2023-01-12",
+              "2023-01-17",
+              "2023-01-19",
+              "2023-01-20"
+            ]
+          },
+          {
+            "cluster": 4,
+            "prior_probability": 0.13861386138613863,
+            "train_image_days": 42,
+            "train_distance_days": 42,
+            "average_distance_km": 104.00957142857143,
+            "example_dates": [
+              "2023-01-29",
+              "2023-02-01",
+              "2023-02-08",
+              "2023-02-09",
+              "2023-02-25"
+            ]
+          },
+          {
+            "cluster": 5,
+            "prior_probability": 0.1188118811881188,
+            "train_image_days": 36,
+            "train_distance_days": 36,
+            "average_distance_km": 172.07313888888888,
+            "example_dates": [
+              "2023-01-09",
+              "2023-01-14",
+              "2023-01-15",
+              "2023-01-24",
+              "2023-01-28"
+            ]
+          },
+          {
+            "cluster": 6,
+            "prior_probability": 0.10891089108910891,
+            "train_image_days": 33,
+            "train_distance_days": 33,
+            "average_distance_km": 139.7580909090909,
+            "example_dates": [
+              "2023-01-05",
+              "2023-01-13",
+              "2023-01-16",
+              "2023-01-18",
+              "2023-02-10"
+            ]
+          },
+          {
+            "cluster": 0,
+            "prior_probability": 0.10561056105610561,
+            "train_image_days": 32,
+            "train_distance_days": 32,
+            "average_distance_km": 87.77071875,
+            "example_dates": [
+              "2023-01-01",
+              "2023-01-06",
+              "2023-01-08",
+              "2023-01-23",
+              "2023-02-04"
+            ]
+          },
+          {
+            "cluster": 8,
+            "prior_probability": 0.0891089108910891,
+            "train_image_days": 27,
+            "train_distance_days": 27,
+            "average_distance_km": 147.67151851851852,
+            "example_dates": [
+              "2023-01-03",
+              "2023-01-27",
+              "2023-01-30",
+              "2023-02-05",
+              "2023-02-18"
+            ]
+          },
+          {
+            "cluster": 3,
+            "prior_probability": 0.08250825082508251,
+            "train_image_days": 25,
+            "train_distance_days": 25,
+            "average_distance_km": 118.05072,
+            "example_dates": [
+              "2023-01-02",
+              "2023-01-21",
+              "2023-02-14",
+              "2023-02-16",
+              "2023-02-17"
+            ]
+          },
+          {
+            "cluster": 7,
+            "prior_probability": 0.07920792079207921,
+            "train_image_days": 24,
+            "train_distance_days": 24,
+            "average_distance_km": 185.64620833333333,
+            "example_dates": [
+              "2023-01-07",
+              "2023-02-11",
+              "2023-02-12",
+              "2023-03-12",
+              "2023-03-28"
+            ]
+          },
+          {
+            "cluster": 1,
+            "prior_probability": 0.06930693069306931,
+            "train_image_days": 21,
+            "train_distance_days": 21,
+            "average_distance_km": 78.45719047619048,
+            "example_dates": [
+              "2023-01-04",
+              "2023-01-22",
+              "2023-02-03",
+              "2023-02-15",
+              "2023-03-05"
+            ]
+          },
+          {
+            "cluster": 2,
+            "prior_probability": 0.0627062706270627,
+            "train_image_days": 19,
+            "train_distance_days": 19,
+            "average_distance_km": 134.87868421052633,
+            "example_dates": [
+              "2023-01-10",
+              "2023-01-26",
+              "2023-02-02",
+              "2023-02-07",
+              "2023-02-20"
+            ]
+          }
+        ],
+        "method": "training_route_pattern_prior_weighted_distance"
+      },
+      {
+        "vehicle_id": 1506,
+        "generated_average_distance_km": 93.76027392739273,
+        "selected_cluster": 7,
+        "selected_cluster_prior": 0.16831683168316833,
+        "route_patterns": [
+          {
+            "cluster": 7,
+            "prior_probability": 0.16831683168316833,
+            "train_image_days": 51,
+            "train_distance_days": 51,
+            "average_distance_km": 66.09445098039215,
+            "example_dates": [
+              "2023-01-06",
+              "2023-01-09",
+              "2023-02-01",
+              "2023-02-02",
+              "2023-02-04"
+            ]
+          },
+          {
+            "cluster": 2,
+            "prior_probability": 0.16501650165016502,
+            "train_image_days": 50,
+            "train_distance_days": 50,
+            "average_distance_km": 202.21186,
+            "example_dates": [
+              "2023-01-10",
+              "2023-01-15",
+              "2023-01-16",
+              "2023-01-22",
+              "2023-01-23"
+            ]
+          },
+          {
+            "cluster": 4,
+            "prior_probability": 0.1551155115511551,
+            "train_image_days": 47,
+            "train_distance_days": 47,
+            "average_distance_km": 68.19380851063829,
+            "example_dates": [
+              "2023-01-01",
+              "2023-01-04",
+              "2023-01-24",
+              "2023-01-29",
+              "2023-02-06"
+            ]
+          },
+          {
+            "cluster": 0,
+            "prior_probability": 0.09570957095709572,
+            "train_image_days": 29,
+            "train_distance_days": 29,
+            "average_distance_km": 62.779137931034484,
+            "example_dates": [
+              "2023-01-08",
+              "2023-01-20",
+              "2023-02-05",
+              "2023-02-17",
+              "2023-02-18"
+            ]
+          },
+          {
+            "cluster": 8,
+            "prior_probability": 0.0924092409240924,
+            "train_image_days": 28,
+            "train_distance_days": 28,
+            "average_distance_km": 67.00385714285714,
+            "example_dates": [
+              "2023-01-13",
+              "2023-01-19",
+              "2023-01-25",
+              "2023-02-07",
+              "2023-02-15"
+            ]
+          },
+          {
+            "cluster": 1,
+            "prior_probability": 0.0891089108910891,
+            "train_image_days": 27,
+            "train_distance_days": 27,
+            "average_distance_km": 92.18307407407407,
+            "example_dates": [
+              "2023-05-05",
+              "2023-05-27",
+              "2023-05-28",
+              "2023-05-29",
+              "2023-05-30"
+            ]
+          },
+          {
+            "cluster": 9,
+            "prior_probability": 0.06930693069306931,
+            "train_image_days": 21,
+            "train_distance_days": 21,
+            "average_distance_km": 63.54447619047619,
+            "example_dates": [
+              "2023-01-02",
+              "2023-01-03",
+              "2023-01-05",
+              "2023-01-07",
+              "2023-01-11"
+            ]
+          },
+          {
+            "cluster": 3,
+            "prior_probability": 0.0627062706270627,
+            "train_image_days": 19,
+            "train_distance_days": 19,
+            "average_distance_km": 141.04868421052632,
+            "example_dates": [
+              "2023-01-21",
+              "2023-01-26",
+              "2023-02-03",
+              "2023-02-14",
+              "2023-04-11"
+            ]
+          },
+          {
+            "cluster": 6,
+            "prior_probability": 0.0594059405940594,
+            "train_image_days": 18,
+            "train_distance_days": 18,
+            "average_distance_km": 51.65961111111111,
+            "example_dates": [
+              "2023-02-13",
+              "2023-03-24",
+              "2023-03-25",
+              "2023-05-22",
+              "2023-06-13"
+            ]
+          },
+          {
+            "cluster": 5,
+            "prior_probability": 0.0429042904290429,
+            "train_image_days": 13,
+            "train_distance_days": 13,
+            "average_distance_km": 45.61276923076923,
+            "example_dates": [
+              "2023-01-14",
+              "2023-01-17",
+              "2023-01-18",
+              "2023-01-28",
+              "2023-02-09"
+            ]
+          }
+        ],
+        "method": "training_route_pattern_prior_weighted_distance"
+      }
+    ],
+    "validation": {
+      "start_date": "2023-11-01",
+      "end_date": "2023-11-30",
+      "scenario_realism_error": 0.06278476407735525,
+      "mean_per_truck_relative_distance_error": 0.08208810362159558,
+      "fleet_total_relative_distance_error": 0.01774363847412783,
+      "generated_fleet_average_distance_km": 323.11994756383535,
+      "real_fleet_average_distance_km": 317.4865804597701,
+      "valid_truck_count": 5,
+      "trucks": [
+        {
+          "vehicle_id": 155,
+          "generated_average_distance_km": 43.54486798679868,
+          "real_average_distance_km": 46.421166666666664,
+          "relative_distance_error": 0.061960930463502345,
+          "selected_cluster": 4,
+          "selected_cluster_prior": 0.13861386138613863,
+          "generation_method": "training_route_pattern_prior_weighted_distance",
+          "validation_distance_days": 30,
+          "target": "smaller error means this truck's generated route distance is closer to held-out ground truth"
+        },
+        {
+          "vehicle_id": 2897,
+          "generated_average_distance_km": 15.238384868421056,
+          "real_average_distance_km": 15.51806896551724,
+          "relative_distance_error": 0.018023125023975083,
+          "selected_cluster": 1,
+          "selected_cluster_prior": 0.3059210526315789,
+          "generation_method": "training_route_pattern_prior_weighted_distance",
+          "validation_distance_days": 29,
+          "target": "smaller error means this truck's generated route distance is closer to held-out ground truth"
+        },
+        {
+          "vehicle_id": 13643,
+          "generated_average_distance_km": 40.42550328947368,
+          "real_average_distance_km": 32.743793103448276,
+          "relative_distance_error": 0.2346004985359023,
+          "selected_cluster": 4,
+          "selected_cluster_prior": 0.16447368421052633,
+          "generation_method": "training_route_pattern_prior_weighted_distance",
+          "validation_distance_days": 29,
+          "target": "smaller error means this truck's generated route distance is closer to held-out ground truth"
+        },
+        {
+          "vehicle_id": 1350,
+          "generated_average_distance_km": 130.1509174917492,
+          "real_average_distance_km": 134.58975862068965,
+          "relative_distance_error": 0.03298052670894751,
+          "selected_cluster": 9,
+          "selected_cluster_prior": 0.14521452145214522,
+          "generation_method": "training_route_pattern_prior_weighted_distance",
+          "validation_distance_days": 29,
+          "target": "smaller error means this truck's generated route distance is closer to held-out ground truth"
+        },
+        {
+          "vehicle_id": 1506,
+          "generated_average_distance_km": 93.76027392739273,
+          "real_average_distance_km": 88.21379310344827,
+          "relative_distance_error": 0.06287543737565064,
+          "selected_cluster": 7,
+          "selected_cluster_prior": 0.16831683168316833,
+          "generation_method": "training_route_pattern_prior_weighted_distance",
+          "validation_distance_days": 29,
+          "target": "smaller error means this truck's generated route distance is closer to held-out ground truth"
+        }
+      ]
+    },
+    "test": {
+      "start_date": "2023-12-01",
+      "end_date": "2023-12-31",
+      "scenario_realism_error": 0.1621065910464843,
+      "mean_per_truck_relative_distance_error": 0.21640636579545308,
+      "fleet_total_relative_distance_error": 0.03540711663222389,
+      "generated_fleet_average_distance_km": 323.11994756383535,
+      "real_fleet_average_distance_km": 312.07043333333337,
+      "valid_truck_count": 5,
+      "trucks": [
+        {
+          "vehicle_id": 155,
+          "generated_average_distance_km": 43.54486798679868,
+          "real_average_distance_km": 35.83943333333333,
+          "relative_distance_error": 0.21499878588478463,
+          "selected_cluster": 4,
+          "selected_cluster_prior": 0.13861386138613863,
+          "generation_method": "training_route_pattern_prior_weighted_distance",
+          "test_distance_days": 30,
+          "target": "smaller error means this truck's generated route distance is closer to held-out ground truth"
+        },
+        {
+          "vehicle_id": 2897,
+          "generated_average_distance_km": 15.238384868421056,
+          "real_average_distance_km": 9.310032258064515,
+          "relative_distance_error": 0.6367703619094656,
+          "selected_cluster": 1,
+          "selected_cluster_prior": 0.3059210526315789,
+          "generation_method": "training_route_pattern_prior_weighted_distance",
+          "test_distance_days": 31,
+          "target": "smaller error means this truck's generated route distance is closer to held-out ground truth"
+        },
+        {
+          "vehicle_id": 13643,
+          "generated_average_distance_km": 40.42550328947368,
+          "real_average_distance_km": 35.82341935483871,
+          "relative_distance_error": 0.1284657918623103,
+          "selected_cluster": 4,
+          "selected_cluster_prior": 0.16447368421052633,
+          "generation_method": "training_route_pattern_prior_weighted_distance",
+          "test_distance_days": 31,
+          "target": "smaller error means this truck's generated route distance is closer to held-out ground truth"
+        },
+        {
+          "vehicle_id": 1350,
+          "generated_average_distance_km": 130.1509174917492,
+          "real_average_distance_km": 128.33235483870968,
+          "relative_distance_error": 0.014170726122224767,
+          "selected_cluster": 9,
+          "selected_cluster_prior": 0.14521452145214522,
+          "generation_method": "training_route_pattern_prior_weighted_distance",
+          "test_distance_days": 31,
+          "target": "smaller error means this truck's generated route distance is closer to held-out ground truth"
+        },
+        {
+          "vehicle_id": 1506,
+          "generated_average_distance_km": 93.76027392739273,
+          "real_average_distance_km": 102.7651935483871,
+          "relative_distance_error": 0.08762616319848018,
+          "selected_cluster": 7,
+          "selected_cluster_prior": 0.16831683168316833,
+          "generation_method": "training_route_pattern_prior_weighted_distance",
+          "test_distance_days": 31,
+          "target": "smaller error means this truck's generated route distance is closer to held-out ground truth"
+        }
+      ]
+    }
+  },
+  "dominant_cluster_choice_realism_validation": {
+    "goal": "Validate selected route clusters against held-out real per-truck and fleet-total distances.",
+    "formula": "0.70 * mean per-truck relative distance error + 0.30 * fleet-total relative distance error",
+    "cluster_choices": [
+      {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "expected_distance_km": 35.70454761904762,
+        "cluster_prior": 0.13861386138613863,
+        "method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 2897,
+        "cluster": 1,
+        "expected_distance_km": 32.867935483870966,
+        "cluster_prior": 0.3059210526315789,
+        "method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 13643,
+        "cluster": 4,
+        "expected_distance_km": 40.18896,
+        "cluster_prior": 0.16447368421052633,
+        "method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 1350,
+        "cluster": 9,
+        "expected_distance_km": 132.90475,
+        "cluster_prior": 0.14521452145214522,
+        "method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 1506,
+        "cluster": 7,
+        "expected_distance_km": 66.09445098039215,
+        "cluster_prior": 0.16831683168316833,
+        "method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      }
+    ],
+    "validation": {
+      "start_date": "2023-11-01",
+      "end_date": "2023-11-30",
+      "scenario_realism_error": 0.26672615596939936,
+      "mean_per_truck_relative_distance_error": 0.3679084376981891,
+      "fleet_total_relative_distance_error": 0.030634165268890016,
+      "generated_fleet_distance_km": 307.76064408331075,
+      "real_fleet_average_distance_km": 317.4865804597701,
+      "valid_truck_count": 5,
+      "trucks": [
+        {
+          "vehicle_id": 155,
+          "selected_cluster": 4,
+          "cluster_prior": 0.13861386138613863,
+          "generated_distance_km": 35.70454761904762,
+          "real_average_distance_km": 46.421166666666664,
+          "relative_distance_error": 0.23085630580056615,
+          "validation_distance_days": 30,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 2897,
+          "selected_cluster": 1,
+          "cluster_prior": 0.3059210526315789,
+          "generated_distance_km": 32.867935483870966,
+          "real_average_distance_km": 15.51806896551724,
+          "relative_distance_error": 1.118042880006973,
+          "validation_distance_days": 29,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 13643,
+          "selected_cluster": 4,
+          "cluster_prior": 0.16447368421052633,
+          "generated_distance_km": 40.18896,
+          "real_average_distance_km": 32.743793103448276,
+          "relative_distance_error": 0.22737643354360398,
+          "validation_distance_days": 29,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 1350,
+          "selected_cluster": 9,
+          "cluster_prior": 0.14521452145214522,
+          "generated_distance_km": 132.90475,
+          "real_average_distance_km": 134.58975862068965,
+          "relative_distance_error": 0.012519590182477804,
+          "validation_distance_days": 29,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 1506,
+          "selected_cluster": 7,
+          "cluster_prior": 0.16831683168316833,
+          "generated_distance_km": 66.09445098039215,
+          "real_average_distance_km": 88.21379310344827,
+          "relative_distance_error": 0.25074697895732445,
+          "validation_distance_days": 29,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        }
+      ]
+    },
+    "test": {
+      "start_date": "2023-12-01",
+      "end_date": "2023-12-31",
+      "scenario_realism_error": 0.43092946118794634,
+      "mean_per_truck_relative_distance_error": 0.6096948119389691,
+      "fleet_total_relative_distance_error": 0.013810309435559956,
+      "generated_fleet_distance_km": 307.76064408331075,
+      "real_fleet_average_distance_km": 312.07043333333337,
+      "valid_truck_count": 5,
+      "trucks": [
+        {
+          "vehicle_id": 155,
+          "selected_cluster": 4,
+          "cluster_prior": 0.13861386138613863,
+          "generated_distance_km": 35.70454761904762,
+          "real_average_distance_km": 35.83943333333333,
+          "relative_distance_error": 0.0037636118024294177,
+          "test_distance_days": 30,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 2897,
+          "selected_cluster": 1,
+          "cluster_prior": 0.3059210526315789,
+          "generated_distance_km": 32.867935483870966,
+          "real_average_distance_km": 9.310032258064515,
+          "relative_distance_error": 2.5303782600108797,
+          "test_distance_days": 31,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 13643,
+          "selected_cluster": 4,
+          "cluster_prior": 0.16447368421052633,
+          "generated_distance_km": 40.18896,
+          "real_average_distance_km": 35.82341935483871,
+          "relative_distance_error": 0.12186275692779813,
+          "test_distance_days": 31,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 1350,
+          "selected_cluster": 9,
+          "cluster_prior": 0.14521452145214522,
+          "generated_distance_km": 132.90475,
+          "real_average_distance_km": 128.33235483870968,
+          "relative_distance_error": 0.03562932486540121,
+          "test_distance_days": 31,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 1506,
+          "selected_cluster": 7,
+          "cluster_prior": 0.16831683168316833,
+          "generated_distance_km": 66.09445098039215,
+          "real_average_distance_km": 102.7651935483871,
+          "relative_distance_error": 0.3568401060883371,
+          "test_distance_days": 31,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        }
+      ]
+    }
+  },
+  "recent_context_cluster_choice_realism_validation": {
+    "goal": "Validate selected route clusters against held-out real per-truck and fleet-total distances.",
+    "formula": "0.70 * mean per-truck relative distance error + 0.30 * fleet-total relative distance error",
+    "cluster_choices": [
+      {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "expected_distance_km": 35.70454761904762,
+        "cluster_prior": 0.13861386138613863,
+        "method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 2897,
+        "cluster": 1,
+        "expected_distance_km": 32.867935483870966,
+        "cluster_prior": 0.3059210526315789,
+        "method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 13643,
+        "cluster": 4,
+        "expected_distance_km": 40.18896,
+        "cluster_prior": 0.16447368421052633,
+        "method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 1350,
+        "cluster": 9,
+        "expected_distance_km": 132.90475,
+        "cluster_prior": 0.14521452145214522,
+        "method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      },
+      {
+        "vehicle_id": 1506,
+        "cluster": 7,
+        "expected_distance_km": 66.09445098039215,
+        "cluster_prior": 0.16831683168316833,
+        "method": "dominant_training_route_pattern",
+        "rationale": "Highest-frequency training route pattern for this truck."
+      }
+    ],
+    "validation": {
+      "start_date": "2023-11-01",
+      "end_date": "2023-11-30",
+      "scenario_realism_error": 0.26672615596939936,
+      "mean_per_truck_relative_distance_error": 0.3679084376981891,
+      "fleet_total_relative_distance_error": 0.030634165268890016,
+      "generated_fleet_distance_km": 307.76064408331075,
+      "real_fleet_average_distance_km": 317.4865804597701,
+      "valid_truck_count": 5,
+      "trucks": [
+        {
+          "vehicle_id": 155,
+          "selected_cluster": 4,
+          "cluster_prior": 0.13861386138613863,
+          "generated_distance_km": 35.70454761904762,
+          "real_average_distance_km": 46.421166666666664,
+          "relative_distance_error": 0.23085630580056615,
+          "validation_distance_days": 30,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 2897,
+          "selected_cluster": 1,
+          "cluster_prior": 0.3059210526315789,
+          "generated_distance_km": 32.867935483870966,
+          "real_average_distance_km": 15.51806896551724,
+          "relative_distance_error": 1.118042880006973,
+          "validation_distance_days": 29,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 13643,
+          "selected_cluster": 4,
+          "cluster_prior": 0.16447368421052633,
+          "generated_distance_km": 40.18896,
+          "real_average_distance_km": 32.743793103448276,
+          "relative_distance_error": 0.22737643354360398,
+          "validation_distance_days": 29,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 1350,
+          "selected_cluster": 9,
+          "cluster_prior": 0.14521452145214522,
+          "generated_distance_km": 132.90475,
+          "real_average_distance_km": 134.58975862068965,
+          "relative_distance_error": 0.012519590182477804,
+          "validation_distance_days": 29,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 1506,
+          "selected_cluster": 7,
+          "cluster_prior": 0.16831683168316833,
+          "generated_distance_km": 66.09445098039215,
+          "real_average_distance_km": 88.21379310344827,
+          "relative_distance_error": 0.25074697895732445,
+          "validation_distance_days": 29,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        }
+      ]
+    },
+    "test": {
+      "start_date": "2023-12-01",
+      "end_date": "2023-12-31",
+      "scenario_realism_error": 0.43092946118794634,
+      "mean_per_truck_relative_distance_error": 0.6096948119389691,
+      "fleet_total_relative_distance_error": 0.013810309435559956,
+      "generated_fleet_distance_km": 307.76064408331075,
+      "real_fleet_average_distance_km": 312.07043333333337,
+      "valid_truck_count": 5,
+      "trucks": [
+        {
+          "vehicle_id": 155,
+          "selected_cluster": 4,
+          "cluster_prior": 0.13861386138613863,
+          "generated_distance_km": 35.70454761904762,
+          "real_average_distance_km": 35.83943333333333,
+          "relative_distance_error": 0.0037636118024294177,
+          "test_distance_days": 30,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 2897,
+          "selected_cluster": 1,
+          "cluster_prior": 0.3059210526315789,
+          "generated_distance_km": 32.867935483870966,
+          "real_average_distance_km": 9.310032258064515,
+          "relative_distance_error": 2.5303782600108797,
+          "test_distance_days": 31,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 13643,
+          "selected_cluster": 4,
+          "cluster_prior": 0.16447368421052633,
+          "generated_distance_km": 40.18896,
+          "real_average_distance_km": 35.82341935483871,
+          "relative_distance_error": 0.12186275692779813,
+          "test_distance_days": 31,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 1350,
+          "selected_cluster": 9,
+          "cluster_prior": 0.14521452145214522,
+          "generated_distance_km": 132.90475,
+          "real_average_distance_km": 128.33235483870968,
+          "relative_distance_error": 0.03562932486540121,
+          "test_distance_days": 31,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        },
+        {
+          "vehicle_id": 1506,
+          "selected_cluster": 7,
+          "cluster_prior": 0.16831683168316833,
+          "generated_distance_km": 66.09445098039215,
+          "real_average_distance_km": 102.7651935483871,
+          "relative_distance_error": 0.3568401060883371,
+          "test_distance_days": 31,
+          "rationale": "Highest-frequency training route pattern for this truck."
+        }
+      ]
+    }
+  },
+  "validation_feedback_cluster_choice_realism_validation": {
+    "goal": "Validate selected route clusters against held-out real per-truck and fleet-total distances.",
+    "formula": "0.70 * mean per-truck relative distance error + 0.30 * fleet-total relative distance error",
+    "cluster_choices": [
+      {
+        "vehicle_id": 155,
+        "cluster": 1,
+        "expected_distance_km": 44.894,
+        "cluster_prior": 0.10561056105610561,
+        "method": "closest_to_recent_context_distance",
+        "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+      },
+      {
+        "vehicle_id": 2897,
+        "cluster": 7,
+        "expected_distance_km": 11.5415,
+        "cluster_prior": 0.046052631578947366,
+        "method": "closest_to_recent_context_distance",
+        "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+      },
+      {
+        "vehicle_id": 13643,
+        "cluster": 1,
+        "expected_distance_km": 33.70444444444444,
+        "cluster_prior": 0.08881578947368421,
+        "method": "closest_to_recent_context_distance",
+        "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+      },
+      {
+        "vehicle_id": 1350,
+        "cluster": 2,
+        "expected_distance_km": 134.87868421052633,
+        "cluster_prior": 0.0627062706270627,
+        "method": "closest_to_recent_context_distance",
+        "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+      },
+      {
+        "vehicle_id": 1506,
+        "cluster": 1,
+        "expected_distance_km": 92.18307407407407,
+        "cluster_prior": 0.0891089108910891,
+        "method": "closest_to_recent_context_distance",
+        "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+      }
+    ],
+    "validation": {
+      "start_date": "2023-11-01",
+      "end_date": "2023-11-30",
+      "scenario_realism_error": 0.05145787240841132,
+      "mean_per_truck_relative_distance_error": 0.0731266931747345,
+      "fleet_total_relative_distance_error": 0.0008972906203239297,
+      "generated_fleet_distance_km": 317.2017027290448,
+      "real_fleet_average_distance_km": 317.4865804597701,
+      "valid_truck_count": 5,
+      "trucks": [
+        {
+          "vehicle_id": 155,
+          "selected_cluster": 1,
+          "cluster_prior": 0.10561056105610561,
+          "generated_distance_km": 44.894,
+          "real_average_distance_km": 46.421166666666664,
+          "relative_distance_error": 0.032898067332789986,
+          "validation_distance_days": 30,
+          "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+        },
+        {
+          "vehicle_id": 2897,
+          "selected_cluster": 7,
+          "cluster_prior": 0.046052631578947366,
+          "generated_distance_km": 11.5415,
+          "real_average_distance_km": 15.51806896551724,
+          "relative_distance_error": 0.25625411089186356,
+          "validation_distance_days": 29,
+          "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+        },
+        {
+          "vehicle_id": 13643,
+          "selected_cluster": 1,
+          "cluster_prior": 0.08881578947368421,
+          "generated_distance_km": 33.70444444444444,
+          "real_average_distance_km": 32.743793103448276,
+          "relative_distance_error": 0.029338425696777262,
+          "validation_distance_days": 29,
+          "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+        },
+        {
+          "vehicle_id": 1350,
+          "selected_cluster": 2,
+          "cluster_prior": 0.0627062706270627,
+          "generated_distance_km": 134.87868421052633,
+          "real_average_distance_km": 134.58975862068965,
+          "relative_distance_error": 0.002146713039667084,
+          "validation_distance_days": 29,
+          "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+        },
+        {
+          "vehicle_id": 1506,
+          "selected_cluster": 1,
+          "cluster_prior": 0.0891089108910891,
+          "generated_distance_km": 92.18307407407407,
+          "real_average_distance_km": 88.21379310344827,
+          "relative_distance_error": 0.044996148912574585,
+          "validation_distance_days": 29,
+          "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+        }
+      ]
+    },
+    "test": {
+      "start_date": "2023-12-01",
+      "end_date": "2023-12-31",
+      "scenario_realism_error": 0.10369745860035792,
+      "mean_per_truck_relative_distance_error": 0.14109237041252937,
+      "fleet_total_relative_distance_error": 0.016442664371957877,
+      "generated_fleet_distance_km": 317.2017027290448,
+      "real_fleet_average_distance_km": 312.07043333333337,
+      "valid_truck_count": 5,
+      "trucks": [
+        {
+          "vehicle_id": 155,
+          "selected_cluster": 1,
+          "cluster_prior": 0.10561056105610561,
+          "generated_distance_km": 44.894,
+          "real_average_distance_km": 35.83943333333333,
+          "relative_distance_error": 0.2526425734037834,
+          "test_distance_days": 30,
+          "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+        },
+        {
+          "vehicle_id": 2897,
+          "selected_cluster": 7,
+          "cluster_prior": 0.046052631578947366,
+          "generated_distance_km": 11.5415,
+          "real_average_distance_km": 9.310032258064515,
+          "relative_distance_error": 0.23968421162048575,
+          "test_distance_days": 31,
+          "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+        },
+        {
+          "vehicle_id": 13643,
+          "selected_cluster": 1,
+          "cluster_prior": 0.08881578947368421,
+          "generated_distance_km": 33.70444444444444,
+          "real_average_distance_km": 35.82341935483871,
+          "relative_distance_error": 0.0591505486789345,
+          "test_distance_days": 31,
+          "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+        },
+        {
+          "vehicle_id": 1350,
+          "selected_cluster": 2,
+          "cluster_prior": 0.0627062706270627,
+          "generated_distance_km": 134.87868421052633,
+          "real_average_distance_km": 128.33235483870968,
+          "relative_distance_error": 0.05101074767968058,
+          "test_distance_days": 31,
+          "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+        },
+        {
+          "vehicle_id": 1506,
+          "selected_cluster": 1,
+          "cluster_prior": 0.0891089108910891,
+          "generated_distance_km": 92.18307407407407,
+          "real_average_distance_km": 102.7651935483871,
+          "relative_distance_error": 0.1029737706797626,
+          "test_distance_days": 31,
+          "rationale": "Selected route cluster closest to recent average distance from 2023-11-01 to 2023-11-30."
+        }
+      ]
+    }
+  },
+  "real_route_distance_validation": {
+    "validation": {
+      "goal": "Compare generated scenario similarity against real held-out distance similarity.",
+      "mean_absolute_error_vs_real_distance": 0.07335129390810739,
+      "pairwise": [
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1506,
+          "scenario_similarity": 0.43315014349095715,
+          "real_distance_similarity": 0.4440495340878696,
+          "absolute_error_vs_real_distance": 0.010899390596912473,
+          "common_distance_dates": 29,
+          "daily_distance_match": 0.46754483628866034,
+          "distance_pattern_match": 0.49341699402592176,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1506,
+          "scenario_similarity": 0.2996514526164098,
+          "real_distance_similarity": 0.3199874012702302,
+          "absolute_error_vs_real_distance": 0.02033594865382038,
+          "common_distance_dates": 29,
+          "daily_distance_match": 0.21842644037126008,
+          "distance_pattern_match": 0.56562144868687,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1350,
+          "scenario_similarity": 0.2763135017990279,
+          "real_distance_similarity": 0.24803819456766116,
+          "absolute_error_vs_real_distance": 0.02827530723136676,
+          "common_distance_dates": 29,
+          "daily_distance_match": 0.1457761787869501,
+          "distance_pattern_match": 0.4830393723258096,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 2897,
+          "scenario_similarity": 0.3213610030080778,
+          "real_distance_similarity": 0.3633801142795634,
+          "absolute_error_vs_real_distance": 0.04201911127148561,
+          "common_distance_dates": 29,
+          "daily_distance_match": 0.3373194717070427,
+          "distance_pattern_match": 0.4206427179879706,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 13643,
+          "scenario_similarity": 0.3794727650216553,
+          "real_distance_similarity": 0.43459545680420014,
+          "absolute_error_vs_real_distance": 0.055122691782544864,
+          "common_distance_dates": 29,
+          "daily_distance_match": 0.3849878480201108,
+          "distance_pattern_match": 0.44487453574590224,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 13643,
+          "scenario_similarity": 0.7077757414690542,
+          "real_distance_similarity": 0.6411458412324217,
+          "absolute_error_vs_real_distance": 0.06662990023663251,
+          "common_distance_dates": 29,
+          "daily_distance_match": 0.6703615981051843,
+          "distance_pattern_match": 0.5521657321787482,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1350,
+          "scenario_similarity": 0.5051364614916133,
+          "real_distance_similarity": 0.4370792482392618,
+          "absolute_error_vs_real_distance": 0.06805721325235148,
+          "common_distance_dates": 29,
+          "daily_distance_match": 0.40550575905379993,
+          "distance_pattern_match": 0.5586319988073742,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1506,
+          "scenario_similarity": 0.3745997607549496,
+          "real_distance_similarity": 0.4822726639910207,
+          "absolute_error_vs_real_distance": 0.1076729032360711,
+          "common_distance_dates": 29,
+          "daily_distance_match": 0.5027055359604827,
+          "distance_pattern_match": 0.41453423695230257,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1350,
+          "scenario_similarity": 0.46833915710510055,
+          "real_distance_similarity": 0.3430125964590387,
+          "absolute_error_vs_real_distance": 0.12532656064606185,
+          "common_distance_dates": 29,
+          "daily_distance_match": 0.31035112946808574,
+          "distance_pattern_match": 0.47540074098759777,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 1350,
+          "vehicle_b": 1506,
+          "scenario_similarity": 0.33574007185409566,
+          "real_distance_similarity": 0.5449139840279226,
+          "absolute_error_vs_real_distance": 0.20917391217382691,
+          "common_distance_dates": 29,
+          "daily_distance_match": 0.5244664165756808,
+          "distance_pattern_match": 0.45484830235538776,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        }
+      ]
+    },
+    "test": {
+      "goal": "Compare generated scenario similarity against real held-out distance similarity.",
+      "mean_absolute_error_vs_real_distance": 0.07895779002993619,
+      "pairwise": [
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1506,
+          "scenario_similarity": 0.25600254085785723,
+          "real_distance_similarity": 0.24679025530964038,
+          "absolute_error_vs_real_distance": 0.009212285548216848,
+          "common_distance_dates": 31,
+          "daily_distance_match": 0.13172661992039453,
+          "distance_pattern_match": 0.5180489557831428,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 13643,
+          "scenario_similarity": 0.7443309567366369,
+          "real_distance_similarity": 0.7325019342465627,
+          "absolute_error_vs_real_distance": 0.011829022490074115,
+          "common_distance_dates": 30,
+          "daily_distance_match": 0.6765595410834767,
+          "distance_pattern_match": 0.5311919275002179,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 2897,
+          "scenario_similarity": 0.2774876905582645,
+          "real_distance_similarity": 0.30146702694772776,
+          "absolute_error_vs_real_distance": 0.023979336389463257,
+          "common_distance_dates": 30,
+          "daily_distance_match": 0.24519928375075437,
+          "distance_pattern_match": 0.3929503775666366,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 13643,
+          "scenario_similarity": 0.29718320697226464,
+          "real_distance_similarity": 0.33546931852231454,
+          "absolute_error_vs_real_distance": 0.038286111550049906,
+          "common_distance_dates": 31,
+          "daily_distance_match": 0.25815619301656484,
+          "distance_pattern_match": 0.48836500618447637,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 2897,
+          "vehicle_b": 1350,
+          "scenario_similarity": 0.2542053416753368,
+          "real_distance_similarity": 0.194466881005215,
+          "absolute_error_vs_real_distance": 0.05973846067012181,
+          "common_distance_dates": 31,
+          "daily_distance_match": 0.09192990296625515,
+          "distance_pattern_match": 0.4189244810037616,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1506,
+          "scenario_similarity": 0.4182657967211469,
+          "real_distance_similarity": 0.4821202496942291,
+          "absolute_error_vs_real_distance": 0.06385445297308223,
+          "common_distance_dates": 31,
+          "daily_distance_match": 0.4121507289565166,
+          "distance_pattern_match": 0.6856151494516827,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 13643,
+          "vehicle_b": 1350,
+          "scenario_similarity": 0.49142317089698034,
+          "real_distance_similarity": 0.407707880636967,
+          "absolute_error_vs_real_distance": 0.08371529026001334,
+          "common_distance_dates": 31,
+          "daily_distance_match": 0.3126309401787719,
+          "distance_pattern_match": 0.631347045908528,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1350,
+          "scenario_similarity": 0.47708500721484154,
+          "real_distance_similarity": 0.3769744535811099,
+          "absolute_error_vs_real_distance": 0.10011055363373161,
+          "common_distance_dates": 30,
+          "daily_distance_match": 0.3202418838037672,
+          "distance_pattern_match": 0.5317166210477379,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 155,
+          "vehicle_b": 1506,
+          "scenario_similarity": 0.3640707067685456,
+          "real_distance_similarity": 0.47667889991160156,
+          "absolute_error_vs_real_distance": 0.11260819314305598,
+          "common_distance_dates": 30,
+          "daily_distance_match": 0.38339801508330373,
+          "distance_pattern_match": 0.7015044101447182,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        },
+        {
+          "vehicle_a": 1350,
+          "vehicle_b": 1506,
+          "scenario_similarity": 0.3748624212882292,
+          "real_distance_similarity": 0.6611066149297821,
+          "absolute_error_vs_real_distance": 0.28624419364155285,
+          "common_distance_dates": 31,
+          "daily_distance_match": 0.5672643437723496,
+          "distance_pattern_match": 0.615281653474464,
+          "target": "smaller error means generated scenario is closer to real held-out route distance behavior"
+        }
+      ]
+    }
+  }
+}
