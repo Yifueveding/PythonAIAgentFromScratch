@@ -1,0 +1,4 @@
+vehicle_a,vehicle_b,start_date,end_date,method,total_correlation,stop_profile_correlation,route_similarity,purpose_match,age_similarity,kms_similarity,duty_cycle_match,vehicle_a_observed_days,vehicle_b_observed_days
+155,1181,2023-01-01,2023-01-31,statistical,0.251712,-0.210084,0.135392,1.000000,0.424108,0.650152,1.000000,31,29
+155,689,2023-01-01,2023-01-31,statistical,0.140285,0.000000,0.034470,0.000000,0.899916,0.789011,0.000000,31,24
+1181,689,2023-01-01,2023-01-31,statistical,0.102264,0.000000,0.038735,0.000000,0.381662,0.824009,0.000000,29,24

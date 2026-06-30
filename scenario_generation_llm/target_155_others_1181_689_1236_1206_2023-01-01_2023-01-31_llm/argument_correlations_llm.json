@@ -1,0 +1,1491 @@
+{
+  "method": {
+    "name": "llm_reasoned",
+    "description": "Compute statistical pairwise evidence, then ask an LLM to reason over stop-profile, representative route-image, and fleet-metadata evidence to produce final pairwise total_correlation values.",
+    "period": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31"
+    },
+    "zone_columns": [
+      "passes_zone_1",
+      "passes_zone_2",
+      "passes_zone_3",
+      "passes_zone_4",
+      "passes_zone_5",
+      "passes_zone_6",
+      "passes_zone_7",
+      "passes_zone_8"
+    ],
+    "vector_order": [
+      "passes_zone_1_weekday",
+      "passes_zone_2_weekday",
+      "passes_zone_3_weekday",
+      "passes_zone_4_weekday",
+      "passes_zone_5_weekday",
+      "passes_zone_6_weekday",
+      "passes_zone_7_weekday",
+      "passes_zone_8_weekday",
+      "passes_zone_1_weekend",
+      "passes_zone_2_weekend",
+      "passes_zone_3_weekend",
+      "passes_zone_4_weekend",
+      "passes_zone_5_weekend",
+      "passes_zone_6_weekend",
+      "passes_zone_7_weekend",
+      "passes_zone_8_weekend"
+    ],
+    "weights": {
+      "stop_profile_correlation": 0.44999999999999996,
+      "route_similarity": 0.15,
+      "purpose_match": 0.11999999999999998,
+      "age_similarity": 0.08,
+      "kms_similarity": 0.08,
+      "duty_cycle_match": 0.11999999999999998
+    },
+    "route_similarity": {
+      "description": "For each truck, choose the representative image from each route cluster, compare representative route-ink vectors by cosine similarity, and average pairwise similarities weighted by cluster shares.",
+      "feature_method": "pca",
+      "route_clusters": 5,
+      "image_size": 128
+    },
+    "llm_provider": "openai",
+    "llm_model": "gpt-4o-mini",
+    "global_rationale": "The correlations were determined based on quantitative assessments of truck features, with strong emphasis on stopping behavior, age, purpose, and operational routes. Pairwise comparison reflects various degrees of similarity influenced by these factors.",
+    "risks": [
+      "Correlations are based solely on historical data; future behavior may vary significantly."
+    ]
+  },
+  "profiles": {
+    "155": {
+      "vehicle_id": 155,
+      "observed_days": 31,
+      "vector_labels": [
+        "passes_zone_1_weekday",
+        "passes_zone_2_weekday",
+        "passes_zone_3_weekday",
+        "passes_zone_4_weekday",
+        "passes_zone_5_weekday",
+        "passes_zone_6_weekday",
+        "passes_zone_7_weekday",
+        "passes_zone_8_weekday",
+        "passes_zone_1_weekend",
+        "passes_zone_2_weekend",
+        "passes_zone_3_weekend",
+        "passes_zone_4_weekend",
+        "passes_zone_5_weekend",
+        "passes_zone_6_weekend",
+        "passes_zone_7_weekend",
+        "passes_zone_8_weekend"
+      ],
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "1181": {
+      "vehicle_id": 1181,
+      "observed_days": 29,
+      "vector_labels": [
+        "passes_zone_1_weekday",
+        "passes_zone_2_weekday",
+        "passes_zone_3_weekday",
+        "passes_zone_4_weekday",
+        "passes_zone_5_weekday",
+        "passes_zone_6_weekday",
+        "passes_zone_7_weekday",
+        "passes_zone_8_weekday",
+        "passes_zone_1_weekend",
+        "passes_zone_2_weekend",
+        "passes_zone_3_weekend",
+        "passes_zone_4_weekend",
+        "passes_zone_5_weekend",
+        "passes_zone_6_weekend",
+        "passes_zone_7_weekend",
+        "passes_zone_8_weekend"
+      ],
+      "vector": [
+        0.0,
+        2.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "689": {
+      "vehicle_id": 689,
+      "observed_days": 24,
+      "vector_labels": [
+        "passes_zone_1_weekday",
+        "passes_zone_2_weekday",
+        "passes_zone_3_weekday",
+        "passes_zone_4_weekday",
+        "passes_zone_5_weekday",
+        "passes_zone_6_weekday",
+        "passes_zone_7_weekday",
+        "passes_zone_8_weekday",
+        "passes_zone_1_weekend",
+        "passes_zone_2_weekend",
+        "passes_zone_3_weekend",
+        "passes_zone_4_weekend",
+        "passes_zone_5_weekend",
+        "passes_zone_6_weekend",
+        "passes_zone_7_weekend",
+        "passes_zone_8_weekend"
+      ],
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "1236": {
+      "vehicle_id": 1236,
+      "observed_days": 28,
+      "vector_labels": [
+        "passes_zone_1_weekday",
+        "passes_zone_2_weekday",
+        "passes_zone_3_weekday",
+        "passes_zone_4_weekday",
+        "passes_zone_5_weekday",
+        "passes_zone_6_weekday",
+        "passes_zone_7_weekday",
+        "passes_zone_8_weekday",
+        "passes_zone_1_weekend",
+        "passes_zone_2_weekend",
+        "passes_zone_3_weekend",
+        "passes_zone_4_weekend",
+        "passes_zone_5_weekend",
+        "passes_zone_6_weekend",
+        "passes_zone_7_weekend",
+        "passes_zone_8_weekend"
+      ],
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "1206": {
+      "vehicle_id": 1206,
+      "observed_days": 23,
+      "vector_labels": [
+        "passes_zone_1_weekday",
+        "passes_zone_2_weekday",
+        "passes_zone_3_weekday",
+        "passes_zone_4_weekday",
+        "passes_zone_5_weekday",
+        "passes_zone_6_weekday",
+        "passes_zone_7_weekday",
+        "passes_zone_8_weekday",
+        "passes_zone_1_weekend",
+        "passes_zone_2_weekend",
+        "passes_zone_3_weekend",
+        "passes_zone_4_weekend",
+        "passes_zone_5_weekend",
+        "passes_zone_6_weekend",
+        "passes_zone_7_weekend",
+        "passes_zone_8_weekend"
+      ],
+      "vector": [
+        0.0,
+        6.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "fleet_metadata": {
+    "155": {
+      "purpose": "Mobile_Eq",
+      "age": 11.75068493150685,
+      "kms": 231064.6,
+      "duty_cycle": "MEDIUM"
+    },
+    "1181": {
+      "purpose": "Mobile_Eq",
+      "age": 4.983561643835617,
+      "kms": 150227.2,
+      "duty_cycle": "MEDIUM"
+    },
+    "689": {
+      "purpose": "Support",
+      "age": 13.057534246575342,
+      "kms": 182312.5,
+      "duty_cycle": "LIGHT"
+    },
+    "1236": {
+      "purpose": "Fixed_plant",
+      "age": 4.967123287671233,
+      "kms": 67681.9,
+      "duty_cycle": "HEAVY"
+    },
+    "1206": {
+      "purpose": "Mobile_Eq",
+      "age": 5.002739726027397,
+      "kms": 89328.5,
+      "duty_cycle": "MEDIUM"
+    }
+  },
+  "representative_routes": {
+    "155": [
+      {
+        "cluster": 3,
+        "representative_date": "2023-01-22",
+        "image_path": "Vehicle/Vehicle_155/2023-01-22.png",
+        "share": 0.25806451612903225
+      },
+      {
+        "cluster": 2,
+        "representative_date": "2023-01-11",
+        "image_path": "Vehicle/Vehicle_155/2023-01-11.png",
+        "share": 0.25806451612903225
+      },
+      {
+        "cluster": 1,
+        "representative_date": "2023-01-07",
+        "image_path": "Vehicle/Vehicle_155/2023-01-07.png",
+        "share": 0.22580645161290322
+      },
+      {
+        "cluster": 0,
+        "representative_date": "2023-01-01",
+        "image_path": "Vehicle/Vehicle_155/2023-01-01.png",
+        "share": 0.16129032258064516
+      },
+      {
+        "cluster": 4,
+        "representative_date": "2023-01-26",
+        "image_path": "Vehicle/Vehicle_155/2023-01-26.png",
+        "share": 0.0967741935483871
+      }
+    ],
+    "1181": [
+      {
+        "cluster": 3,
+        "representative_date": "2023-01-20",
+        "image_path": "Vehicle/Vehicle_1181/2023-01-20.png",
+        "share": 0.4
+      },
+      {
+        "cluster": 1,
+        "representative_date": "2023-01-10",
+        "image_path": "Vehicle/Vehicle_1181/2023-01-10.png",
+        "share": 0.28
+      },
+      {
+        "cluster": 0,
+        "representative_date": "2023-01-27",
+        "image_path": "Vehicle/Vehicle_1181/2023-01-27.png",
+        "share": 0.24
+      },
+      {
+        "cluster": 2,
+        "representative_date": "2023-01-18",
+        "image_path": "Vehicle/Vehicle_1181/2023-01-18.png",
+        "share": 0.04
+      },
+      {
+        "cluster": 4,
+        "representative_date": "2023-01-31",
+        "image_path": "Vehicle/Vehicle_1181/2023-01-31.png",
+        "share": 0.04
+      }
+    ],
+    "689": [
+      {
+        "cluster": 4,
+        "representative_date": "2023-01-03",
+        "image_path": "Vehicle/Vehicle_689/2023-01-03.png",
+        "share": 0.3157894736842105
+      },
+      {
+        "cluster": 0,
+        "representative_date": "2023-01-07",
+        "image_path": "Vehicle/Vehicle_689/2023-01-07.png",
+        "share": 0.21052631578947367
+      },
+      {
+        "cluster": 1,
+        "representative_date": "2023-01-05",
+        "image_path": "Vehicle/Vehicle_689/2023-01-05.png",
+        "share": 0.15789473684210525
+      },
+      {
+        "cluster": 2,
+        "representative_date": "2023-01-06",
+        "image_path": "Vehicle/Vehicle_689/2023-01-06.png",
+        "share": 0.15789473684210525
+      },
+      {
+        "cluster": 3,
+        "representative_date": "2023-01-20",
+        "image_path": "Vehicle/Vehicle_689/2023-01-20.png",
+        "share": 0.15789473684210525
+      }
+    ],
+    "1236": [
+      {
+        "cluster": 0,
+        "representative_date": "2023-01-01",
+        "image_path": "Vehicle/Vehicle_1236/2023-01-01.png",
+        "share": 0.32
+      },
+      {
+        "cluster": 4,
+        "representative_date": "2023-01-31",
+        "image_path": "Vehicle/Vehicle_1236/2023-01-31.png",
+        "share": 0.24
+      },
+      {
+        "cluster": 2,
+        "representative_date": "2023-01-06",
+        "image_path": "Vehicle/Vehicle_1236/2023-01-06.png",
+        "share": 0.2
+      },
+      {
+        "cluster": 3,
+        "representative_date": "2023-01-12",
+        "image_path": "Vehicle/Vehicle_1236/2023-01-12.png",
+        "share": 0.16
+      },
+      {
+        "cluster": 1,
+        "representative_date": "2023-01-05",
+        "image_path": "Vehicle/Vehicle_1236/2023-01-05.png",
+        "share": 0.08
+      }
+    ],
+    "1206": [
+      {
+        "cluster": 4,
+        "representative_date": "2023-01-30",
+        "image_path": "Vehicle/Vehicle_1206/2023-01-30.png",
+        "share": 0.3157894736842105
+      },
+      {
+        "cluster": 3,
+        "representative_date": "2023-01-25",
+        "image_path": "Vehicle/Vehicle_1206/2023-01-25.png",
+        "share": 0.2631578947368421
+      },
+      {
+        "cluster": 1,
+        "representative_date": "2023-01-12",
+        "image_path": "Vehicle/Vehicle_1206/2023-01-12.png",
+        "share": 0.21052631578947367
+      },
+      {
+        "cluster": 0,
+        "representative_date": "2023-01-02",
+        "image_path": "Vehicle/Vehicle_1206/2023-01-02.png",
+        "share": 0.10526315789473684
+      },
+      {
+        "cluster": 2,
+        "representative_date": "2023-01-13",
+        "image_path": "Vehicle/Vehicle_1206/2023-01-13.png",
+        "share": 0.10526315789473684
+      }
+    ]
+  },
+  "pairwise_argument_correlations": [
+    {
+      "vehicle_a": 1181,
+      "vehicle_b": 1206,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.65,
+      "features": {
+        "stop_profile_correlation": 0.6176269767995544,
+        "route_similarity": 0.05242176634700674,
+        "purpose_match": 1.0,
+        "age_similarity": 0.9961664841182913,
+        "kms_similarity": 0.5946226781834447,
+        "duty_cycle_match": 1.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 29,
+      "vehicle_b_observed_days": 23,
+      "statistical_total_correlation": 0.6530585374959894,
+      "llm_rationale": "High similarity due to close age and shared purpose; good stop profile alignment.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "High correlation indicates similar stopping behavior.",
+        "route_similarity": "Low route similarity indicates they may travel different routes.",
+        "fleet_metadata": "Very similar purposes and close ages enhance overall similarity."
+      }
+    },
+    {
+      "vehicle_a": 1236,
+      "vehicle_b": 1206,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.61,
+      "features": {
+        "stop_profile_correlation": 0.9861533680498915,
+        "route_similarity": 0.2025115659911382,
+        "purpose_match": 0.0,
+        "age_similarity": 0.992880613362541,
+        "kms_similarity": 0.7576742025221513,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 28,
+      "vehicle_b_observed_days": 23,
+      "statistical_total_correlation": 0.6141901357918974,
+      "llm_rationale": "High stop profile correlation and age similarity contribute significantly to overall similarity.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "Excellent correlation implies similar usage patterns.",
+        "route_similarity": "Moderate similarity suggests they may share some route characteristics.",
+        "fleet_metadata": "Different purposes decrease total similarity but age factors are close."
+      }
+    },
+    {
+      "vehicle_a": 1181,
+      "vehicle_b": 1236,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.41,
+      "features": {
+        "stop_profile_correlation": 0.6390644422470536,
+        "route_similarity": 0.05904151505231856,
+        "purpose_match": 0.0,
+        "age_similarity": 0.9967014843320504,
+        "kms_similarity": 0.4505302634942273,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 29,
+      "vehicle_b_observed_days": 28,
+      "statistical_total_correlation": 0.4122137660951242,
+      "llm_rationale": "Age and stop profile show good match but purpose mismatch lowers correlation.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "Good stopping behavior similarity indicates some overlap.",
+        "route_similarity": "Low route similarity suggests differing travel patterns.",
+        "fleet_metadata": "Different truck purposes contribute to the decrease in correlation."
+      }
+    },
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 1206,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.29,
+      "features": {
+        "stop_profile_correlation": -0.07474466598211169,
+        "route_similarity": 0.12460785130503729,
+        "purpose_match": 1.0,
+        "age_similarity": 0.4257402657962229,
+        "kms_similarity": 0.3865953503911893,
+        "duty_cycle_match": 1.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 23,
+      "statistical_total_correlation": 0.2900429272987983,
+      "llm_rationale": "Similar duties but negative stop profile correlation detracts from overall similarity.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "Negative correlation suggests very different stopping behaviors.",
+        "route_similarity": "Moderate route similarity indicates some commonalities.",
+        "fleet_metadata": "Similarities in purpose and duty cycle provide some correlation."
+      }
+    },
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 1181,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.25,
+      "features": {
+        "stop_profile_correlation": -0.21008403361344538,
+        "route_similarity": 0.13539231672402346,
+        "purpose_match": 1.0,
+        "age_similarity": 0.42410818372581016,
+        "kms_similarity": 0.6501523816283412,
+        "duty_cycle_match": 1.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 29,
+      "statistical_total_correlation": 0.2517118776108852,
+      "llm_rationale": "Some alignment in purpose and age, but poor stop profile correlation leads to low similarity.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "Negative correlation implies different stop behaviors.",
+        "route_similarity": "Some route alignment exists but is not strong.",
+        "fleet_metadata": "Similar purposes help maintain some correlation."
+      }
+    },
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 689,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.14,
+      "features": {
+        "stop_profile_correlation": 0.0,
+        "route_similarity": 0.03446985420917993,
+        "purpose_match": 0.0,
+        "age_similarity": 0.8999160721779271,
+        "kms_similarity": 0.7890109519156114,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 24,
+      "statistical_total_correlation": 0.1402846400588601,
+      "llm_rationale": "Dissimilitude in operational characteristics due to lack of stop profile correlation.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "No stop behavior similarity results in low correlation.",
+        "route_similarity": "Very low route similarity indicates completely different routes.",
+        "fleet_metadata": "Age differences and purpose discrepancies reduce overlap."
+      }
+    },
+    {
+      "vehicle_a": 1181,
+      "vehicle_b": 689,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.1,
+      "features": {
+        "stop_profile_correlation": 0.0,
+        "route_similarity": 0.038735134113383946,
+        "purpose_match": 0.0,
+        "age_similarity": 0.38166177087704567,
+        "kms_similarity": 0.8240093246486117,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 29,
+      "vehicle_b_observed_days": 24,
+      "statistical_total_correlation": 0.10226395775906019,
+      "llm_rationale": "Minimal evidence for correlation; distinct operations and purpose mismatch.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "No significant similarity in stopping behavior.",
+        "route_similarity": "Very low, showing limited directional overlap.",
+        "fleet_metadata": "Purpose differences greatly affect correlation."
+      }
+    },
+    {
+      "vehicle_a": 689,
+      "vehicle_b": 1206,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.08,
+      "features": {
+        "stop_profile_correlation": 0.0,
+        "route_similarity": 0.041114116933743707,
+        "purpose_match": 0.0,
+        "age_similarity": 0.3831305077633236,
+        "kms_similarity": 0.4899746314706891,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 24,
+      "vehicle_b_observed_days": 23,
+      "statistical_total_correlation": 0.07601552867878258,
+      "llm_rationale": "Different operational mandates further decrease potential correlation.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "Absence of stopping behavior similarity.",
+        "route_similarity": "Minimal similarity suggests different operational routes.",
+        "fleet_metadata": "Purpose mismatch diminishes any potential alignment."
+      }
+    },
+    {
+      "vehicle_a": 689,
+      "vehicle_b": 1236,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.07,
+      "features": {
+        "stop_profile_correlation": 0.0,
+        "route_similarity": 0.04344114599455345,
+        "purpose_match": 0.0,
+        "age_similarity": 0.3804028535459505,
+        "kms_similarity": 0.3712411381556393,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 24,
+      "vehicle_b_observed_days": 28,
+      "statistical_total_correlation": 0.06664769123531021,
+      "llm_rationale": "Very low alignment in most features, minimal interaction expected.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "No overlap in stopping behavior.",
+        "route_similarity": "Low route similarity further separates operational styles.",
+        "fleet_metadata": "Differences in purpose lead to low expected similarity."
+      }
+    },
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 1236,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.03,
+      "features": {
+        "stop_profile_correlation": -0.11834526708278771,
+        "route_similarity": 0.1748513485731617,
+        "purpose_match": 0.0,
+        "age_similarity": 0.42270925623688504,
+        "kms_similarity": 0.292913323806416,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 28,
+      "statistical_total_correlation": 0.030222138502183873,
+      "llm_rationale": "Severe operational differences and lasting separation across multiple factors.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "Negative correlation suggests vastly different stopping behaviors.",
+        "route_similarity": "Low, indicating no overlap in route patterns.",
+        "fleet_metadata": "Divergent purposes and ages lead to very low correlation."
+      }
+    }
+  ],
+  "operational_evidence": {
+    "source_files": {
+      "fleet_metadata": "Other_data/West_Ang_Fleet.csv",
+      "truck_purpose": "Other_data/truck_purpose.csv",
+      "daily_distance_speed": "vehicle_daily_distance_speed.csv",
+      "zone_passes": "vehicle_day_zone_passes.csv",
+      "total_distance": "Other_data/Total_Distance.csv"
+    },
+    "distance_speed_summary": {
+      "1236": {
+        "available": true,
+        "active_days": 28,
+        "distance_km_mean": 27.52732142857143,
+        "distance_km_median": 28.847,
+        "distance_km_stdev": 13.244977525337053,
+        "distance_km_min": 0.0,
+        "distance_km_max": 51.736,
+        "average_speed_mean": 19.20360714285714,
+        "sample_dates": [
+          "2023-01-01",
+          "2023-01-02",
+          "2023-01-03",
+          "2023-01-04",
+          "2023-01-05",
+          "2023-01-06",
+          "2023-01-07",
+          "2023-01-08"
+        ]
+      },
+      "689": {
+        "available": true,
+        "active_days": 24,
+        "distance_km_mean": 66.23249999999999,
+        "distance_km_median": 61.414500000000004,
+        "distance_km_stdev": 56.97738772530731,
+        "distance_km_min": 0.0,
+        "distance_km_max": 194.937,
+        "average_speed_mean": 37.23891666666666,
+        "sample_dates": [
+          "2023-01-01",
+          "2023-01-02",
+          "2023-01-03",
+          "2023-01-04",
+          "2023-01-05",
+          "2023-01-06",
+          "2023-01-07",
+          "2023-01-08"
+        ]
+      },
+      "1181": {
+        "available": true,
+        "active_days": 29,
+        "distance_km_mean": 45.743793103448276,
+        "distance_km_median": 28.576,
+        "distance_km_stdev": 55.42363225841314,
+        "distance_km_min": 0.0,
+        "distance_km_max": 282.77,
+        "average_speed_mean": 23.332586206896554,
+        "sample_dates": [
+          "2023-01-01",
+          "2023-01-02",
+          "2023-01-03",
+          "2023-01-04",
+          "2023-01-05",
+          "2023-01-06",
+          "2023-01-07",
+          "2023-01-08"
+        ]
+      },
+      "155": {
+        "available": true,
+        "active_days": 31,
+        "distance_km_mean": 42.364322580645165,
+        "distance_km_median": 39.862,
+        "distance_km_stdev": 14.80053267434415,
+        "distance_km_min": 25.311,
+        "distance_km_max": 92.38,
+        "average_speed_mean": 27.55561290322581,
+        "sample_dates": [
+          "2023-01-01",
+          "2023-01-02",
+          "2023-01-03",
+          "2023-01-04",
+          "2023-01-05",
+          "2023-01-06",
+          "2023-01-07",
+          "2023-01-08"
+        ]
+      },
+      "1206": {
+        "available": true,
+        "active_days": 23,
+        "distance_km_mean": 55.64378260869565,
+        "distance_km_median": 29.383,
+        "distance_km_stdev": 62.827464521259586,
+        "distance_km_min": 0.0,
+        "distance_km_max": 244.228,
+        "average_speed_mean": 27.646260869565207,
+        "sample_dates": [
+          "2023-01-01",
+          "2023-01-02",
+          "2023-01-03",
+          "2023-01-04",
+          "2023-01-06",
+          "2023-01-11",
+          "2023-01-12",
+          "2023-01-13"
+        ]
+      }
+    },
+    "zone_pass_summary": {
+      "1236": {
+        "observed_days": 28,
+        "passes_any_zone_total": 1.0,
+        "zone_totals": {
+          "passes_zone_1": 0.0,
+          "passes_zone_2": 1.0,
+          "passes_zone_3": 0.0,
+          "passes_zone_4": 0.0,
+          "passes_zone_5": 0.0,
+          "passes_zone_6": 0.0,
+          "passes_zone_7": 0.0,
+          "passes_zone_8": 0.0
+        },
+        "weekday_total": 1.0,
+        "weekend_total": 0.0,
+        "dominant_zones": [
+          {
+            "zone": "passes_zone_2",
+            "passes": 1.0
+          }
+        ]
+      },
+      "689": {
+        "observed_days": 24,
+        "passes_any_zone_total": 0.0,
+        "zone_totals": {
+          "passes_zone_1": 0.0,
+          "passes_zone_2": 0.0,
+          "passes_zone_3": 0.0,
+          "passes_zone_4": 0.0,
+          "passes_zone_5": 0.0,
+          "passes_zone_6": 0.0,
+          "passes_zone_7": 0.0,
+          "passes_zone_8": 0.0
+        },
+        "weekday_total": 0.0,
+        "weekend_total": 0.0,
+        "dominant_zones": []
+      },
+      "1181": {
+        "observed_days": 29,
+        "passes_any_zone_total": 5.0,
+        "zone_totals": {
+          "passes_zone_1": 0.0,
+          "passes_zone_2": 2.0,
+          "passes_zone_3": 3.0,
+          "passes_zone_4": 0.0,
+          "passes_zone_5": 0.0,
+          "passes_zone_6": 0.0,
+          "passes_zone_7": 0.0,
+          "passes_zone_8": 0.0
+        },
+        "weekday_total": 4.0,
+        "weekend_total": 1.0,
+        "dominant_zones": [
+          {
+            "zone": "passes_zone_3",
+            "passes": 3.0
+          },
+          {
+            "zone": "passes_zone_2",
+            "passes": 2.0
+          }
+        ]
+      },
+      "155": {
+        "observed_days": 31,
+        "passes_any_zone_total": 5.0,
+        "zone_totals": {
+          "passes_zone_1": 0.0,
+          "passes_zone_2": 1.0,
+          "passes_zone_3": 0.0,
+          "passes_zone_4": 2.0,
+          "passes_zone_5": 0.0,
+          "passes_zone_6": 0.0,
+          "passes_zone_7": 2.0,
+          "passes_zone_8": 0.0
+        },
+        "weekday_total": 4.0,
+        "weekend_total": 1.0,
+        "dominant_zones": [
+          {
+            "zone": "passes_zone_4",
+            "passes": 2.0
+          },
+          {
+            "zone": "passes_zone_7",
+            "passes": 2.0
+          },
+          {
+            "zone": "passes_zone_2",
+            "passes": 1.0
+          }
+        ]
+      },
+      "1206": {
+        "observed_days": 23,
+        "passes_any_zone_total": 7.0,
+        "zone_totals": {
+          "passes_zone_1": 0.0,
+          "passes_zone_2": 7.0,
+          "passes_zone_3": 0.0,
+          "passes_zone_4": 0.0,
+          "passes_zone_5": 0.0,
+          "passes_zone_6": 0.0,
+          "passes_zone_7": 0.0,
+          "passes_zone_8": 0.0
+        },
+        "weekday_total": 6.0,
+        "weekend_total": 1.0,
+        "dominant_zones": [
+          {
+            "zone": "passes_zone_2",
+            "passes": 7.0
+          }
+        ]
+      }
+    },
+    "total_distance_summary": {},
+    "route_cluster_distance_summary": {
+      "1236": [
+        {
+          "cluster": 0,
+          "distance_km_mean": 29.696375,
+          "distance_km_median": 28.2405,
+          "distance_km_min": 26.235,
+          "distance_km_max": 38.906,
+          "distance_sample_count": 8
+        },
+        {
+          "cluster": 1,
+          "distance_km_mean": 31.884,
+          "distance_km_median": 31.884,
+          "distance_km_min": 31.208,
+          "distance_km_max": 32.56,
+          "distance_sample_count": 2
+        },
+        {
+          "cluster": 2,
+          "distance_km_mean": 28.4498,
+          "distance_km_median": 30.242,
+          "distance_km_min": 1.562,
+          "distance_km_max": 51.736,
+          "distance_sample_count": 5
+        },
+        {
+          "cluster": 3,
+          "distance_km_mean": 39.78375,
+          "distance_km_median": 41.132999999999996,
+          "distance_km_min": 25.78,
+          "distance_km_max": 51.089,
+          "distance_sample_count": 4
+        },
+        {
+          "cluster": 4,
+          "distance_km_mean": 28.004,
+          "distance_km_median": 28.6515,
+          "distance_km_min": 24.849,
+          "distance_km_max": 30.718,
+          "distance_sample_count": 6
+        }
+      ],
+      "689": [
+        {
+          "cluster": 0,
+          "distance_km_mean": 97.6985,
+          "distance_km_median": 100.99799999999999,
+          "distance_km_min": 60.748,
+          "distance_km_max": 128.05,
+          "distance_sample_count": 4
+        },
+        {
+          "cluster": 1,
+          "distance_km_mean": 99.07733333333334,
+          "distance_km_median": 81.021,
+          "distance_km_min": 62.081,
+          "distance_km_max": 154.13,
+          "distance_sample_count": 3
+        },
+        {
+          "cluster": 2,
+          "distance_km_mean": 153.6966666666667,
+          "distance_km_median": 146.251,
+          "distance_km_min": 119.902,
+          "distance_km_max": 194.937,
+          "distance_sample_count": 3
+        },
+        {
+          "cluster": 3,
+          "distance_km_mean": 96.89333333333333,
+          "distance_km_median": 101.866,
+          "distance_km_min": 79.011,
+          "distance_km_max": 109.803,
+          "distance_sample_count": 3
+        },
+        {
+          "cluster": 4,
+          "distance_km_mean": 24.951166666666666,
+          "distance_km_median": 20.199,
+          "distance_km_min": 8.992,
+          "distance_km_max": 56.253,
+          "distance_sample_count": 6
+        }
+      ],
+      "1181": [
+        {
+          "cluster": 0,
+          "distance_km_mean": 32.58566666666666,
+          "distance_km_median": 23.8275,
+          "distance_km_min": 21.392,
+          "distance_km_max": 56.039,
+          "distance_sample_count": 6
+        },
+        {
+          "cluster": 1,
+          "distance_km_mean": 39.086999999999996,
+          "distance_km_median": 44.353,
+          "distance_km_min": 11.849,
+          "distance_km_max": 51.715,
+          "distance_sample_count": 7
+        },
+        {
+          "cluster": 2,
+          "distance_km_mean": 26.823,
+          "distance_km_median": 26.823,
+          "distance_km_min": 26.823,
+          "distance_km_max": 26.823,
+          "distance_sample_count": 1
+        },
+        {
+          "cluster": 3,
+          "distance_km_mean": 80.7483,
+          "distance_km_median": 45.941,
+          "distance_km_min": 26.973,
+          "distance_km_max": 282.77,
+          "distance_sample_count": 10
+        },
+        {
+          "cluster": 4,
+          "distance_km_mean": 23.141,
+          "distance_km_median": 23.141,
+          "distance_km_min": 23.141,
+          "distance_km_max": 23.141,
+          "distance_sample_count": 1
+        }
+      ],
+      "155": [
+        {
+          "cluster": 0,
+          "distance_km_mean": 37.5648,
+          "distance_km_median": 33.433,
+          "distance_km_min": 27.877,
+          "distance_km_max": 54.54,
+          "distance_sample_count": 5
+        },
+        {
+          "cluster": 1,
+          "distance_km_mean": 48.074000000000005,
+          "distance_km_median": 40.137,
+          "distance_km_min": 28.835,
+          "distance_km_max": 92.38,
+          "distance_sample_count": 7
+        },
+        {
+          "cluster": 2,
+          "distance_km_mean": 38.241,
+          "distance_km_median": 38.325500000000005,
+          "distance_km_min": 30.72,
+          "distance_km_max": 48.124,
+          "distance_sample_count": 8
+        },
+        {
+          "cluster": 3,
+          "distance_km_mean": 47.51924999999999,
+          "distance_km_median": 49.241,
+          "distance_km_min": 25.311,
+          "distance_km_max": 78.427,
+          "distance_sample_count": 8
+        },
+        {
+          "cluster": 4,
+          "distance_km_mean": 34.29,
+          "distance_km_median": 35.461,
+          "distance_km_min": 30.425,
+          "distance_km_max": 36.984,
+          "distance_sample_count": 3
+        }
+      ],
+      "1206": [
+        {
+          "cluster": 0,
+          "distance_km_mean": 164.776,
+          "distance_km_median": 164.776,
+          "distance_km_min": 85.324,
+          "distance_km_max": 244.228,
+          "distance_sample_count": 2
+        },
+        {
+          "cluster": 1,
+          "distance_km_mean": 86.4075,
+          "distance_km_median": 77.8475,
+          "distance_km_min": 43.672,
+          "distance_km_max": 146.263,
+          "distance_sample_count": 4
+        },
+        {
+          "cluster": 2,
+          "distance_km_mean": 158.2175,
+          "distance_km_median": 158.2175,
+          "distance_km_min": 149.293,
+          "distance_km_max": 167.142,
+          "distance_sample_count": 2
+        },
+        {
+          "cluster": 3,
+          "distance_km_mean": 30.836600000000004,
+          "distance_km_median": 29.383,
+          "distance_km_min": 26.561,
+          "distance_km_max": 39.549,
+          "distance_sample_count": 5
+        },
+        {
+          "cluster": 4,
+          "distance_km_mean": 22.334500000000002,
+          "distance_km_median": 19.145500000000002,
+          "distance_km_min": 11.494,
+          "distance_km_max": 46.551,
+          "distance_sample_count": 6
+        }
+      ]
+    }
+  },
+  "statistical_pairwise_argument_correlations": [
+    {
+      "vehicle_a": 1181,
+      "vehicle_b": 1206,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.6530585374959894,
+      "features": {
+        "stop_profile_correlation": 0.6176269767995544,
+        "route_similarity": 0.05242176634700674,
+        "purpose_match": 1.0,
+        "age_similarity": 0.9961664841182913,
+        "kms_similarity": 0.5946226781834447,
+        "duty_cycle_match": 1.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 29,
+      "vehicle_b_observed_days": 23
+    },
+    {
+      "vehicle_a": 1236,
+      "vehicle_b": 1206,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.6141901357918974,
+      "features": {
+        "stop_profile_correlation": 0.9861533680498915,
+        "route_similarity": 0.2025115659911382,
+        "purpose_match": 0.0,
+        "age_similarity": 0.992880613362541,
+        "kms_similarity": 0.7576742025221513,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 28,
+      "vehicle_b_observed_days": 23
+    },
+    {
+      "vehicle_a": 1181,
+      "vehicle_b": 1236,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.4122137660951242,
+      "features": {
+        "stop_profile_correlation": 0.6390644422470536,
+        "route_similarity": 0.05904151505231856,
+        "purpose_match": 0.0,
+        "age_similarity": 0.9967014843320504,
+        "kms_similarity": 0.4505302634942273,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 29,
+      "vehicle_b_observed_days": 28
+    },
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 1206,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.2900429272987983,
+      "features": {
+        "stop_profile_correlation": -0.07474466598211169,
+        "route_similarity": 0.12460785130503729,
+        "purpose_match": 1.0,
+        "age_similarity": 0.4257402657962229,
+        "kms_similarity": 0.3865953503911893,
+        "duty_cycle_match": 1.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 23
+    },
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 1181,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.2517118776108852,
+      "features": {
+        "stop_profile_correlation": -0.21008403361344538,
+        "route_similarity": 0.13539231672402346,
+        "purpose_match": 1.0,
+        "age_similarity": 0.42410818372581016,
+        "kms_similarity": 0.6501523816283412,
+        "duty_cycle_match": 1.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 29
+    },
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 689,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.1402846400588601,
+      "features": {
+        "stop_profile_correlation": 0.0,
+        "route_similarity": 0.03446985420917993,
+        "purpose_match": 0.0,
+        "age_similarity": 0.8999160721779271,
+        "kms_similarity": 0.7890109519156114,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 24
+    },
+    {
+      "vehicle_a": 1181,
+      "vehicle_b": 689,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.10226395775906019,
+      "features": {
+        "stop_profile_correlation": 0.0,
+        "route_similarity": 0.038735134113383946,
+        "purpose_match": 0.0,
+        "age_similarity": 0.38166177087704567,
+        "kms_similarity": 0.8240093246486117,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 29,
+      "vehicle_b_observed_days": 24
+    },
+    {
+      "vehicle_a": 689,
+      "vehicle_b": 1206,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.07601552867878258,
+      "features": {
+        "stop_profile_correlation": 0.0,
+        "route_similarity": 0.041114116933743707,
+        "purpose_match": 0.0,
+        "age_similarity": 0.3831305077633236,
+        "kms_similarity": 0.4899746314706891,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 24,
+      "vehicle_b_observed_days": 23
+    },
+    {
+      "vehicle_a": 689,
+      "vehicle_b": 1236,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.06664769123531021,
+      "features": {
+        "stop_profile_correlation": 0.0,
+        "route_similarity": 0.04344114599455345,
+        "purpose_match": 0.0,
+        "age_similarity": 0.3804028535459505,
+        "kms_similarity": 0.3712411381556393,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 24,
+      "vehicle_b_observed_days": 28
+    },
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 1236,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.030222138502183873,
+      "features": {
+        "stop_profile_correlation": -0.11834526708278771,
+        "route_similarity": 0.1748513485731617,
+        "purpose_match": 0.0,
+        "age_similarity": 0.42270925623688504,
+        "kms_similarity": 0.292913323806416,
+        "duty_cycle_match": 0.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 28
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "vehicle_id": 155,
+  "date": "2023-10-01",
+  "stop_zone_record": {
+    "passes_any_zone": 0,
+    "zones": {
+      "passes_zone_1": 0,
+      "passes_zone_2": 0,
+      "passes_zone_3": 0,
+      "passes_zone_4": 0,
+      "passes_zone_5": 0,
+      "passes_zone_6": 0,
+      "passes_zone_7": 0,
+      "passes_zone_8": 0
+    }
+  },
+  "gps_image": "Vehicle/Vehicle_155/2023-10-01.png",
+  "route_distance": {
+    "total_distance_miles": 18.588,
+    "total_distance_km": 29.915,
+    "average_speed": 19.393,
+    "point_count": 626,
+    "moving_point_count": 419,
+    "kept_segments": 625,
+    "dropped_segments": 0
+  },
+  "fleet_metadata": {
+    "purpose": "Mobile_Eq",
+    "age": 11.75068493150685,
+    "kms": 231064.6,
+    "duty_cycle": "MEDIUM"
+  }
+}

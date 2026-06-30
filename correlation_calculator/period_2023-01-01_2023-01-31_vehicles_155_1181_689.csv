@@ -1,0 +1,4 @@
+vehicle_a,vehicle_b,start_date,end_date,correlation,features_compared,vehicle_a_observed_days,vehicle_b_observed_days
+155,689,2023-01-01,2023-01-31,0.000000,16,31,24
+1181,689,2023-01-01,2023-01-31,0.000000,16,29,24
+155,1181,2023-01-01,2023-01-31,-0.210084,16,31,29

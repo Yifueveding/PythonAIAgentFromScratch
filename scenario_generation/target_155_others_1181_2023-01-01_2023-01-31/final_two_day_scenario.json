@@ -1,0 +1,49 @@
+{
+  "scenario_days_requested": 2,
+  "seed": 0,
+  "sampling_method": "For each scenario day, sample the target truck route from its own route_appearance_frequency, then sample one other truck route from joint_scenario_frequency = truck_appearance_frequency * route_appearance_frequency.",
+  "days": [
+    {
+      "scenario_day": 1,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-21",
+        "representative_date": "2023-01-22",
+        "route_appearance_frequency": 0.3225806451612903,
+        "sampling_weight": "route_appearance_frequency"
+      },
+      "other_vehicle": {
+        "vehicle_id": 1181,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-20",
+        "representative_date": "2023-01-10",
+        "truck_appearance_frequency": 1.0,
+        "route_appearance_frequency": 0.5483870967741935,
+        "joint_scenario_frequency": 0.5483870967741935,
+        "sampling_weight": "joint_scenario_frequency"
+      }
+    },
+    {
+      "scenario_day": 2,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-07",
+        "representative_date": "2023-01-15",
+        "route_appearance_frequency": 0.5483870967741935,
+        "sampling_weight": "route_appearance_frequency"
+      },
+      "other_vehicle": {
+        "vehicle_id": 1181,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-18",
+        "representative_date": "2023-01-18",
+        "truck_appearance_frequency": 1.0,
+        "route_appearance_frequency": 0.03225806451612903,
+        "joint_scenario_frequency": 0.03225806451612903,
+        "sampling_weight": "joint_scenario_frequency"
+      }
+    }
+  ]
+}

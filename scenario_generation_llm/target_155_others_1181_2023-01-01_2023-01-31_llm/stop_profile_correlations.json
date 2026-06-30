@@ -1,0 +1,135 @@
+{
+  "method": {
+    "description": "For each selected truck, build one stop-profile vector across the selected period. The vector has dimensions passes_zone_* x weekday/weekend, and each element is the sum of passing counts over that period.",
+    "period": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31"
+    },
+    "zone_columns": [
+      "passes_zone_1",
+      "passes_zone_2",
+      "passes_zone_3",
+      "passes_zone_4",
+      "passes_zone_5",
+      "passes_zone_6",
+      "passes_zone_7",
+      "passes_zone_8"
+    ],
+    "vector_order": [
+      "passes_zone_1_weekday",
+      "passes_zone_2_weekday",
+      "passes_zone_3_weekday",
+      "passes_zone_4_weekday",
+      "passes_zone_5_weekday",
+      "passes_zone_6_weekday",
+      "passes_zone_7_weekday",
+      "passes_zone_8_weekday",
+      "passes_zone_1_weekend",
+      "passes_zone_2_weekend",
+      "passes_zone_3_weekend",
+      "passes_zone_4_weekend",
+      "passes_zone_5_weekend",
+      "passes_zone_6_weekend",
+      "passes_zone_7_weekend",
+      "passes_zone_8_weekend"
+    ]
+  },
+  "profiles": {
+    "155": {
+      "vehicle_id": 155,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "observed_days": 31,
+      "vector_labels": [
+        "passes_zone_1_weekday",
+        "passes_zone_2_weekday",
+        "passes_zone_3_weekday",
+        "passes_zone_4_weekday",
+        "passes_zone_5_weekday",
+        "passes_zone_6_weekday",
+        "passes_zone_7_weekday",
+        "passes_zone_8_weekday",
+        "passes_zone_1_weekend",
+        "passes_zone_2_weekend",
+        "passes_zone_3_weekend",
+        "passes_zone_4_weekend",
+        "passes_zone_5_weekend",
+        "passes_zone_6_weekend",
+        "passes_zone_7_weekend",
+        "passes_zone_8_weekend"
+      ],
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "1181": {
+      "vehicle_id": 1181,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "observed_days": 29,
+      "vector_labels": [
+        "passes_zone_1_weekday",
+        "passes_zone_2_weekday",
+        "passes_zone_3_weekday",
+        "passes_zone_4_weekday",
+        "passes_zone_5_weekday",
+        "passes_zone_6_weekday",
+        "passes_zone_7_weekday",
+        "passes_zone_8_weekday",
+        "passes_zone_1_weekend",
+        "passes_zone_2_weekend",
+        "passes_zone_3_weekend",
+        "passes_zone_4_weekend",
+        "passes_zone_5_weekend",
+        "passes_zone_6_weekend",
+        "passes_zone_7_weekend",
+        "passes_zone_8_weekend"
+      ],
+      "vector": [
+        0.0,
+        2.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "pairwise_correlations": [
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 1181,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "correlation": -0.21008403361344538,
+      "features_compared": 16,
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 29
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+vehicle_a,vehicle_b,start_date,end_date,method,total_correlation,statistical_total_correlation,stop_profile_correlation,route_similarity,purpose_match,age_similarity,kms_similarity,duty_cycle_match,llm_rationale,vehicle_a_observed_days,vehicle_b_observed_days
+155,1181,2023-01-01,2023-01-31,llm_reasoned,0.448991,0.246543,-0.210084,0.100936,1.000000,0.424108,0.650152,1.000000,Strong purpose match and duty cycle compatibility offset poor stop profile correlation.,31,29

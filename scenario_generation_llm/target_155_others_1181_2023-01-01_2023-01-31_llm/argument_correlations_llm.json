@@ -1,0 +1,259 @@
+{
+  "method": {
+    "name": "llm_reasoned",
+    "description": "Compute statistical pairwise evidence, then ask an LLM to reason over stop-profile, representative route-image, and fleet-metadata evidence to produce final pairwise total_correlation values.",
+    "period": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31"
+    },
+    "zone_columns": [
+      "passes_zone_1",
+      "passes_zone_2",
+      "passes_zone_3",
+      "passes_zone_4",
+      "passes_zone_5",
+      "passes_zone_6",
+      "passes_zone_7",
+      "passes_zone_8"
+    ],
+    "vector_order": [
+      "passes_zone_1_weekday",
+      "passes_zone_2_weekday",
+      "passes_zone_3_weekday",
+      "passes_zone_4_weekday",
+      "passes_zone_5_weekday",
+      "passes_zone_6_weekday",
+      "passes_zone_7_weekday",
+      "passes_zone_8_weekday",
+      "passes_zone_1_weekend",
+      "passes_zone_2_weekend",
+      "passes_zone_3_weekend",
+      "passes_zone_4_weekend",
+      "passes_zone_5_weekend",
+      "passes_zone_6_weekend",
+      "passes_zone_7_weekend",
+      "passes_zone_8_weekend"
+    ],
+    "weights": {
+      "stop_profile_correlation": 0.44999999999999996,
+      "route_similarity": 0.15,
+      "purpose_match": 0.11999999999999998,
+      "age_similarity": 0.08,
+      "kms_similarity": 0.08,
+      "duty_cycle_match": 0.11999999999999998
+    },
+    "route_similarity": {
+      "description": "For each truck, choose the representative image from each route cluster, compare representative route-ink vectors by cosine similarity, and average pairwise similarities weighted by cluster shares.",
+      "feature_method": "pca",
+      "route_clusters": 3,
+      "image_size": 128
+    },
+    "llm_provider": "openai",
+    "llm_model": "gpt-4o-mini",
+    "global_rationale": "The total correlation reflects an adjustment balancing the strong similarities in purpose and duty cycle against the negative impact of stop-profile differences.",
+    "risks": [
+      "Inaccurate correlations may stem from skewed routing data or under-representation of certain stop profiles."
+    ]
+  },
+  "profiles": {
+    "155": {
+      "vehicle_id": 155,
+      "observed_days": 31,
+      "vector_labels": [
+        "passes_zone_1_weekday",
+        "passes_zone_2_weekday",
+        "passes_zone_3_weekday",
+        "passes_zone_4_weekday",
+        "passes_zone_5_weekday",
+        "passes_zone_6_weekday",
+        "passes_zone_7_weekday",
+        "passes_zone_8_weekday",
+        "passes_zone_1_weekend",
+        "passes_zone_2_weekend",
+        "passes_zone_3_weekend",
+        "passes_zone_4_weekend",
+        "passes_zone_5_weekend",
+        "passes_zone_6_weekend",
+        "passes_zone_7_weekend",
+        "passes_zone_8_weekend"
+      ],
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "1181": {
+      "vehicle_id": 1181,
+      "observed_days": 29,
+      "vector_labels": [
+        "passes_zone_1_weekday",
+        "passes_zone_2_weekday",
+        "passes_zone_3_weekday",
+        "passes_zone_4_weekday",
+        "passes_zone_5_weekday",
+        "passes_zone_6_weekday",
+        "passes_zone_7_weekday",
+        "passes_zone_8_weekday",
+        "passes_zone_1_weekend",
+        "passes_zone_2_weekend",
+        "passes_zone_3_weekend",
+        "passes_zone_4_weekend",
+        "passes_zone_5_weekend",
+        "passes_zone_6_weekend",
+        "passes_zone_7_weekend",
+        "passes_zone_8_weekend"
+      ],
+      "vector": [
+        0.0,
+        2.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "fleet_metadata": {
+    "155": {
+      "purpose": "Mobile_Eq",
+      "age": 11.75068493150685,
+      "kms": 231064.6,
+      "duty_cycle": "MEDIUM"
+    },
+    "1181": {
+      "purpose": "Mobile_Eq",
+      "age": 4.983561643835617,
+      "kms": 150227.2,
+      "duty_cycle": "MEDIUM"
+    }
+  },
+  "representative_routes": {
+    "155": [
+      {
+        "cluster": 1,
+        "representative_date": "2023-01-15",
+        "image_path": "Vehicle/Vehicle_155/2023-01-15.png",
+        "share": 0.5483870967741935
+      },
+      {
+        "cluster": 0,
+        "representative_date": "2023-01-22",
+        "image_path": "Vehicle/Vehicle_155/2023-01-22.png",
+        "share": 0.3225806451612903
+      },
+      {
+        "cluster": 2,
+        "representative_date": "2023-01-26",
+        "image_path": "Vehicle/Vehicle_155/2023-01-26.png",
+        "share": 0.12903225806451613
+      }
+    ],
+    "1181": [
+      {
+        "cluster": 1,
+        "representative_date": "2023-01-10",
+        "image_path": "Vehicle/Vehicle_1181/2023-01-10.png",
+        "share": 0.68
+      },
+      {
+        "cluster": 0,
+        "representative_date": "2023-01-27",
+        "image_path": "Vehicle/Vehicle_1181/2023-01-27.png",
+        "share": 0.28
+      },
+      {
+        "cluster": 2,
+        "representative_date": "2023-01-18",
+        "image_path": "Vehicle/Vehicle_1181/2023-01-18.png",
+        "share": 0.04
+      }
+    ]
+  },
+  "pairwise_argument_correlations": [
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 1181,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "llm_reasoned",
+      "total_correlation": 0.522,
+      "features": {
+        "stop_profile_correlation": -0.21008403361344538,
+        "route_similarity": 0.10093606694090747,
+        "purpose_match": 1.0,
+        "age_similarity": 0.42410818372581016,
+        "kms_similarity": 0.6501523816283412,
+        "duty_cycle_match": 1.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 29,
+      "statistical_total_correlation": 0.2465434401434178,
+      "llm_rationale": "Despite a negative stop-profile correlation, strong similarities in duty cycle, purpose, age, and kilometers driven indicate notable behavioral similarity.",
+      "llm_feature_interpretation": {
+        "stop_profile_correlation": "Negative correlation suggests differing stop behaviors, likely due to varying operational contexts or routes.",
+        "route_similarity": "Moderate similarity indicates some overlap in route characteristics.",
+        "fleet_metadata": "Similar purposes and duty cycles enhance overall correlation despite age disparity."
+      }
+    }
+  ],
+  "statistical_pairwise_argument_correlations": [
+    {
+      "vehicle_a": 155,
+      "vehicle_b": 1181,
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
+      "method": "statistical",
+      "total_correlation": 0.2465434401434178,
+      "features": {
+        "stop_profile_correlation": -0.21008403361344538,
+        "route_similarity": 0.10093606694090747,
+        "purpose_match": 1.0,
+        "age_similarity": 0.42410818372581016,
+        "kms_similarity": 0.6501523816283412,
+        "duty_cycle_match": 1.0
+      },
+      "weights": {
+        "stop_profile_correlation": 0.44999999999999996,
+        "route_similarity": 0.15,
+        "purpose_match": 0.11999999999999998,
+        "age_similarity": 0.08,
+        "kms_similarity": 0.08,
+        "duty_cycle_match": 0.11999999999999998
+      },
+      "vehicle_a_observed_days": 31,
+      "vehicle_b_observed_days": 29
+    }
+  ]
+}

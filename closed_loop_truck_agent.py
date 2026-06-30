@@ -1762,7 +1762,7 @@ def build_closed_loop_run(
             "step_1": "Split 2023 data by date so future days do not leak into training.",
             "step_2": "Build a truck-stop correlation graph from stop frequencies and truck purpose, then cluster trucks by behavioral similarity.",
             "step_3": "Cluster each truck's training route images and weight route patterns by that truck's own pattern frequency.",
-            "step_4": "Give behavioral cluster summaries and route-pattern priors to the LLM, choose one route cluster per truck, and materialize the scenario from those chosen clusters.",
+            "step_4": "Partition trucks into behavioral clusters from stop-profile and purpose similarity, then use those truck-group partitions as the scenario context.",
             "step_5": "Use each chosen route cluster's expected distance and stopping-zone assignment as the generated scenario.",
             "step_6": "Validate the full multi-truck scenario against held-out real per-truck and fleet-total distances.",
             "step_7": "Learn feature weights from feedback when feedback labels are available, then score validation and test periods.",
