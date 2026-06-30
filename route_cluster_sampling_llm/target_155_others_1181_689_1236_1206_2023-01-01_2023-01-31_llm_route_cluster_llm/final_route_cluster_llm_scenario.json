@@ -1,0 +1,122 @@
+{
+  "scenario_days_requested": 5,
+  "seed": 0,
+  "sampling_method": "LLM-adjusted route-cluster weights. Target routes sample from llm_route_cluster_weight; other routes sample from truck_appearance_frequency * llm_route_cluster_weight.",
+  "days": [
+    {
+      "scenario_day": 1,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-08",
+        "representative_date": "2023-01-07",
+        "route_cluster_weight": 0.25,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Moderate road use and good distance statistics support its inclusion."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1206,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-12",
+        "representative_date": "2023-01-12",
+        "truck_appearance_frequency": 0.4084507042253521,
+        "route_cluster_weight": 0.2,
+        "joint_scenario_frequency": 0.08169014084507042,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Some relevant routes but not heavily utilized."
+      }
+    },
+    {
+      "scenario_day": 2,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-29",
+        "representative_date": "2023-01-11",
+        "route_cluster_weight": 0.4,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Higher distance means and frequency make this cluster well-represented in scenarios."
+      },
+      "other_vehicle": {
+        "vehicle_id": 689,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-10",
+        "representative_date": "2023-01-06",
+        "truck_appearance_frequency": 0.1971830985915493,
+        "route_cluster_weight": 0.25,
+        "joint_scenario_frequency": 0.04929577464788733,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Showed recent activity which justifies its weight."
+      }
+    },
+    {
+      "scenario_day": 3,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-19",
+        "representative_date": "2023-01-26",
+        "route_cluster_weight": 0.1,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Lower usage but still relevant; contributes to overall variance."
+      },
+      "other_vehicle": {
+        "vehicle_id": 689,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-26",
+        "representative_date": "2023-01-03",
+        "truck_appearance_frequency": 0.1971830985915493,
+        "route_cluster_weight": 0.15,
+        "joint_scenario_frequency": 0.029577464788732397,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Least utilized recently which justifies a lower weight."
+      }
+    },
+    {
+      "scenario_day": 4,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-04",
+        "representative_date": "2023-01-22",
+        "route_cluster_weight": 0.25,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Represents significant activity and distance, aligning well with operational characteristics."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1181,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-21",
+        "representative_date": "2023-01-20",
+        "truck_appearance_frequency": 0.35211267605633806,
+        "route_cluster_weight": 0.45,
+        "joint_scenario_frequency": 0.15845070422535212,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "This cluster has the highest distance metrics and usage frequency."
+      }
+    },
+    {
+      "scenario_day": 5,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-31",
+        "representative_date": "2023-01-26",
+        "route_cluster_weight": 0.1,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Lower usage but still relevant; contributes to overall variance."
+      },
+      "other_vehicle": {
+        "vehicle_id": 689,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-20",
+        "representative_date": "2023-01-20",
+        "truck_appearance_frequency": 0.1971830985915493,
+        "route_cluster_weight": 0.1,
+        "joint_scenario_frequency": 0.01971830985915493,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Limited use among this cluster makes it necessary to minimize its weight."
+      }
+    }
+  ]
+}
