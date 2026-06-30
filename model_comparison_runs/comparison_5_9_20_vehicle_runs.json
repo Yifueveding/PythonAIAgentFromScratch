@@ -1,0 +1,126 @@
+{
+  "validation_dates": [
+    "2023-01-05",
+    "2023-01-15",
+    "2023-01-15",
+    "2023-01-31",
+    "2023-01-25"
+  ],
+  "runs": {
+    "5_vehicles": {
+      "non_llm": {
+        "vehicle_count": 5,
+        "scenario_file": "scenario_generation/target_155_others_1181_689_1236_1206_2023-01-01_2023-01-31/final_two_day_scenario.json",
+        "mean_individual_relative_distance_error": 0.6697109119878975,
+        "fleet_total_relative_distance_error": 0.70581658128803,
+        "selected_other_vehicle_counts": {
+          "1181": 1,
+          "1206": 2,
+          "1236": 2
+        }
+      },
+      "llm_reasoning_correlation": {
+        "vehicle_count": 5,
+        "scenario_file": "scenario_generation_llm/target_155_others_1181_689_1236_1206_2023-01-01_2023-01-31_llm/final_llm_scenario.json",
+        "mean_individual_relative_distance_error": 0.6697109119878975,
+        "fleet_total_relative_distance_error": 0.70581658128803,
+        "selected_other_vehicle_counts": {
+          "1181": 1,
+          "1206": 2,
+          "1236": 2
+        }
+      },
+      "route_cluster_sampling_llm": {
+        "vehicle_count": 5,
+        "scenario_file": "route_cluster_sampling_llm/target_155_others_1181_689_1236_1206_2023-01-01_2023-01-31_llm_route_cluster_llm/final_route_cluster_llm_scenario.json",
+        "mean_individual_relative_distance_error": 0.6547561213963814,
+        "fleet_total_relative_distance_error": 0.5615120365455009,
+        "selected_other_vehicle_counts": {
+          "689": 3,
+          "1181": 1,
+          "1206": 1
+        }
+      }
+    },
+    "9_vehicles": {
+      "non_llm": {
+        "vehicle_count": 9,
+        "scenario_file": "scenario_generation/target_155_others_1247_1311_1312_1350_1363_1421_1423_1506_2023-01-01_2023-01-31/final_two_day_scenario.json",
+        "mean_individual_relative_distance_error": 0.8127860464422456,
+        "fleet_total_relative_distance_error": 0.8685255330692684,
+        "selected_other_vehicle_counts": {
+          "1311": 1,
+          "1350": 1,
+          "1363": 1,
+          "1421": 1,
+          "1506": 1
+        }
+      },
+      "llm_reasoning_correlation": {
+        "vehicle_count": 9,
+        "scenario_file": "scenario_generation_llm/target_155_others_1247_1311_1312_1350_1363_1421_1423_1506_2023-01-01_2023-01-31_llm/final_llm_scenario.json",
+        "mean_individual_relative_distance_error": 0.819256564313741,
+        "fleet_total_relative_distance_error": 0.8851419270465815,
+        "selected_other_vehicle_counts": {
+          "1311": 1,
+          "1350": 1,
+          "1363": 2,
+          "1506": 1
+        }
+      },
+      "route_cluster_sampling_llm": {
+        "vehicle_count": 9,
+        "scenario_file": "route_cluster_sampling_llm/target_155_others_1247_1311_1312_1350_1363_1421_1423_1506_2023-01-01_2023-01-31_llm_route_cluster_llm/final_route_cluster_llm_scenario.json",
+        "mean_individual_relative_distance_error": 0.751496323265081,
+        "fleet_total_relative_distance_error": 0.8058815596764735,
+        "selected_other_vehicle_counts": {
+          "1247": 1,
+          "1311": 1,
+          "1350": 1,
+          "1421": 1,
+          "1423": 1
+        }
+      }
+    },
+    "20_vehicles": {
+      "non_llm": {
+        "vehicle_count": 20,
+        "scenario_file": "scenario_generation/target_155_others_1247_1311_1312_1350_1363_1421_1423_1506_1575_1576_1578_1667_1687_1688_1785_1993_2191_2201_2518_2023-01-01_2023-01-31/final_two_day_scenario.json",
+        "mean_individual_relative_distance_error": 0.9224904236813906,
+        "fleet_total_relative_distance_error": 0.9476375732351264,
+        "selected_other_vehicle_counts": {
+          "1311": 1,
+          "1363": 1,
+          "1423": 1,
+          "1687": 1,
+          "1785": 1
+        }
+      },
+      "llm_reasoning_correlation": {
+        "vehicle_count": 20,
+        "scenario_file": "scenario_generation_llm/target_155_others_1247_1311_1312_1350_1363_1421_1423_1506_1575_1576_1578_1667_1687_1688_1785_1993_2191_2201_2518_2023-01-01_2023-01-31_llm/final_llm_scenario.json",
+        "mean_individual_relative_distance_error": 0.921968437904825,
+        "fleet_total_relative_distance_error": 0.9477326606857406,
+        "selected_other_vehicle_counts": {
+          "1311": 1,
+          "1363": 1,
+          "1423": 1,
+          "1687": 1,
+          "1993": 1
+        }
+      },
+      "route_cluster_sampling_llm": {
+        "vehicle_count": 20,
+        "scenario_file": "route_cluster_sampling_llm/target_155_others_1247_1311_1312_1350_1363_1421_1423_1506_1575_1576_1578_1667_1687_1688_1785_1993_2191_2201_2518_2023-01-01_2023-01-31_llm_route_cluster_llm/final_route_cluster_llm_scenario.json",
+        "mean_individual_relative_distance_error": 0.9143074126736266,
+        "fleet_total_relative_distance_error": 0.9435868593160223,
+        "selected_other_vehicle_counts": {
+          "1423": 1,
+          "1576": 1,
+          "1785": 1,
+          "1993": 2
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "scenario_days_requested": 5,
+  "seed": 0,
+  "sampling_method": "LLM-adjusted route-cluster weights. Target routes sample from llm_route_cluster_weight; other routes sample from truck_appearance_frequency * llm_route_cluster_weight.",
+  "days": [
+    {
+      "scenario_day": 1,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-08",
+        "representative_date": "2023-01-07",
+        "route_cluster_weight": 0.25000000000000006,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Cluster 1 has moderate distance statistics and represents a significant portion of routes taken by the vehicle."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1993,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-05",
+        "representative_date": "2023-01-17",
+        "truck_appearance_frequency": 0.07491487341146516,
+        "route_cluster_weight": 0.2580645161290323,
+        "joint_scenario_frequency": 0.019332870557797463,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    },
+    {
+      "scenario_day": 2,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-23",
+        "representative_date": "2023-01-22",
+        "route_cluster_weight": 0.30000000000000004,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Cluster 3 captures daily routes for the vehicle well, indicating consistent operation with a good representation of usage."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1576,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-15",
+        "representative_date": "2023-01-15",
+        "truck_appearance_frequency": 0.0767056554265268,
+        "route_cluster_weight": 0.16129032258064516,
+        "joint_scenario_frequency": 0.012371879907504322,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    },
+    {
+      "scenario_day": 3,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-19",
+        "representative_date": "2023-01-26",
+        "route_cluster_weight": 0.10000000000000002,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Cluster 4 has limited activity observed but still contributes to route variety."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1423,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-10",
+        "representative_date": "2023-01-20",
+        "truck_appearance_frequency": 0.016109949263325395,
+        "route_cluster_weight": 0.3225806451612903,
+        "joint_scenario_frequency": 0.0051967578268791595,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    },
+    {
+      "scenario_day": 4,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-13",
+        "representative_date": "2023-01-22",
+        "route_cluster_weight": 0.30000000000000004,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Cluster 3 captures daily routes for the vehicle well, indicating consistent operation with a good representation of usage."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1993,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-10",
+        "representative_date": "2023-01-17",
+        "truck_appearance_frequency": 0.07491487341146516,
+        "route_cluster_weight": 0.2580645161290323,
+        "joint_scenario_frequency": 0.019332870557797463,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    },
+    {
+      "scenario_day": 5,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-27",
+        "representative_date": "2023-01-11",
+        "route_cluster_weight": 0.35000000000000003,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Cluster 2 has a higher average distance and width of operation, reflecting normal operational behaviors more effectively."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1785,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-09",
+        "representative_date": "2023-01-08",
+        "truck_appearance_frequency": 0.030269126135925355,
+        "route_cluster_weight": 0.09677419354838711,
+        "joint_scenario_frequency": 0.002929270271218583,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    }
+  ]
+}
