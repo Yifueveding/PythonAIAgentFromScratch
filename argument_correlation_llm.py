@@ -3,6 +3,7 @@ import csv
 import json
 import os
 import statistics
+import time
 from collections import defaultdict
 from pathlib import Path
 from typing import Optional
@@ -42,11 +43,50 @@ def _extract_json_object(text: str) -> dict:
     return json.loads(text[start : end + 1])
 
 
+def _invoke_json(llm: object, prompt: str) -> dict:
+    response = llm.invoke(prompt)
+    text = _llm_json_text(response)
+    try:
+        return _extract_json_object(text)
+    except (json.JSONDecodeError, ValueError):
+        repair_prompt = f"""
+Rewrite the following response as one valid JSON object only.
+Do not add markdown, comments, or explanation.
+
+Response to repair:
+{text}
+"""
+        repaired_response = llm.invoke(repair_prompt)
+        repaired_text = _llm_json_text(repaired_response)
+        try:
+            return _extract_json_object(repaired_text)
+        except (json.JSONDecodeError, ValueError):
+            debug_dir = Path("llm_parse_debug")
+            debug_dir.mkdir(parents=True, exist_ok=True)
+            stamp = int(time.time())
+            (debug_dir / f"failed_original_{stamp}.txt").write_text(text, encoding="utf-8")
+            (debug_dir / f"failed_repaired_{stamp}.txt").write_text(repaired_text, encoding="utf-8")
+            raise
+
+
 def _build_llm(provider: str = "anthropic", model_name: Optional[str] = None):
     load_dotenv(".env", override=False)
     load_dotenv("sample.env", override=False)
     load_dotenv("sample1.env", override=True)
-    for env_key in ("ANTHROPIC_API_KEY", "ANTHROPIC_MODEL", "OPENAI_API_KEY", "OPENAI_MODEL"):
+    for env_key in (
+        "ANTHROPIC_API_KEY",
+        "ANTHROPIC_MODEL",
+        "OPENAI_API_KEY",
+        "OPENAI_MODEL",
+        "DEEPSEEK_API_KEY",
+        "DEEPSEEK_MODEL",
+        "GLM_API_KEY",
+        "GLM_MODEL",
+        "ZAI_API_KEY",
+        "ZAI_MODEL",
+        "ZHIPUAI_API_KEY",
+        "ZHIPUAI_MODEL",
+    ):
         if os.getenv(env_key):
             os.environ[env_key] = os.environ[env_key].strip()
 
@@ -58,7 +98,7 @@ def _build_llm(provider: str = "anthropic", model_name: Optional[str] = None):
         if not os.getenv("ANTHROPIC_API_KEY"):
             raise RuntimeError("ANTHROPIC_API_KEY is required for --llm-provider anthropic.")
         resolved_model = model_name or os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-6")
-        return ChatAnthropic(model=resolved_model), resolved_model
+        return ChatAnthropic(model=resolved_model, max_tokens=8192), resolved_model
 
     if provider == "openai":
         try:
@@ -68,7 +108,44 @@ def _build_llm(provider: str = "anthropic", model_name: Optional[str] = None):
         if not os.getenv("OPENAI_API_KEY"):
             raise RuntimeError("OPENAI_API_KEY is required for --llm-provider openai.")
         resolved_model = model_name or os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-        return ChatOpenAI(model=resolved_model), resolved_model
+        return ChatOpenAI(model=resolved_model, max_tokens=8192), resolved_model
+
+    if provider == "deepseek":
+        try:
+            from langchain_openai import ChatOpenAI
+        except ImportError as e:
+            raise RuntimeError("langchain-openai is required for --llm-provider deepseek.") from e
+        if not os.getenv("DEEPSEEK_API_KEY"):
+            raise RuntimeError("DEEPSEEK_API_KEY is required for --llm-provider deepseek.")
+        resolved_model = model_name or os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
+        return ChatOpenAI(
+            model=resolved_model,
+            api_key=os.getenv("DEEPSEEK_API_KEY"),
+            base_url=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
+            max_tokens=8192,
+        ), resolved_model
+
+    if provider == "glm":
+        try:
+            from langchain_openai import ChatOpenAI
+        except ImportError as e:
+            raise RuntimeError("langchain-openai is required for --llm-provider glm.") from e
+        api_key = os.getenv("GLM_API_KEY") or os.getenv("ZAI_API_KEY") or os.getenv("ZHIPUAI_API_KEY")
+        if not api_key:
+            raise RuntimeError("GLM_API_KEY, ZAI_API_KEY, or ZHIPUAI_API_KEY is required for --llm-provider glm.")
+        resolved_model = (
+            model_name
+            or os.getenv("GLM_MODEL")
+            or os.getenv("ZAI_MODEL")
+            or os.getenv("ZHIPUAI_MODEL")
+            or "glm-4.5"
+        )
+        return ChatOpenAI(
+            model=resolved_model,
+            api_key=api_key,
+            base_url=os.getenv("GLM_BASE_URL", "https://open.bigmodel.cn/api/paas/v4"),
+            max_tokens=8192,
+        ), resolved_model
 
     raise ValueError(f"Unsupported LLM provider: {provider}")
 
@@ -317,7 +394,18 @@ def _build_operational_evidence(
     }
 
 
-def _llm_payload_from_statistical_result(result: dict, operational_evidence: Optional[dict] = None) -> dict:
+def _llm_payload_from_statistical_result(
+    result: dict,
+    operational_evidence: Optional[dict] = None,
+    focus_vehicle_id: Optional[int] = None,
+) -> dict:
+    pairwise_rows = result["pairwise_argument_correlations"]
+    if focus_vehicle_id is not None:
+        pairwise_rows = [
+            row
+            for row in pairwise_rows
+            if focus_vehicle_id in (int(row["vehicle_a"]), int(row["vehicle_b"]))
+        ]
     return {
         "method": result["method"],
         "fleet_metadata": result["fleet_metadata"],
@@ -333,7 +421,7 @@ def _llm_payload_from_statistical_result(result: dict, operational_evidence: Opt
                 "vehicle_a_observed_days": row["vehicle_a_observed_days"],
                 "vehicle_b_observed_days": row["vehicle_b_observed_days"],
             }
-            for row in result["pairwise_argument_correlations"]
+            for row in pairwise_rows
         ],
     }
 
@@ -343,9 +431,14 @@ def _request_llm_correlations(
     provider: str,
     model_name: Optional[str],
     operational_evidence: Optional[dict] = None,
+    focus_vehicle_id: Optional[int] = None,
 ) -> dict:
     llm, resolved_model = _build_llm(provider, model_name)
-    payload = _llm_payload_from_statistical_result(statistical_result, operational_evidence)
+    payload = _llm_payload_from_statistical_result(
+        statistical_result,
+        operational_evidence,
+        focus_vehicle_id=focus_vehicle_id,
+    )
     prompt = f"""
 You are reasoning about truck-to-truck behavioral similarity for scenario generation.
 
@@ -385,8 +478,7 @@ Return this schema:
   "risks": ["short risk"]
 }}
 """
-    response = llm.invoke(prompt)
-    parsed = _extract_json_object(_llm_json_text(response))
+    parsed = _invoke_json(llm, prompt)
     parsed["llm_provider"] = provider
     parsed["llm_model"] = resolved_model
     return parsed
@@ -474,6 +566,7 @@ def calculate_llm_argument_correlation(
         llm_provider,
         llm_model,
         operational_evidence=operational_evidence,
+        focus_vehicle_id=vehicle_ids[0],
     )
     rows = _merge_llm_correlations(statistical_result, llm_result)
     return {
@@ -556,7 +649,7 @@ def main() -> None:
     parser.add_argument("--route-clusters", type=int, default=DEFAULT_CLUSTERS)
     parser.add_argument("--route-image-size", type=int, default=DEFAULT_IMAGE_SIZE)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_LLM_OUTPUT_DIR)
-    parser.add_argument("--llm-provider", choices=("anthropic", "openai"), default="anthropic")
+    parser.add_argument("--llm-provider", choices=("anthropic", "openai", "deepseek", "glm"), default="anthropic")
     parser.add_argument("--llm-model")
     parser.add_argument(
         "--weight",

@@ -9,8 +9,7 @@ from typing import Optional
 from argument_correlation_llm import (
     DEFAULT_DISTANCE_FILE,
     _build_llm,
-    _extract_json_object,
-    _llm_json_text,
+    _invoke_json,
 )
 from main import _normalize_date
 
@@ -244,8 +243,7 @@ Return only this JSON schema:
   "risks": ["short risk"]
 }}
 """
-    response = llm.invoke(prompt)
-    parsed = _extract_json_object(_llm_json_text(response))
+    parsed = _invoke_json(llm, prompt)
     parsed["llm_provider"] = provider
     parsed["llm_model"] = resolved_model
     return parsed
@@ -465,7 +463,7 @@ def main() -> None:
     parser.add_argument("--distance-file", type=Path, default=DEFAULT_DISTANCE_FILE)
     parser.add_argument("--scenario-days", type=int)
     parser.add_argument("--seed", type=int)
-    parser.add_argument("--llm-provider", choices=("anthropic", "openai"), default="anthropic")
+    parser.add_argument("--llm-provider", choices=("anthropic", "openai", "deepseek", "glm"), default="anthropic")
     parser.add_argument("--llm-model")
     args = parser.parse_args()
 

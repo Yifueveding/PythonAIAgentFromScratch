@@ -232,7 +232,7 @@ def main() -> None:
     parser.add_argument("--scenario-days", type=int, default=2)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--distance-file", type=Path, default=DEFAULT_DISTANCE_FILE)
-    parser.add_argument("--llm-provider", choices=("anthropic", "openai"), default="anthropic")
+    parser.add_argument("--llm-provider", choices=("anthropic", "openai", "deepseek", "glm"), default="anthropic")
     parser.add_argument("--llm-model")
     args = parser.parse_args()
 

@@ -1,0 +1,2708 @@
+{
+  "155": [
+    {
+      "vehicle_id": 155,
+      "cluster": 3,
+      "current_route_weight": 0.25806451612903225,
+      "route_days": 8,
+      "representative_date": "2023-01-22",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-04",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-13",
+        "2023-01-22",
+        "2023-01-23",
+        "2023-01-24"
+      ],
+      "distance_stats": {
+        "count": 8,
+        "mean_km": 47.51924999999999,
+        "median_km": 49.241,
+        "min_km": 25.311,
+        "max_km": 78.427
+      },
+      "role": "target_vehicle",
+      "llm_route_cluster_weight": 0.18,
+      "llm_rationale": "Moderate distance (47.5 km mean) with 8 days observed. Similar to cluster 1 but tighter distribution. Allocate secondary weight."
+    },
+    {
+      "vehicle_id": 155,
+      "cluster": 2,
+      "current_route_weight": 0.25806451612903225,
+      "route_days": 8,
+      "representative_date": "2023-01-11",
+      "example_dates": [
+        "2023-01-11",
+        "2023-01-12",
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-27",
+        "2023-01-29",
+        "2023-01-30"
+      ],
+      "distance_stats": {
+        "count": 8,
+        "mean_km": 38.241,
+        "median_km": 38.325500000000005,
+        "min_km": 30.72,
+        "max_km": 48.124
+      },
+      "role": "target_vehicle",
+      "llm_route_cluster_weight": 0.32,
+      "llm_rationale": "Stable, consistent distances (38.2 km mean, tight range 30.7\u201348.1 km). Largest sample (8 days) with narrow variance. Increase to primary weight for reliable scenario generation."
+    },
+    {
+      "vehicle_id": 155,
+      "cluster": 1,
+      "current_route_weight": 0.22580645161290322,
+      "route_days": 7,
+      "representative_date": "2023-01-07",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-18",
+        "2023-01-25",
+        "2023-01-28"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 48.074000000000005,
+        "median_km": 40.137,
+        "min_km": 28.835,
+        "max_km": 92.38
+      },
+      "role": "target_vehicle",
+      "llm_route_cluster_weight": 0.3,
+      "llm_rationale": "Moderate distance (48.1 km mean) with highest sample count (7 days). Well-represented; maintain elevated weight to reflect frequent behavior."
+    },
+    {
+      "vehicle_id": 155,
+      "cluster": 0,
+      "current_route_weight": 0.16129032258064516,
+      "route_days": 5,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-17",
+        "2023-01-20",
+        "2023-01-21"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 37.5648,
+        "median_km": 33.433,
+        "min_km": 27.877,
+        "max_km": 54.54
+      },
+      "role": "target_vehicle",
+      "llm_route_cluster_weight": 0.15,
+      "llm_rationale": "Lowest distance mean (37.6 km); appropriate for 155's low-intensity profile but underrepresented. Increase slightly to balance route diversity."
+    },
+    {
+      "vehicle_id": 155,
+      "cluster": 4,
+      "current_route_weight": 0.0967741935483871,
+      "route_days": 3,
+      "representative_date": "2023-01-26",
+      "example_dates": [
+        "2023-01-19",
+        "2023-01-26",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 3,
+        "mean_km": 34.29,
+        "median_km": 35.461,
+        "min_km": 30.425,
+        "max_km": 36.984
+      },
+      "role": "target_vehicle",
+      "llm_route_cluster_weight": 0.05,
+      "llm_rationale": "Smallest sample (3 days), lowest distance (34.3 km mean). Rare variant; minimal weight to reflect infrequent occurrence."
+    }
+  ],
+  "1350": [
+    {
+      "vehicle_id": 1350,
+      "cluster": 2,
+      "current_route_weight": 0.3225806451612903,
+      "truck_appearance_frequency": 0.07522697795071333,
+      "current_joint_weight": 0.024266767080875266,
+      "route_days": 10,
+      "representative_date": "2023-01-16",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-05",
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-16",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-27"
+      ],
+      "distance_stats": {
+        "count": 10,
+        "mean_km": 137.83089999999999,
+        "median_km": 156.7265,
+        "min_km": 34.476,
+        "max_km": 194.3
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.34,
+      "llm_rationale": "Largest sample (10 days), stable distance (137.8 km median, tight 34.5\u2013194.3 km). Primary cluster; increase weight to 0.34 for scenario dominance."
+    },
+    {
+      "vehicle_id": 1350,
+      "cluster": 4,
+      "current_route_weight": 0.25806451612903225,
+      "truck_appearance_frequency": 0.07522697795071333,
+      "current_joint_weight": 0.019413413664700212,
+      "route_days": 8,
+      "representative_date": "2023-01-09",
+      "example_dates": [
+        "2023-01-09",
+        "2023-01-12",
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-17",
+        "2023-01-22",
+        "2023-01-28",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 8,
+        "mean_km": 153.924375,
+        "median_km": 159.0245,
+        "min_km": 61.73,
+        "max_km": 251.17
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.07,
+      "llm_rationale": "8 days with moderate-high distance (153.9 km mean). Secondary frequency; reduce to 0.07 to favor more consistent clusters."
+    },
+    {
+      "vehicle_id": 1350,
+      "cluster": 1,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.07522697795071333,
+      "current_joint_weight": 0.016986736956612687,
+      "route_days": 7,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-21",
+        "2023-01-26"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 148.319,
+        "median_km": 151.958,
+        "min_km": 60.796,
+        "max_km": 226.801
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.22,
+      "llm_rationale": "Consistent distance (148.3 km mean, tight range 60.8\u2013226.8 km) with 7 days. Reliable mid-range behavior; maintain moderate weight."
+    },
+    {
+      "vehicle_id": 1350,
+      "cluster": 0,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.07522697795071333,
+      "current_joint_weight": 0.009706706832350106,
+      "route_days": 4,
+      "representative_date": "2023-01-24",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-10",
+        "2023-01-24",
+        "2023-01-25"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 155.94975,
+        "median_km": 183.1995,
+        "min_km": 30.307,
+        "max_km": 227.093
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.12,
+      "llm_rationale": "Moderate distance (155.9 km mean) with only 4 days. Highest variance and smallest sample; reduce from 0.129."
+    },
+    {
+      "vehicle_id": 1350,
+      "cluster": 3,
+      "current_route_weight": 0.06451612903225806,
+      "truck_appearance_frequency": 0.07522697795071333,
+      "current_joint_weight": 0.004853353416175053,
+      "route_days": 2,
+      "representative_date": "2023-01-20",
+      "example_dates": [
+        "2023-01-20",
+        "2023-01-23"
+      ],
+      "distance_stats": {
+        "count": 2,
+        "mean_km": 55.7295,
+        "median_km": 55.7295,
+        "min_km": 0.896,
+        "max_km": 110.563
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.25,
+      "llm_rationale": "High variance (0.9\u2013110.6 km) despite only 2 days. Outlier cluster with extreme low value (0.9 km); shift weight to clusters 1&2 but retain 0.25 for rare edge cases."
+    }
+  ],
+  "1687": [
+    {
+      "vehicle_id": 1687,
+      "cluster": 1,
+      "current_route_weight": 0.4838709677419355,
+      "truck_appearance_frequency": 0.04928664072632943,
+      "current_joint_weight": 0.02384837454499811,
+      "route_days": 15,
+      "representative_date": "2023-01-06",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-11",
+        "2023-01-16"
+      ],
+      "distance_stats": {
+        "count": 15,
+        "mean_km": 41.5362,
+        "median_km": 41.528,
+        "min_km": 30.769,
+        "max_km": 57.938
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.48,
+      "llm_rationale": "Largest sample (15 days), tight distance range (30.8\u201357.9 km mean 41.5 km). Primary routine behavior; maintain high weight."
+    },
+    {
+      "vehicle_id": 1687,
+      "cluster": 0,
+      "current_route_weight": 0.2903225806451613,
+      "truck_appearance_frequency": 0.04928664072632943,
+      "current_joint_weight": 0.014309024726998867,
+      "route_days": 9,
+      "representative_date": "2023-01-13",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-03",
+        "2023-01-04",
+        "2023-01-13",
+        "2023-01-15",
+        "2023-01-21",
+        "2023-01-25",
+        "2023-01-28"
+      ],
+      "distance_stats": {
+        "count": 9,
+        "mean_km": 81.22355555555556,
+        "median_km": 76.037,
+        "min_km": 52.625,
+        "max_km": 157.276
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.27,
+      "llm_rationale": "9 days, elevated distance (81.2 km mean). Represents longer outreach trips; increase from 0.29 slightly."
+    },
+    {
+      "vehicle_id": 1687,
+      "cluster": 4,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.04928664072632943,
+      "current_joint_weight": 0.006359566545332829,
+      "route_days": 4,
+      "representative_date": "2023-01-07",
+      "example_dates": [
+        "2023-01-07",
+        "2023-01-22",
+        "2023-01-24",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 108.07825,
+        "median_km": 72.6485,
+        "min_km": 62.044,
+        "max_km": 224.972
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.15,
+      "llm_rationale": "4 days with high variance (62.0\u2013225.0 km mean 108.1 km). Occasional long-distance trips; retain as secondary variant."
+    },
+    {
+      "vehicle_id": 1687,
+      "cluster": 2,
+      "current_route_weight": 0.06451612903225806,
+      "truck_appearance_frequency": 0.04928664072632943,
+      "current_joint_weight": 0.0031797832726664144,
+      "route_days": 2,
+      "representative_date": "2023-01-12",
+      "example_dates": [
+        "2023-01-12",
+        "2023-01-14"
+      ],
+      "distance_stats": {
+        "count": 2,
+        "mean_km": 47.532,
+        "median_km": 47.532,
+        "min_km": 39.54,
+        "max_km": 55.524
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.08,
+      "llm_rationale": "Only 2 days with moderate distance (47.5 km). Rare variant; reduce weight to 0.08."
+    },
+    {
+      "vehicle_id": 1687,
+      "cluster": 3,
+      "current_route_weight": 0.03225806451612903,
+      "truck_appearance_frequency": 0.04928664072632943,
+      "current_joint_weight": 0.0015898916363332072,
+      "route_days": 1,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-23"
+      ],
+      "distance_stats": {
+        "count": 1,
+        "mean_km": 33.173,
+        "median_km": 33.173,
+        "min_km": 33.173,
+        "max_km": 33.173
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.02,
+      "llm_rationale": "Single day (33.2 km). Anomaly; minimal weight for completeness."
+    }
+  ],
+  "2518": [
+    {
+      "vehicle_id": 2518,
+      "cluster": 2,
+      "current_route_weight": 0.3548387096774194,
+      "truck_appearance_frequency": 0.06485084306095977,
+      "current_joint_weight": 0.02301158947324379,
+      "route_days": 11,
+      "representative_date": "2023-01-28",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-09",
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-19",
+        "2023-01-21"
+      ],
+      "distance_stats": {
+        "count": 11,
+        "mean_km": 140.72154545454543,
+        "median_km": 124.054,
+        "min_km": 84.334,
+        "max_km": 237.453
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.36,
+      "llm_rationale": "Largest sample (11 days), moderate distance (140.7 km mean). Primary routine; increase to 0.36."
+    },
+    {
+      "vehicle_id": 2518,
+      "cluster": 3,
+      "current_route_weight": 0.2903225806451613,
+      "truck_appearance_frequency": 0.06485084306095977,
+      "current_joint_weight": 0.018827664114472193,
+      "route_days": 9,
+      "representative_date": "2023-01-10",
+      "example_dates": [
+        "2023-01-06",
+        "2023-01-10",
+        "2023-01-11",
+        "2023-01-12",
+        "2023-01-13",
+        "2023-01-17",
+        "2023-01-23",
+        "2023-01-29"
+      ],
+      "distance_stats": {
+        "count": 9,
+        "mean_km": 127.9786666666667,
+        "median_km": 116.233,
+        "min_km": 75.376,
+        "max_km": 203.623
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.32,
+      "llm_rationale": "9 days with consistent distance (127.9 km mean, 75.4\u2013203.6 km). Secondary routine; maintain 0.32."
+    },
+    {
+      "vehicle_id": 2518,
+      "cluster": 4,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.06485084306095977,
+      "current_joint_weight": 0.012551776076314794,
+      "route_days": 6,
+      "representative_date": "2023-01-24",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-18",
+        "2023-01-20",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 155.32266666666666,
+        "median_km": 177.11849999999998,
+        "min_km": 39.67,
+        "max_km": 201.664
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.2,
+      "llm_rationale": "6 days with moderate-high distance (155.3 km median 177.1 km). Variant behavior; reduce from 0.194 to 0.20 for rebalance."
+    },
+    {
+      "vehicle_id": 2518,
+      "cluster": 0,
+      "current_route_weight": 0.0967741935483871,
+      "truck_appearance_frequency": 0.06485084306095977,
+      "current_joint_weight": 0.006275888038157397,
+      "route_days": 3,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-22"
+      ],
+      "distance_stats": {
+        "count": 3,
+        "mean_km": 204.74833333333333,
+        "median_km": 204.607,
+        "min_km": 196.264,
+        "max_km": 213.374
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.08,
+      "llm_rationale": "Only 3 days with high distance (204.7 km). Long-haul outlier; reduce to 0.08."
+    },
+    {
+      "vehicle_id": 2518,
+      "cluster": 1,
+      "current_route_weight": 0.06451612903225806,
+      "truck_appearance_frequency": 0.06485084306095977,
+      "current_joint_weight": 0.004183925358771598,
+      "route_days": 2,
+      "representative_date": "2023-01-04",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-08"
+      ],
+      "distance_stats": {
+        "count": 2,
+        "mean_km": 229.288,
+        "median_km": 229.288,
+        "min_km": 213.308,
+        "max_km": 245.268
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.04,
+      "llm_rationale": "2 days with extreme distance (213\u2013245 km). Very rare long-distance variant; minimal weight."
+    }
+  ],
+  "1247": [
+    {
+      "vehicle_id": 1247,
+      "cluster": 3,
+      "current_route_weight": 0.3225806451612903,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.02175641186561231,
+      "route_days": 10,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-09",
+        "2023-01-12",
+        "2023-01-13",
+        "2023-01-18",
+        "2023-01-23",
+        "2023-01-24",
+        "2023-01-25"
+      ],
+      "distance_stats": {
+        "count": 10,
+        "mean_km": 87.5481,
+        "median_km": 86.22149999999999,
+        "min_km": 6.927,
+        "max_km": 195.962
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.35,
+      "llm_rationale": "Largest sample (10 days), moderate distance (87.5 km mean), widest zone overlap with 155. Primary routine; increase to 0.35."
+    },
+    {
+      "vehicle_id": 1247,
+      "cluster": 2,
+      "current_route_weight": 0.25806451612903225,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.01740512949248985,
+      "route_days": 8,
+      "representative_date": "2023-01-16",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-11",
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-28"
+      ],
+      "distance_stats": {
+        "count": 8,
+        "mean_km": 184.806125,
+        "median_km": 190.50650000000002,
+        "min_km": 72.129,
+        "max_km": 258.711
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.3,
+      "llm_rationale": "8 days with high, consistent distance (184.8 km mean, tight 72.1\u2013258.7 km). Primary long-haul behavior; increase to 0.30."
+    },
+    {
+      "vehicle_id": 1247,
+      "cluster": 0,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.010878205932806155,
+      "route_days": 5,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-10",
+        "2023-01-20",
+        "2023-01-21",
+        "2023-01-26"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 147.1268,
+        "median_km": 118.479,
+        "min_km": 44.192,
+        "max_km": 282.287
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.13,
+      "llm_rationale": "5 days with high variance (44.2\u2013282.3 km). Unstable outlier; reduce from 0.161."
+    },
+    {
+      "vehicle_id": 1247,
+      "cluster": 4,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.010878205932806155,
+      "route_days": 5,
+      "representative_date": "2023-01-27",
+      "example_dates": [
+        "2023-01-07",
+        "2023-01-17",
+        "2023-01-19",
+        "2023-01-27",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 214.1058,
+        "median_km": 192.993,
+        "min_km": 167.878,
+        "max_km": 342.352
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.14,
+      "llm_rationale": "5 days with very high distance (214.1 km mean, 167.9\u2013342.4 km). Rare extreme variant; reduce to 0.14."
+    },
+    {
+      "vehicle_id": 1247,
+      "cluster": 1,
+      "current_route_weight": 0.0967741935483871,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.006526923559683693,
+      "route_days": 3,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-08",
+        "2023-01-22"
+      ],
+      "distance_stats": {
+        "count": 3,
+        "mean_km": 189.35566666666668,
+        "median_km": 197.198,
+        "min_km": 70.913,
+        "max_km": 299.956
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.08,
+      "llm_rationale": "3 days with high variance (70.9\u2013300.0 km). Rare and inconsistent; reduce to 0.08."
+    }
+  ],
+  "1575": [
+    {
+      "vehicle_id": 1575,
+      "cluster": 0,
+      "current_route_weight": 0.3225806451612903,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.02175641186561231,
+      "route_days": 10,
+      "representative_date": "2023-01-19",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-11",
+        "2023-01-12",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-21"
+      ],
+      "distance_stats": {
+        "count": 10,
+        "mean_km": 295.6865,
+        "median_km": 303.7285,
+        "min_km": 122.344,
+        "max_km": 423.925
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.32000000000000006,
+      "llm_rationale": "10 days, highest sample, moderate-high distance (295.7 km mean). Primary long-haul routine; maintain 0.32."
+    },
+    {
+      "vehicle_id": 1575,
+      "cluster": 2,
+      "current_route_weight": 0.25806451612903225,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.01740512949248985,
+      "route_days": 8,
+      "representative_date": "2023-01-15",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-20",
+        "2023-01-25",
+        "2023-01-27"
+      ],
+      "distance_stats": {
+        "count": 8,
+        "mean_km": 228.87275,
+        "median_km": 223.1725,
+        "min_km": 55.857,
+        "max_km": 429.169
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.26000000000000006,
+      "llm_rationale": "8 days with moderate distance (228.9 km mean, 55.9\u2013429.2 km). Secondary routine; maintain 0.26."
+    },
+    {
+      "vehicle_id": 1575,
+      "cluster": 3,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.013053847119367386,
+      "route_days": 6,
+      "representative_date": "2023-01-17",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-10",
+        "2023-01-13",
+        "2023-01-17",
+        "2023-01-23",
+        "2023-01-30"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 242.4863333333333,
+        "median_km": 226.394,
+        "min_km": 178.632,
+        "max_km": 346.978
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.20000000000000004,
+      "llm_rationale": "6 days with moderate distance (242.5 km mean, tight 178.6\u2013347.0 km). Consistent variant; maintain 0.20."
+    },
+    {
+      "vehicle_id": 1575,
+      "cluster": 1,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.010878205932806155,
+      "route_days": 5,
+      "representative_date": "2023-01-26",
+      "example_dates": [
+        "2023-01-06",
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-24",
+        "2023-01-26"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 373.18580000000003,
+        "median_km": 350.961,
+        "min_km": 254.504,
+        "max_km": 533.845
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.12000000000000001,
+      "llm_rationale": "5 days with extreme distance (373.2 km mean, 254.5\u2013533.8 km). Rare extended trips; reduce to 0.12."
+    },
+    {
+      "vehicle_id": 1575,
+      "cluster": 4,
+      "current_route_weight": 0.06451612903225806,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.004351282373122462,
+      "route_days": 2,
+      "representative_date": "2023-01-29",
+      "example_dates": [
+        "2023-01-29",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 2,
+        "mean_km": 12.9045,
+        "median_km": 12.9045,
+        "min_km": 6.559,
+        "max_km": 19.25
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.10000000000000002,
+      "llm_rationale": "Only 2 days with very low distance (12.9 km). Anomaly or short local trips; reduce to 0.10."
+    }
+  ],
+  "2201": [
+    {
+      "vehicle_id": 2201,
+      "cluster": 3,
+      "current_route_weight": 0.3225806451612903,
+      "truck_appearance_frequency": 0.06614785992217896,
+      "current_joint_weight": 0.02133801932973515,
+      "route_days": 10,
+      "representative_date": "2023-01-06",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-09",
+        "2023-01-15",
+        "2023-01-18",
+        "2023-01-23"
+      ],
+      "distance_stats": {
+        "count": 10,
+        "mean_km": 89.15149999999998,
+        "median_km": 82.8735,
+        "min_km": 6.131,
+        "max_km": 177.166
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.36,
+      "llm_rationale": "Largest sample (10 days), moderate distance (89.2 km mean, tight 6.1\u2013177.2 km). Primary routine; increase to 0.36."
+    },
+    {
+      "vehicle_id": 2201,
+      "cluster": 1,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.06614785992217896,
+      "current_joint_weight": 0.012802811597841088,
+      "route_days": 6,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-08",
+        "2023-01-19",
+        "2023-01-20",
+        "2023-01-22",
+        "2023-01-25",
+        "2023-01-27"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 85.9975,
+        "median_km": 64.0195,
+        "min_km": 51.122,
+        "max_km": 153.807
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.19,
+      "llm_rationale": "6 days with lower distance (86.0 km mean). Consistent short-range behavior; maintain 0.19."
+    },
+    {
+      "vehicle_id": 2201,
+      "cluster": 0,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06614785992217896,
+      "current_joint_weight": 0.010669009664867574,
+      "route_days": 5,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-03",
+        "2023-01-12",
+        "2023-01-13",
+        "2023-01-17"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 120.8812,
+        "median_km": 126.425,
+        "min_km": 93.964,
+        "max_km": 147.328
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.17,
+      "llm_rationale": "5 days with moderate distance (120.9 km). Secondary routine; increase from 0.161 to 0.17."
+    },
+    {
+      "vehicle_id": 2201,
+      "cluster": 4,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06614785992217896,
+      "current_joint_weight": 0.010669009664867574,
+      "route_days": 5,
+      "representative_date": "2023-01-02",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-11",
+        "2023-01-14",
+        "2023-01-21",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 119.05619999999999,
+        "median_km": 123.765,
+        "min_km": 70.252,
+        "max_km": 149.657
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.14,
+      "llm_rationale": "5 days with moderate distance (119.1 km). Secondary; reduce from 0.161 to 0.14."
+    },
+    {
+      "vehicle_id": 2201,
+      "cluster": 2,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06614785992217896,
+      "current_joint_weight": 0.010669009664867574,
+      "route_days": 5,
+      "representative_date": "2023-01-26",
+      "example_dates": [
+        "2023-01-10",
+        "2023-01-16",
+        "2023-01-24",
+        "2023-01-26",
+        "2023-01-29"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 51.5784,
+        "median_km": 35.49,
+        "min_km": 11.529,
+        "max_km": 133.978
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.14,
+      "llm_rationale": "5 days with lowest distance (51.6 km mean, wide 11.5\u2013134.0 km variance). Unstable short-range; reduce to 0.14."
+    }
+  ],
+  "1993": [
+    {
+      "vehicle_id": 1993,
+      "cluster": 0,
+      "current_route_weight": 0.2903225806451613,
+      "truck_appearance_frequency": 0.07263294422827495,
+      "current_joint_weight": 0.021086983808208858,
+      "route_days": 9,
+      "representative_date": "2023-01-18",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-21",
+        "2023-01-25",
+        "2023-01-26"
+      ],
+      "distance_stats": {
+        "count": 9,
+        "mean_km": 147.09599999999998,
+        "median_km": 138.826,
+        "min_km": 87.186,
+        "max_km": 216.718
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.29,
+      "llm_rationale": "9 days with moderate-high distance (147.1 km mean). Primary routine; increase from 0.290 to 0.29."
+    },
+    {
+      "vehicle_id": 1993,
+      "cluster": 4,
+      "current_route_weight": 0.25806451612903225,
+      "truck_appearance_frequency": 0.07263294422827495,
+      "current_joint_weight": 0.01874398560729676,
+      "route_days": 8,
+      "representative_date": "2023-01-17",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-10",
+        "2023-01-12",
+        "2023-01-14",
+        "2023-01-17",
+        "2023-01-30",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 8,
+        "mean_km": 94.07062499999999,
+        "median_km": 80.978,
+        "min_km": 29.705,
+        "max_km": 210.908
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.24,
+      "llm_rationale": "8 days with lower distance (94.1 km mean, tight 29.7\u2013210.9 km). Frequent short-range; increase from 0.258 to 0.24."
+    },
+    {
+      "vehicle_id": 1993,
+      "cluster": 3,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.07263294422827495,
+      "current_joint_weight": 0.011714991004560475,
+      "route_days": 5,
+      "representative_date": "2023-01-04",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-04",
+        "2023-01-09",
+        "2023-01-23",
+        "2023-01-29"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 106.39020000000001,
+        "median_km": 113.836,
+        "min_km": 52.36,
+        "max_km": 184.036
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.17,
+      "llm_rationale": "5 days with moderate distance (106.4 km mean). Secondary; reduce from 0.161 to 0.17."
+    },
+    {
+      "vehicle_id": 1993,
+      "cluster": 2,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.07263294422827495,
+      "current_joint_weight": 0.011714991004560475,
+      "route_days": 5,
+      "representative_date": "2023-01-24",
+      "example_dates": [
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-20",
+        "2023-01-22",
+        "2023-01-24"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 167.5976,
+        "median_km": 161.985,
+        "min_km": 137.853,
+        "max_km": 200.722
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.18,
+      "llm_rationale": "5 days with high distance (167.6 km mean, tight 137.9\u2013200.7 km). Long-range variant; increase from 0.161 to 0.18."
+    },
+    {
+      "vehicle_id": 1993,
+      "cluster": 1,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.07263294422827495,
+      "current_joint_weight": 0.00937199280364838,
+      "route_days": 4,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-06",
+        "2023-01-08",
+        "2023-01-28"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 121.494,
+        "median_km": 133.57500000000002,
+        "min_km": 44.967,
+        "max_km": 173.859
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.12,
+      "llm_rationale": "4 days with moderate distance (121.5 km mean). Secondary; reduce from 0.129 to 0.12."
+    }
+  ],
+  "1421": [
+    {
+      "vehicle_id": 1421,
+      "cluster": 1,
+      "current_route_weight": 0.2903225806451613,
+      "truck_appearance_frequency": 0.07133592736705575,
+      "current_joint_weight": 0.020710430525919414,
+      "route_days": 9,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-14",
+        "2023-01-20",
+        "2023-01-21",
+        "2023-01-22"
+      ],
+      "distance_stats": {
+        "count": 9,
+        "mean_km": 154.2157777777778,
+        "median_km": 131.717,
+        "min_km": 96.783,
+        "max_km": 280.782
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.32000000000000006,
+      "llm_rationale": "9 days with moderate distance (154.2 km mean, tight 96.8\u2013280.8 km). Primary routine; increase from 0.290 to 0.32."
+    },
+    {
+      "vehicle_id": 1421,
+      "cluster": 3,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.07133592736705575,
+      "current_joint_weight": 0.013806953683946275,
+      "route_days": 6,
+      "representative_date": "2023-01-06",
+      "example_dates": [
+        "2023-01-06",
+        "2023-01-15",
+        "2023-01-18",
+        "2023-01-23",
+        "2023-01-24",
+        "2023-01-29"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 148.51000000000002,
+        "median_km": 158.3395,
+        "min_km": 75.458,
+        "max_km": 197.369
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.18000000000000002,
+      "llm_rationale": "6 days with moderate distance (148.5 km mean, tight 75.5\u2013197.4 km). Secondary routine; reduce from 0.194 to 0.18."
+    },
+    {
+      "vehicle_id": 1421,
+      "cluster": 2,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.07133592736705575,
+      "current_joint_weight": 0.013806953683946275,
+      "route_days": 6,
+      "representative_date": "2023-01-30",
+      "example_dates": [
+        "2023-01-10",
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-16",
+        "2023-01-17",
+        "2023-01-30"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 192.63733333333334,
+        "median_km": 183.1805,
+        "min_km": 155.295,
+        "max_km": 258.291
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.20000000000000004,
+      "llm_rationale": "6 days with high distance (192.6 km mean, tight 155.3\u2013258.3 km). Consistent long-range; reduce from 0.194 to 0.20."
+    },
+    {
+      "vehicle_id": 1421,
+      "cluster": 0,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.07133592736705575,
+      "current_joint_weight": 0.011505794736621895,
+      "route_days": 5,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-03",
+        "2023-01-04",
+        "2023-01-19",
+        "2023-01-26"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 172.88459999999998,
+        "median_km": 168.94,
+        "min_km": 133.443,
+        "max_km": 207.093
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.15000000000000002,
+      "llm_rationale": "5 days with moderate distance (172.9 km). Secondary; reduce from 0.161 to 0.15."
+    },
+    {
+      "vehicle_id": 1421,
+      "cluster": 4,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.07133592736705575,
+      "current_joint_weight": 0.011505794736621895,
+      "route_days": 5,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-09",
+        "2023-01-12",
+        "2023-01-25",
+        "2023-01-28",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 184.1034,
+        "median_km": 200.216,
+        "min_km": 123.302,
+        "max_km": 210.18
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.15000000000000002,
+      "llm_rationale": "5 days with high distance (184.1 km mean). Secondary; maintain 0.15."
+    }
+  ],
+  "1312": [
+    {
+      "vehicle_id": 1312,
+      "cluster": 0,
+      "current_route_weight": 0.2903225806451613,
+      "truck_appearance_frequency": 0.06874189364461736,
+      "current_joint_weight": 0.019957323961340524,
+      "route_days": 9,
+      "representative_date": "2023-01-19",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-19",
+        "2023-01-20",
+        "2023-01-22",
+        "2023-01-24",
+        "2023-01-26"
+      ],
+      "distance_stats": {
+        "count": 9,
+        "mean_km": 299.8421111111111,
+        "median_km": 321.301,
+        "min_km": 162.894,
+        "max_km": 418.794
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.3,
+      "llm_rationale": "9 days with very high distance (299.8 km mean). Primary long-haul; maintain 0.29."
+    },
+    {
+      "vehicle_id": 1312,
+      "cluster": 4,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.06874189364461736,
+      "current_joint_weight": 0.015522363081042628,
+      "route_days": 7,
+      "representative_date": "2023-01-30",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-04",
+        "2023-01-09",
+        "2023-01-12",
+        "2023-01-14",
+        "2023-01-30",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 242.3685714285714,
+        "median_km": 237.846,
+        "min_km": 128.013,
+        "max_km": 368.239
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.17,
+      "llm_rationale": "7 days with moderate-high distance (242.4 km mean, tight 128.0\u2013368.2 km). Secondary; increase from 0.226 to 0.17."
+    },
+    {
+      "vehicle_id": 1312,
+      "cluster": 2,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.06874189364461736,
+      "current_joint_weight": 0.013304882640893682,
+      "route_days": 6,
+      "representative_date": "2023-01-16",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-18"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 259.3061666666667,
+        "median_km": 239.0805,
+        "min_km": 208.325,
+        "max_km": 381.34
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.21,
+      "llm_rationale": "6 days with high distance (259.3 km mean, tight 208.3\u2013381.3 km). Secondary long-haul; increase from 0.194 to 0.21."
+    },
+    {
+      "vehicle_id": 1312,
+      "cluster": 1,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06874189364461736,
+      "current_joint_weight": 0.011087402200744735,
+      "route_days": 5,
+      "representative_date": "2023-01-10",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-08",
+        "2023-01-10",
+        "2023-01-17",
+        "2023-01-25"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 306.122,
+        "median_km": 323.754,
+        "min_km": 243.382,
+        "max_km": 358.112
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.17,
+      "llm_rationale": "5 days with very high distance (306.1 km mean, tight 243.4\u2013358.1 km). Consistent extreme; reduce from 0.161 to 0.17."
+    },
+    {
+      "vehicle_id": 1312,
+      "cluster": 3,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.06874189364461736,
+      "current_joint_weight": 0.008869921760595787,
+      "route_days": 4,
+      "representative_date": "2023-01-28",
+      "example_dates": [
+        "2023-01-21",
+        "2023-01-23",
+        "2023-01-27",
+        "2023-01-28"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 338.75475,
+        "median_km": 327.7215,
+        "min_km": 298.017,
+        "max_km": 401.559
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.15,
+      "llm_rationale": "4 days with very high distance (338.8 km mean, tight 298.0\u2013401.6 km). Rare extreme; reduce from 0.129 to 0.15."
+    }
+  ],
+  "1576": [
+    {
+      "vehicle_id": 1576,
+      "cluster": 4,
+      "current_route_weight": 0.25806451612903225,
+      "truck_appearance_frequency": 0.07652399481193252,
+      "current_joint_weight": 0.01974812769340194,
+      "route_days": 8,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-05",
+        "2023-01-10",
+        "2023-01-12",
+        "2023-01-20",
+        "2023-01-22",
+        "2023-01-28",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 8,
+        "mean_km": 72.5815,
+        "median_km": 58.4525,
+        "min_km": 39.247,
+        "max_km": 163.004
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.24,
+      "llm_rationale": "8 days with lower-moderate distance (72.6 km mean, tight 39.2\u2013163.0 km). Primary short-range; increase from 0.258 to 0.24."
+    },
+    {
+      "vehicle_id": 1576,
+      "cluster": 3,
+      "current_route_weight": 0.25806451612903225,
+      "truck_appearance_frequency": 0.07652399481193252,
+      "current_joint_weight": 0.01974812769340194,
+      "route_days": 8,
+      "representative_date": "2023-01-07",
+      "example_dates": [
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-13",
+        "2023-01-18",
+        "2023-01-23",
+        "2023-01-24",
+        "2023-01-30"
+      ],
+      "distance_stats": {
+        "count": 8,
+        "mean_km": 91.886,
+        "median_km": 88.0275,
+        "min_km": 32.044,
+        "max_km": 142.029
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.28,
+      "llm_rationale": "8 days with moderate distance (91.9 km mean, tight 32.0\u2013142.0 km). Primary routine; increase from 0.258 to 0.28."
+    },
+    {
+      "vehicle_id": 1576,
+      "cluster": 0,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.07652399481193252,
+      "current_joint_weight": 0.014811095770051455,
+      "route_days": 6,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-04",
+        "2023-01-17",
+        "2023-01-19",
+        "2023-01-26",
+        "2023-01-27"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 114.07583333333334,
+        "median_km": 108.747,
+        "min_km": 46.188,
+        "max_km": 174.455
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.2,
+      "llm_rationale": "6 days with moderate distance (114.1 km mean). Secondary; increase from 0.194 to 0.20."
+    },
+    {
+      "vehicle_id": 1576,
+      "cluster": 2,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.07652399481193252,
+      "current_joint_weight": 0.012342579808376213,
+      "route_days": 5,
+      "representative_date": "2023-01-15",
+      "example_dates": [
+        "2023-01-09",
+        "2023-01-11",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-25"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 140.80479999999997,
+        "median_km": 137.423,
+        "min_km": 67.702,
+        "max_km": 243.757
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.17,
+      "llm_rationale": "5 days with high distance (140.8 km mean, tight 67.7\u2013243.8 km). Secondary; reduce from 0.161 to 0.17."
+    },
+    {
+      "vehicle_id": 1576,
+      "cluster": 1,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.07652399481193252,
+      "current_joint_weight": 0.00987406384670097,
+      "route_days": 4,
+      "representative_date": "2023-01-29",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-14",
+        "2023-01-21",
+        "2023-01-29"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 95.17275,
+        "median_km": 94.9585,
+        "min_km": 62.915,
+        "max_km": 127.859
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.11,
+      "llm_rationale": "4 days with moderate distance (95.2 km mean). Rare; reduce from 0.129 to 0.11."
+    }
+  ],
+  "1578": [
+    {
+      "vehicle_id": 1578,
+      "cluster": 3,
+      "current_route_weight": 0.2903225806451613,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.019580770679051084,
+      "route_days": 9,
+      "representative_date": "2023-01-20",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-09",
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-20",
+        "2023-01-23"
+      ],
+      "distance_stats": {
+        "count": 9,
+        "mean_km": 308.637,
+        "median_km": 261.246,
+        "min_km": 212.38,
+        "max_km": 458.74
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.3,
+      "llm_rationale": "9 days with very high distance (308.6 km mean, tight 212.4\u2013458.7 km). Primary routine; increase from 0.290 to 0.30."
+    },
+    {
+      "vehicle_id": 1578,
+      "cluster": 1,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.015229488305928619,
+      "route_days": 7,
+      "representative_date": "2023-01-15",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-08",
+        "2023-01-12",
+        "2023-01-15",
+        "2023-01-22",
+        "2023-01-24",
+        "2023-01-26"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 332.44557142857144,
+        "median_km": 310.099,
+        "min_km": 229.073,
+        "max_km": 463.607
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.22,
+      "llm_rationale": "7 days with very high distance (332.4 km mean, tight 229.1\u2013463.6 km). Consistent long-haul; increase from 0.226 to 0.22."
+    },
+    {
+      "vehicle_id": 1578,
+      "cluster": 2,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.015229488305928619,
+      "route_days": 7,
+      "representative_date": "2023-01-17",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-05",
+        "2023-01-16",
+        "2023-01-17",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-25"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 339.07714285714286,
+        "median_km": 300.041,
+        "min_km": 281.701,
+        "max_km": 465.566
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.24,
+      "llm_rationale": "7 days with very high distance (339.1 km mean, tight 281.7\u2013465.6 km). Consistent long-haul; increase from 0.226 to 0.24."
+    },
+    {
+      "vehicle_id": 1578,
+      "cluster": 0,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.008702564746244925,
+      "route_days": 4,
+      "representative_date": "2023-01-21",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-10",
+        "2023-01-14",
+        "2023-01-21"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 322.74,
+        "median_km": 348.72450000000003,
+        "min_km": 221.267,
+        "max_km": 372.244
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.1,
+      "llm_rationale": "4 days with high distance (322.7 km mean). Rare variant; reduce from 0.129 to 0.10."
+    },
+    {
+      "vehicle_id": 1578,
+      "cluster": 4,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.06744487678339817,
+      "current_joint_weight": 0.008702564746244925,
+      "route_days": 4,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-28",
+        "2023-01-29",
+        "2023-01-30",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 375.0295,
+        "median_km": 360.9185,
+        "min_km": 348.798,
+        "max_km": 429.483
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.14,
+      "llm_rationale": "4 days with extreme distance (375.0 km mean, tight 348.8\u2013429.5 km). Rare extreme; reduce from 0.129 to 0.14."
+    }
+  ],
+  "2191": [
+    {
+      "vehicle_id": 2191,
+      "cluster": 0,
+      "current_route_weight": 0.2903225806451613,
+      "truck_appearance_frequency": 0.06355382619974058,
+      "current_joint_weight": 0.01845111083218275,
+      "route_days": 9,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-04",
+        "2023-01-07",
+        "2023-01-09",
+        "2023-01-13",
+        "2023-01-19",
+        "2023-01-27"
+      ],
+      "distance_stats": {
+        "count": 9,
+        "mean_km": 212.23677777777777,
+        "median_km": 236.959,
+        "min_km": 17.551,
+        "max_km": 337.747
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.27,
+      "llm_rationale": "9 days with moderate distance (212.2 km mean, wide 17.6\u2013337.7 km variance). Primary but unstable; maintain 0.29."
+    },
+    {
+      "vehicle_id": 2191,
+      "cluster": 3,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.06355382619974058,
+      "current_joint_weight": 0.014350863980586583,
+      "route_days": 7,
+      "representative_date": "2023-01-18",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-17",
+        "2023-01-18",
+        "2023-01-20",
+        "2023-01-21",
+        "2023-01-23",
+        "2023-01-28"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 264.47528571428575,
+        "median_km": 322.017,
+        "min_km": 3.194,
+        "max_km": 362.053
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.22,
+      "llm_rationale": "7 days with moderate-high distance (264.5 km mean, wide 3.2\u2013362.1 km variance). Secondary; reduce from 0.226 to 0.22."
+    },
+    {
+      "vehicle_id": 2191,
+      "cluster": 1,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.06355382619974058,
+      "current_joint_weight": 0.012300740554788499,
+      "route_days": 6,
+      "representative_date": "2023-01-26",
+      "example_dates": [
+        "2023-01-08",
+        "2023-01-10",
+        "2023-01-11",
+        "2023-01-12",
+        "2023-01-22",
+        "2023-01-26"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 335.6628333333333,
+        "median_km": 340.7565,
+        "min_km": 250.283,
+        "max_km": 397.076
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.21,
+      "llm_rationale": "6 days with very high distance (335.7 km mean, tight 250.3\u2013397.1 km). Consistent extreme; increase from 0.194 to 0.21."
+    },
+    {
+      "vehicle_id": 2191,
+      "cluster": 4,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06355382619974058,
+      "current_joint_weight": 0.010250617128990416,
+      "route_days": 5,
+      "representative_date": "2023-01-24",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 342.29260000000005,
+        "median_km": 315.649,
+        "min_km": 253.369,
+        "max_km": 446.739
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.17,
+      "llm_rationale": "5 days with very high distance (342.3 km mean, tight 253.4\u2013446.7 km). Consistent extreme; increase from 0.161 to 0.17."
+    },
+    {
+      "vehicle_id": 2191,
+      "cluster": 2,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.06355382619974058,
+      "current_joint_weight": 0.008200493703192332,
+      "route_days": 4,
+      "representative_date": "2023-01-15",
+      "example_dates": [
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-30"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 330.56600000000003,
+        "median_km": 344.571,
+        "min_km": 181.796,
+        "max_km": 451.326
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.13,
+      "llm_rationale": "4 days with very high distance (330.6 km mean, wide 181.8\u2013451.3 km). Rare extreme; reduce from 0.129 to 0.13."
+    }
+  ],
+  "1363": [
+    {
+      "vehicle_id": 1363,
+      "cluster": 1,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.05966277561608299,
+      "current_joint_weight": 0.013472239655244547,
+      "route_days": 7,
+      "representative_date": "2023-01-27",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-12",
+        "2023-01-21",
+        "2023-01-25",
+        "2023-01-27"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 56.865857142857145,
+        "median_km": 56.036,
+        "min_km": 38.406,
+        "max_km": 75.911
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.23,
+      "llm_rationale": "7 days with low-moderate distance (56.9 km mean, tight 38.4\u201375.9 km). Primary routine; increase from 0.226 to 0.23."
+    },
+    {
+      "vehicle_id": 1363,
+      "cluster": 4,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.05966277561608299,
+      "current_joint_weight": 0.013472239655244547,
+      "route_days": 7,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-22",
+        "2023-01-26",
+        "2023-01-29",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 47.70157142857142,
+        "median_km": 59.794,
+        "min_km": 8.969,
+        "max_km": 103.854
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.21,
+      "llm_rationale": "7 days with low-moderate distance (47.7 km mean, wide 9.0\u2013103.9 km). Secondary; reduce from 0.226 to 0.21."
+    },
+    {
+      "vehicle_id": 1363,
+      "cluster": 3,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.05966277561608299,
+      "current_joint_weight": 0.013472239655244547,
+      "route_days": 7,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-15",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-23",
+        "2023-01-28"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 76.37257142857143,
+        "median_km": 69.907,
+        "min_km": 23.765,
+        "max_km": 182.991
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.24,
+      "llm_rationale": "7 days with moderate distance (76.4 km mean, wide 23.8\u2013183.0 km). Secondary routine; increase from 0.226 to 0.24."
+    },
+    {
+      "vehicle_id": 1363,
+      "cluster": 0,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.05966277561608299,
+      "current_joint_weight": 0.01154763399020961,
+      "route_days": 6,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-14",
+        "2023-01-17",
+        "2023-01-20"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 57.154500000000006,
+        "median_km": 47.766,
+        "min_km": 11.298,
+        "max_km": 144.328
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.2,
+      "llm_rationale": "6 days with moderate distance (57.2 km mean, wide 11.3\u2013144.3 km). Secondary; increase from 0.194 to 0.20."
+    },
+    {
+      "vehicle_id": 1363,
+      "cluster": 2,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.05966277561608299,
+      "current_joint_weight": 0.0076984226601397405,
+      "route_days": 4,
+      "representative_date": "2023-01-16",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-16",
+        "2023-01-24",
+        "2023-01-30"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 39.38875,
+        "median_km": 24.468,
+        "min_km": 4.213,
+        "max_km": 104.406
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.12,
+      "llm_rationale": "4 days with lowest distance (39.4 km mean, wide 4.2\u2013104.4 km). Rare unstable; reduce from 0.129 to 0.12."
+    }
+  ],
+  "1785": [
+    {
+      "vehicle_id": 1785,
+      "cluster": 0,
+      "current_route_weight": 0.3870967741935484,
+      "truck_appearance_frequency": 0.029831387808041496,
+      "current_joint_weight": 0.01154763399020961,
+      "route_days": 12,
+      "representative_date": "2023-01-14",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-10",
+        "2023-01-11",
+        "2023-01-14",
+        "2023-01-17",
+        "2023-01-20"
+      ],
+      "distance_stats": {
+        "count": 12,
+        "mean_km": 107.82533333333335,
+        "median_km": 62.164500000000004,
+        "min_km": 24.297,
+        "max_km": 321.462
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.42,
+      "llm_rationale": "Largest sample (12 days), moderate distance (107.8 km mean, wide 24.3\u2013321.5 km variance). Primary routine despite high variance; increase from 0.387 to 0.42."
+    },
+    {
+      "vehicle_id": 1785,
+      "cluster": 2,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.029831387808041496,
+      "current_joint_weight": 0.005773816995104805,
+      "route_days": 6,
+      "representative_date": "2023-01-28",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-13",
+        "2023-01-16",
+        "2023-01-24",
+        "2023-01-28"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 292.3063333333333,
+        "median_km": 289.1595,
+        "min_km": 214.685,
+        "max_km": 363.719
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.19,
+      "llm_rationale": "6 days with very high distance (292.3 km mean, tight 214.7\u2013363.7 km). Consistent long-haul; increase from 0.194 to 0.19."
+    },
+    {
+      "vehicle_id": 1785,
+      "cluster": 3,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.029831387808041496,
+      "current_joint_weight": 0.004811514162587338,
+      "route_days": 5,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-12",
+        "2023-01-19",
+        "2023-01-23",
+        "2023-01-29"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 172.13780000000003,
+        "median_km": 184.253,
+        "min_km": 118.462,
+        "max_km": 212.402
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.15,
+      "llm_rationale": "5 days with moderate-high distance (172.1 km mean, tight 118.5\u2013212.4 km). Secondary; reduce from 0.161 to 0.15."
+    },
+    {
+      "vehicle_id": 1785,
+      "cluster": 4,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.029831387808041496,
+      "current_joint_weight": 0.004811514162587338,
+      "route_days": 5,
+      "representative_date": "2023-01-05",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-15",
+        "2023-01-21",
+        "2023-01-30",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 152.5802,
+        "median_km": 154.048,
+        "min_km": 107.526,
+        "max_km": 176.345
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.16,
+      "llm_rationale": "5 days with moderate distance (152.6 km mean, tight 107.5\u2013176.3 km). Secondary; increase from 0.161 to 0.16."
+    },
+    {
+      "vehicle_id": 1785,
+      "cluster": 1,
+      "current_route_weight": 0.0967741935483871,
+      "truck_appearance_frequency": 0.029831387808041496,
+      "current_joint_weight": 0.0028869084975524026,
+      "route_days": 3,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-18"
+      ],
+      "distance_stats": {
+        "count": 3,
+        "mean_km": 144.066,
+        "median_km": 176.698,
+        "min_km": 76.353,
+        "max_km": 179.147
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.08,
+      "llm_rationale": "3 days with moderate distance (144.1 km mean, tight 76.4\u2013179.1 km). Rare; reduce from 0.0968 to 0.08."
+    }
+  ],
+  "1688": [
+    {
+      "vehicle_id": 1688,
+      "cluster": 1,
+      "current_route_weight": 0.3225806451612903,
+      "truck_appearance_frequency": 0.032425421530479885,
+      "current_joint_weight": 0.010459813396928995,
+      "route_days": 10,
+      "representative_date": "2023-01-07",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-04",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-11",
+        "2023-01-14"
+      ],
+      "distance_stats": {
+        "count": 10,
+        "mean_km": 47.9338,
+        "median_km": 46.664,
+        "min_km": 23.015,
+        "max_km": 78.22
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.42,
+      "llm_rationale": "Largest sample (10 days), low-moderate distance (47.9 km mean, tight 23.0\u201378.2 km). Primary routine; increase from 0.323 to 0.42."
+    },
+    {
+      "vehicle_id": 1688,
+      "cluster": 4,
+      "current_route_weight": 0.25806451612903225,
+      "truck_appearance_frequency": 0.032425421530479885,
+      "current_joint_weight": 0.008367850717543196,
+      "route_days": 8,
+      "representative_date": "2023-01-21",
+      "example_dates": [
+        "2023-01-16",
+        "2023-01-19",
+        "2023-01-20",
+        "2023-01-21",
+        "2023-01-26",
+        "2023-01-27",
+        "2023-01-30",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 8,
+        "mean_km": 65.160375,
+        "median_km": 70.2235,
+        "min_km": 24.812,
+        "max_km": 106.621
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.2,
+      "llm_rationale": "8 days with moderate distance (65.2 km mean, wide 24.8\u2013106.6 km). Secondary; increase from 0.258 to 0.20."
+    },
+    {
+      "vehicle_id": 1688,
+      "cluster": 2,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.032425421530479885,
+      "current_joint_weight": 0.007321869377850296,
+      "route_days": 7,
+      "representative_date": "2023-01-25",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-12",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-29"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 58.69528571428572,
+        "median_km": 53.324,
+        "min_km": 48.57,
+        "max_km": 74.326
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.23,
+      "llm_rationale": "7 days with low-moderate distance (58.7 km mean, tight 48.6\u201374.3 km). Secondary routine; increase from 0.226 to 0.23."
+    },
+    {
+      "vehicle_id": 1688,
+      "cluster": 3,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.032425421530479885,
+      "current_joint_weight": 0.004183925358771598,
+      "route_days": 4,
+      "representative_date": "2023-01-13",
+      "example_dates": [
+        "2023-01-13",
+        "2023-01-22",
+        "2023-01-23",
+        "2023-01-28"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 293.5955,
+        "median_km": 296.7325,
+        "min_km": 238.874,
+        "max_km": 342.043
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.11,
+      "llm_rationale": "4 days with extreme distance (293.6 km mean, tight 238.9\u2013342.0 km). Rare extreme; reduce from 0.129 to 0.11."
+    },
+    {
+      "vehicle_id": 1688,
+      "cluster": 0,
+      "current_route_weight": 0.06451612903225806,
+      "truck_appearance_frequency": 0.032425421530479885,
+      "current_joint_weight": 0.002091962679385799,
+      "route_days": 2,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-15"
+      ],
+      "distance_stats": {
+        "count": 2,
+        "mean_km": 309.3135,
+        "median_km": 309.3135,
+        "min_km": 308.034,
+        "max_km": 310.593
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.04,
+      "llm_rationale": "Only 2 days with extreme distance (309.3 km). Rare anomaly; reduce from 0.0645 to 0.04."
+    }
+  ],
+  "1667": [
+    {
+      "vehicle_id": 1667,
+      "cluster": 3,
+      "current_route_weight": 0.3225806451612903,
+      "truck_appearance_frequency": 0.024643320363164713,
+      "current_joint_weight": 0.007949458181666036,
+      "route_days": 10,
+      "representative_date": "2023-01-05",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-13",
+        "2023-01-19",
+        "2023-01-23",
+        "2023-01-25",
+        "2023-01-27"
+      ],
+      "distance_stats": {
+        "count": 10,
+        "mean_km": 182.8893,
+        "median_km": 174.703,
+        "min_km": 53.235,
+        "max_km": 316.785
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.38,
+      "llm_rationale": "Largest sample (10 days), moderate distance (182.9 km mean). Primary routine; increase from 0.323 to 0.38."
+    },
+    {
+      "vehicle_id": 1667,
+      "cluster": 4,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.024643320363164713,
+      "current_joint_weight": 0.005564620727166226,
+      "route_days": 7,
+      "representative_date": "2023-01-24",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-21",
+        "2023-01-24",
+        "2023-01-30",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 119.0412857142857,
+        "median_km": 122.616,
+        "min_km": 20.242,
+        "max_km": 182.79
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.2,
+      "llm_rationale": "7 days with lower-moderate distance (119.0 km mean, wide 20.2\u2013182.8 km). Secondary; increase from 0.226 to 0.20."
+    },
+    {
+      "vehicle_id": 1667,
+      "cluster": 2,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.024643320363164713,
+      "current_joint_weight": 0.004769674908999622,
+      "route_days": 6,
+      "representative_date": "2023-01-18",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-07",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-18",
+        "2023-01-22"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 158.37533333333337,
+        "median_km": 133.239,
+        "min_km": 18.806,
+        "max_km": 359.632
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.18,
+      "llm_rationale": "6 days with moderate distance (158.4 km mean, wide 18.8\u2013359.6 km). Secondary; increase from 0.194 to 0.18."
+    },
+    {
+      "vehicle_id": 1667,
+      "cluster": 0,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.024643320363164713,
+      "current_joint_weight": 0.003974729090833018,
+      "route_days": 5,
+      "representative_date": "2023-01-14",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-08",
+        "2023-01-12",
+        "2023-01-14",
+        "2023-01-17"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 150.70080000000002,
+        "median_km": 157.566,
+        "min_km": 85.883,
+        "max_km": 188.947
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.16,
+      "llm_rationale": "5 days with moderate distance (150.7 km mean). Secondary; reduce from 0.161 to 0.16."
+    },
+    {
+      "vehicle_id": 1667,
+      "cluster": 1,
+      "current_route_weight": 0.0967741935483871,
+      "truck_appearance_frequency": 0.024643320363164713,
+      "current_joint_weight": 0.002384837454499811,
+      "route_days": 3,
+      "representative_date": "2023-01-11",
+      "example_dates": [
+        "2023-01-11",
+        "2023-01-20",
+        "2023-01-26"
+      ],
+      "distance_stats": {
+        "count": 3,
+        "mean_km": 148.51200000000003,
+        "median_km": 178.829,
+        "min_km": 40.09,
+        "max_km": 226.617
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.08,
+      "llm_rationale": "3 days with moderate distance (148.5 km mean, wide 40.1\u2013226.6 km). Rare; reduce from 0.0968 to 0.08."
+    }
+  ],
+  "1311": [
+    {
+      "vehicle_id": 1311,
+      "cluster": 2,
+      "current_route_weight": 0.3548387096774194,
+      "truck_appearance_frequency": 0.01686121919584954,
+      "current_joint_weight": 0.005983013263043386,
+      "route_days": 11,
+      "representative_date": "2023-01-05",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-11",
+        "2023-01-16",
+        "2023-01-17",
+        "2023-01-18",
+        "2023-01-19"
+      ],
+      "distance_stats": {
+        "count": 11,
+        "mean_km": 251.1131818181818,
+        "median_km": 294.54,
+        "min_km": 1.371,
+        "max_km": 498.044
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.38,
+      "llm_rationale": "Largest sample (11 days), moderate distance (251.1 km mean, very wide 1.4\u2013498.0 km). Primary despite high variance; increase from 0.355 to 0.38."
+    },
+    {
+      "vehicle_id": 1311,
+      "cluster": 3,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.01686121919584954,
+      "current_joint_weight": 0.0032634617798418465,
+      "route_days": 6,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-13",
+        "2023-01-21",
+        "2023-01-22",
+        "2023-01-23",
+        "2023-01-26",
+        "2023-01-27"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 250.28616666666665,
+        "median_km": 240.28,
+        "min_km": 182.76,
+        "max_km": 322.248
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.17,
+      "llm_rationale": "6 days with very high distance (250.3 km mean, tight 182.8\u2013322.2 km). Secondary; increase from 0.194 to 0.17."
+    },
+    {
+      "vehicle_id": 1311,
+      "cluster": 1,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.01686121919584954,
+      "current_joint_weight": 0.002719551483201539,
+      "route_days": 5,
+      "representative_date": "2023-01-10",
+      "example_dates": [
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-12",
+        "2023-01-14"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 296.87960000000004,
+        "median_km": 318.564,
+        "min_km": 194.449,
+        "max_km": 340.586
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.17,
+      "llm_rationale": "5 days with very high distance (296.9 km mean, tight 194.4\u2013340.6 km). Secondary; increase from 0.161 to 0.17."
+    },
+    {
+      "vehicle_id": 1311,
+      "cluster": 4,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.01686121919584954,
+      "current_joint_weight": 0.002719551483201539,
+      "route_days": 5,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-15",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-30",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 304.4208,
+        "median_km": 303.193,
+        "min_km": 220.508,
+        "max_km": 381.741
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.14,
+      "llm_rationale": "5 days with very high distance (304.4 km mean, tight 220.5\u2013381.7 km). Secondary; reduce from 0.161 to 0.14."
+    },
+    {
+      "vehicle_id": 1311,
+      "cluster": 0,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.01686121919584954,
+      "current_joint_weight": 0.002175641186561231,
+      "route_days": 4,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-04"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 331.62925,
+        "median_km": 341.5,
+        "min_km": 273.256,
+        "max_km": 370.261
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.14,
+      "llm_rationale": "4 days with very high distance (331.6 km mean, tight 273.3\u2013370.3 km). Secondary extreme; reduce from 0.129 to 0.14."
+    }
+  ],
+  "1423": [
+    {
+      "vehicle_id": 1423,
+      "cluster": 2,
+      "current_route_weight": 0.3225806451612903,
+      "truck_appearance_frequency": 0.015564202334630343,
+      "current_joint_weight": 0.005020710430525917,
+      "route_days": 10,
+      "representative_date": "2023-01-20",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-06",
+        "2023-01-10",
+        "2023-01-13",
+        "2023-01-14",
+        "2023-01-16",
+        "2023-01-17",
+        "2023-01-20"
+      ],
+      "distance_stats": {
+        "count": 10,
+        "mean_km": 257.457,
+        "median_km": 266.453,
+        "min_km": 17.746,
+        "max_km": 378.552
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.36,
+      "llm_rationale": "Largest sample (10 days), very high distance (257.5 km mean, wide 17.7\u2013378.6 km). Primary; increase from 0.323 to 0.36."
+    },
+    {
+      "vehicle_id": 1423,
+      "cluster": 3,
+      "current_route_weight": 0.22580645161290322,
+      "truck_appearance_frequency": 0.015564202334630343,
+      "current_joint_weight": 0.003514497301368142,
+      "route_days": 7,
+      "representative_date": "2023-01-25",
+      "example_dates": [
+        "2023-01-15",
+        "2023-01-21",
+        "2023-01-22",
+        "2023-01-23",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-27"
+      ],
+      "distance_stats": {
+        "count": 7,
+        "mean_km": 347.62042857142853,
+        "median_km": 364.156,
+        "min_km": 232.095,
+        "max_km": 433.838
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.23,
+      "llm_rationale": "7 days with extreme distance (347.6 km mean, tight 232.1\u2013433.8 km). Consistent extreme; increase from 0.226 to 0.23."
+    },
+    {
+      "vehicle_id": 1423,
+      "cluster": 1,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.015564202334630343,
+      "current_joint_weight": 0.0030124262583155503,
+      "route_days": 6,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-05",
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-11",
+        "2023-01-12"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 267.71683333333334,
+        "median_km": 283.20000000000005,
+        "min_km": 129.416,
+        "max_km": 401.245
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.17,
+      "llm_rationale": "6 days with very high distance (267.7 km mean, tight 129.4\u2013401.2 km). Consistent extreme; increase from 0.194 to 0.17."
+    },
+    {
+      "vehicle_id": 1423,
+      "cluster": 4,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.015564202334630343,
+      "current_joint_weight": 0.0025103552152629586,
+      "route_days": 5,
+      "representative_date": "2023-01-19",
+      "example_dates": [
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-26",
+        "2023-01-28",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 273.75199999999995,
+        "median_km": 272.209,
+        "min_km": 195.985,
+        "max_km": 337.631
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.15,
+      "llm_rationale": "5 days with very high distance (273.8 km mean). Secondary; reduce from 0.161 to 0.15."
+    },
+    {
+      "vehicle_id": 1423,
+      "cluster": 0,
+      "current_route_weight": 0.0967741935483871,
+      "truck_appearance_frequency": 0.015564202334630343,
+      "current_joint_weight": 0.0015062131291577751,
+      "route_days": 3,
+      "representative_date": "2023-01-07",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-07"
+      ],
+      "distance_stats": {
+        "count": 3,
+        "mean_km": 252.8263333333333,
+        "median_km": 277.347,
+        "min_km": 16.352,
+        "max_km": 464.78
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.09,
+      "llm_rationale": "3 days with very high distance (252.8 km mean, extreme wide 16.4\u2013464.8 km). Rare unstable; reduce from 0.0968 to 0.09."
+    }
+  ],
+  "1506": [
+    {
+      "vehicle_id": 1506,
+      "cluster": 1,
+      "current_route_weight": 0.45161290322580644,
+      "truck_appearance_frequency": 0.010376134889753563,
+      "current_joint_weight": 0.00468599640182419,
+      "route_days": 14,
+      "representative_date": "2023-01-12",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-11",
+        "2023-01-12",
+        "2023-01-13",
+        "2023-01-14"
+      ],
+      "distance_stats": {
+        "count": 14,
+        "mean_km": 55.94607142857142,
+        "median_km": 50.479,
+        "min_km": 23.068,
+        "max_km": 95.587
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.48,
+      "llm_rationale": "Largest sample (14 days), low-moderate distance (55.9 km mean, tight 23.1\u201395.6 km). Primary routine; increase from 0.452 to 0.48."
+    },
+    {
+      "vehicle_id": 1506,
+      "cluster": 0,
+      "current_route_weight": 0.1935483870967742,
+      "truck_appearance_frequency": 0.010376134889753563,
+      "current_joint_weight": 0.002008284172210367,
+      "route_days": 6,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-04",
+        "2023-01-08",
+        "2023-01-20",
+        "2023-01-24",
+        "2023-01-29"
+      ],
+      "distance_stats": {
+        "count": 6,
+        "mean_km": 65.19449999999999,
+        "median_km": 51.0605,
+        "min_km": 27.924,
+        "max_km": 140.975
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.15,
+      "llm_rationale": "6 days with moderate distance (65.2 km mean, wide 27.9\u2013141.0 km). Secondary; increase from 0.194 to 0.15."
+    },
+    {
+      "vehicle_id": 1506,
+      "cluster": 3,
+      "current_route_weight": 0.16129032258064516,
+      "truck_appearance_frequency": 0.010376134889753563,
+      "current_joint_weight": 0.001673570143508639,
+      "route_days": 5,
+      "representative_date": "2023-01-27",
+      "example_dates": [
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-23",
+        "2023-01-27",
+        "2023-01-31"
+      ],
+      "distance_stats": {
+        "count": 5,
+        "mean_km": 306.4538,
+        "median_km": 291.8,
+        "min_km": 275.971,
+        "max_km": 363.588
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.15,
+      "llm_rationale": "5 days with extreme distance (306.5 km mean, tight 276.0\u2013363.6 km). Rare extreme; increase from 0.161 to 0.15."
+    },
+    {
+      "vehicle_id": 1506,
+      "cluster": 2,
+      "current_route_weight": 0.12903225806451613,
+      "truck_appearance_frequency": 0.010376134889753563,
+      "current_joint_weight": 0.0013388561148069114,
+      "route_days": 4,
+      "representative_date": "2023-01-09",
+      "example_dates": [
+        "2023-01-06",
+        "2023-01-09",
+        "2023-01-21",
+        "2023-01-26"
+      ],
+      "distance_stats": {
+        "count": 4,
+        "mean_km": 97.58949999999999,
+        "median_km": 90.6745,
+        "min_km": 56.844,
+        "max_km": 152.165
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.12,
+      "llm_rationale": "4 days with moderate distance (97.6 km mean, wide 56.8\u2013152.2 km). Rare; reduce from 0.129 to 0.12."
+    },
+    {
+      "vehicle_id": 1506,
+      "cluster": 4,
+      "current_route_weight": 0.06451612903225806,
+      "truck_appearance_frequency": 0.010376134889753563,
+      "current_joint_weight": 0.0006694280574034557,
+      "route_days": 2,
+      "representative_date": "2023-01-22",
+      "example_dates": [
+        "2023-01-10",
+        "2023-01-22"
+      ],
+      "distance_stats": {
+        "count": 2,
+        "mean_km": 315.27599999999995,
+        "median_km": 315.27599999999995,
+        "min_km": 308.421,
+        "max_km": 322.131
+      },
+      "role": "other_vehicle",
+      "llm_route_cluster_weight": 0.1,
+      "llm_rationale": "2 days with extreme distance (315.3 km). Rare anomaly; reduce from 0.0645 to 0.10."
+    }
+  ]
+}

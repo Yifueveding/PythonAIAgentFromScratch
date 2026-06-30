@@ -1,0 +1,122 @@
+{
+  "scenario_days_requested": 5,
+  "seed": 0,
+  "sampling_method": "LLM-adjusted route-cluster weights. Target routes sample from llm_route_cluster_weight; other routes sample from truck_appearance_frequency * llm_route_cluster_weight.",
+  "days": [
+    {
+      "scenario_day": 1,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-20",
+        "representative_date": "2023-01-01",
+        "route_cluster_weight": 0.17,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Less frequent but realistic low-distance behavior."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1993,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-01",
+        "representative_date": "2023-01-18",
+        "truck_appearance_frequency": 0.07340720221606647,
+        "route_cluster_weight": 0.25,
+        "joint_scenario_frequency": 0.01835180055401662,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Most frequent and representative medium-distance route."
+      }
+    },
+    {
+      "scenario_day": 2,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-23",
+        "representative_date": "2023-01-22",
+        "route_cluster_weight": 0.3,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Frequent and representative short route with moderate spread."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1576,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-15",
+        "representative_date": "2023-01-15",
+        "truck_appearance_frequency": 0.07756232686980609,
+        "route_cluster_weight": 0.1,
+        "joint_scenario_frequency": 0.00775623268698061,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Longest cluster, downweighted."
+      }
+    },
+    {
+      "scenario_day": 3,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-19",
+        "representative_date": "2023-01-26",
+        "route_cluster_weight": 0.08,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Very stable short route, but limited evidence."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1421,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-31",
+        "representative_date": "2023-01-31",
+        "truck_appearance_frequency": 0.06925207756232686,
+        "route_cluster_weight": 0.16,
+        "joint_scenario_frequency": 0.011080332409972297,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Moderate support but relatively long."
+      }
+    },
+    {
+      "scenario_day": 4,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-04",
+        "representative_date": "2023-01-22",
+        "route_cluster_weight": 0.3,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Frequent and representative short route with moderate spread."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1312,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-27",
+        "representative_date": "2023-01-28",
+        "truck_appearance_frequency": 0.06371191135734072,
+        "route_cluster_weight": 0.14,
+        "joint_scenario_frequency": 0.008919667590027701,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Sparse and highest-distance cluster."
+      }
+    },
+    {
+      "scenario_day": 5,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-31",
+        "representative_date": "2023-01-26",
+        "route_cluster_weight": 0.08,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Very stable short route, but limited evidence."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1578,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-07",
+        "representative_date": "2023-01-20",
+        "truck_appearance_frequency": 0.06094182825484764,
+        "route_cluster_weight": 0.3,
+        "joint_scenario_frequency": 0.018282548476454292,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Most frequent and lowest-distance long-haul option."
+      }
+    }
+  ]
+}

@@ -1,6 +1,8 @@
 .env
 sample.env
+sample1.env
 sample*.env
+llm_parse_debug/
 __pycache__/
 *.py[cod]
 gps_cluster_results.txt
