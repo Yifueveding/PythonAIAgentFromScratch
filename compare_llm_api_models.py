@@ -55,9 +55,15 @@ DEFAULT_MODEL_SPECS = [
         "required_env": "ANTHROPIC_API_KEY",
     },
     {
-        "label": "GLM 5.2",
+        "label": "Claude Sonnet 5",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "required_env": "ANTHROPIC_API_KEY",
+    },
+    {
+        "label": "GLM 4.5 Air",
         "provider": "glm",
-        "model": "glm-5.2",
+        "model": "glm-4.5-air",
         "required_env": "GLM_API_KEY|ZAI_API_KEY|ZHIPUAI_API_KEY",
     },
     {
@@ -78,6 +84,8 @@ def _env_available(required_env: str) -> bool:
     load_dotenv(".env", override=False)
     load_dotenv("sample.env", override=False)
     load_dotenv("sample1.env", override=True)
+    load_dotenv("sample2.env", override=True)
+    load_dotenv("sample3.env", override=True)
     return any(os.getenv(key.strip()) for key in required_env.split("|"))
 
 

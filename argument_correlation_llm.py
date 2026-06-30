@@ -28,10 +28,14 @@ DEFAULT_DISTANCE_FILE = Path("vehicle_daily_distance_speed.csv")
 def _llm_json_text(response: object) -> str:
     content = getattr(response, "content", response)
     if isinstance(content, list):
-        return "\n".join(
-            block.get("text", str(block)) if isinstance(block, dict) else str(block)
-            for block in content
-        )
+        pieces = []
+        for block in content:
+            if isinstance(block, dict):
+                if "text" in block:
+                    pieces.append(str(block["text"]))
+                continue
+            pieces.append(str(block))
+        return "\n".join(pieces)
     return str(content)
 
 
@@ -73,6 +77,8 @@ def _build_llm(provider: str = "anthropic", model_name: Optional[str] = None):
     load_dotenv(".env", override=False)
     load_dotenv("sample.env", override=False)
     load_dotenv("sample1.env", override=True)
+    load_dotenv("sample2.env", override=True)
+    load_dotenv("sample3.env", override=True)
     for env_key in (
         "ANTHROPIC_API_KEY",
         "ANTHROPIC_MODEL",

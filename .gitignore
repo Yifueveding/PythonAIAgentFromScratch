@@ -1,6 +1,8 @@
 .env
 sample.env
 sample1.env
+sample2.env
+sample3.env
 sample*.env
 llm_parse_debug/
 __pycache__/

@@ -1,0 +1,122 @@
+{
+  "scenario_days_requested": 5,
+  "seed": 0,
+  "sampling_method": "LLM-adjusted route-cluster weights. Target routes sample from llm_route_cluster_weight; other routes sample from truck_appearance_frequency * llm_route_cluster_weight.",
+  "days": [
+    {
+      "scenario_day": 1,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-20",
+        "representative_date": "2023-01-01",
+        "route_cluster_weight": 0.17,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Stable short-distance cluster, kept close to frequency-based weight."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1993,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-05",
+        "representative_date": "2023-01-17",
+        "truck_appearance_frequency": 0.07616361071932298,
+        "route_cluster_weight": 0.25,
+        "joint_scenario_frequency": 0.019040902679830746,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "8-day cluster, wide range but high sample count maintained."
+      }
+    },
+    {
+      "scenario_day": 2,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-23",
+        "representative_date": "2023-01-22",
+        "route_cluster_weight": 0.26,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "8-day cluster, moderate mean/median gap but largest sample tier; kept near base frequency."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1576,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-15",
+        "representative_date": "2023-01-15",
+        "truck_appearance_frequency": 0.07898448519040903,
+        "route_cluster_weight": 0.16,
+        "joint_scenario_frequency": 0.012637517630465445,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "5-day cluster, higher distance variance; kept near base."
+      }
+    },
+    {
+      "scenario_day": 3,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-19",
+        "representative_date": "2023-01-26",
+        "route_cluster_weight": 0.1,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Smallest sample (3 days) but very consistent distances; slight bump for stability."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1421,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-31",
+        "representative_date": "2023-01-31",
+        "truck_appearance_frequency": 0.0705218617771509,
+        "route_cluster_weight": 0.15,
+        "joint_scenario_frequency": 0.010578279266572635,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "5-day cluster, similar distance scale; minor adjustment."
+      }
+    },
+    {
+      "scenario_day": 4,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-04",
+        "representative_date": "2023-01-22",
+        "route_cluster_weight": 0.26,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "8-day cluster, moderate mean/median gap but largest sample tier; kept near base frequency."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1312,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-27",
+        "representative_date": "2023-01-28",
+        "truck_appearance_frequency": 0.06488011283497884,
+        "route_cluster_weight": 0.13,
+        "joint_scenario_frequency": 0.00843441466854725,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Smallest sample (4d), highest mean (338.8km); kept near base."
+      }
+    },
+    {
+      "scenario_day": 5,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-31",
+        "representative_date": "2023-01-26",
+        "route_cluster_weight": 0.1,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Smallest sample (3 days) but very consistent distances; slight bump for stability."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1578,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-07",
+        "representative_date": "2023-01-20",
+        "truck_appearance_frequency": 0.060648801128349784,
+        "route_cluster_weight": 0.2903225806451613,
+        "joint_scenario_frequency": 0.01760771645661768,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    }
+  ]
+}

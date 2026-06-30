@@ -1,0 +1,112 @@
+{
+  "scenario_days_requested": 5,
+  "seed": 0,
+  "sampling_method": "For each scenario day, sample the target truck route from its own route_appearance_frequency, then sample one other truck route from joint_scenario_frequency = truck_appearance_frequency * route_appearance_frequency.",
+  "days": [
+    {
+      "scenario_day": 1,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-20",
+        "representative_date": "2023-01-01",
+        "route_appearance_frequency": 0.16129032258064516,
+        "sampling_weight": "route_appearance_frequency"
+      },
+      "other_vehicle": {
+        "vehicle_id": 2518,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-26",
+        "representative_date": "2023-01-28",
+        "truck_appearance_frequency": 0.0646029609690444,
+        "route_appearance_frequency": 0.3548387096774194,
+        "joint_scenario_frequency": 0.0229236313115964,
+        "sampling_weight": "joint_scenario_frequency"
+      }
+    },
+    {
+      "scenario_day": 2,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-16",
+        "representative_date": "2023-01-11",
+        "route_appearance_frequency": 0.25806451612903225,
+        "sampling_weight": "route_appearance_frequency"
+      },
+      "other_vehicle": {
+        "vehicle_id": 1423,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-08",
+        "representative_date": "2023-01-08",
+        "truck_appearance_frequency": 0.0161507402422611,
+        "route_appearance_frequency": 0.1935483870967742,
+        "joint_scenario_frequency": 0.0031259497243086,
+        "sampling_weight": "joint_scenario_frequency"
+      }
+    },
+    {
+      "scenario_day": 3,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-06",
+        "representative_date": "2023-01-07",
+        "route_appearance_frequency": 0.22580645161290322,
+        "sampling_weight": "route_appearance_frequency"
+      },
+      "other_vehicle": {
+        "vehicle_id": 1578,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-16",
+        "representative_date": "2023-01-17",
+        "truck_appearance_frequency": 0.06056527590847913,
+        "route_appearance_frequency": 0.22580645161290322,
+        "joint_scenario_frequency": 0.013676030043850125,
+        "sampling_weight": "joint_scenario_frequency"
+      }
+    },
+    {
+      "scenario_day": 4,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-04",
+        "representative_date": "2023-01-22",
+        "route_appearance_frequency": 0.25806451612903225,
+        "sampling_weight": "route_appearance_frequency"
+      },
+      "other_vehicle": {
+        "vehicle_id": 1993,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-09",
+        "representative_date": "2023-01-04",
+        "truck_appearance_frequency": 0.0753701211305518,
+        "route_appearance_frequency": 0.16129032258064516,
+        "joint_scenario_frequency": 0.012156471150089,
+        "sampling_weight": "joint_scenario_frequency"
+      }
+    },
+    {
+      "scenario_day": 5,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-31",
+        "representative_date": "2023-01-26",
+        "route_appearance_frequency": 0.0967741935483871,
+        "sampling_weight": "route_appearance_frequency"
+      },
+      "other_vehicle": {
+        "vehicle_id": 1506,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-24",
+        "representative_date": "2023-01-01",
+        "truck_appearance_frequency": 0.013458950201884251,
+        "route_appearance_frequency": 0.1935483870967742,
+        "joint_scenario_frequency": 0.0026049581035905,
+        "sampling_weight": "joint_scenario_frequency"
+      }
+    }
+  ]
+}

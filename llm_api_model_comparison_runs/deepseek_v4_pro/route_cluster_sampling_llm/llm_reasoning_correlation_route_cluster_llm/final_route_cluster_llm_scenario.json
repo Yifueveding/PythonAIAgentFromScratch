@@ -1,0 +1,122 @@
+{
+  "scenario_days_requested": 5,
+  "seed": 0,
+  "sampling_method": "LLM-adjusted route-cluster weights. Target routes sample from llm_route_cluster_weight; other routes sample from truck_appearance_frequency * llm_route_cluster_weight.",
+  "days": [
+    {
+      "scenario_day": 1,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-20",
+        "representative_date": "2023-01-01",
+        "route_cluster_weight": 0.15000000000000002,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Slightly reduced; cluster 2 better matches typical daily distance."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1993,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-05",
+        "representative_date": "2023-01-17",
+        "truck_appearance_frequency": 0.0753701211305518,
+        "route_cluster_weight": 0.26,
+        "joint_scenario_frequency": 0.019596231493943468,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Frequency retained; lower mean 94 km but with wide range."
+      }
+    },
+    {
+      "scenario_day": 2,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-29",
+        "representative_date": "2023-01-11",
+        "route_cluster_weight": 0.30000000000000004,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Up-weighted; median 38.3 km closely matches overall median 39.9 km, most consistent."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1576,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-15",
+        "representative_date": "2023-01-15",
+        "truck_appearance_frequency": 0.07133243606998653,
+        "route_cluster_weight": 0.16,
+        "joint_scenario_frequency": 0.011413189771197844,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Retained."
+      }
+    },
+    {
+      "scenario_day": 3,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-19",
+        "representative_date": "2023-01-26",
+        "route_cluster_weight": 0.08000000000000002,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Reduced; few days, low distance less representative."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1423,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-10",
+        "representative_date": "2023-01-20",
+        "truck_appearance_frequency": 0.0161507402422611,
+        "route_cluster_weight": 0.32,
+        "joint_scenario_frequency": 0.005168236877523553,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Most frequent retained."
+      }
+    },
+    {
+      "scenario_day": 4,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-16",
+        "representative_date": "2023-01-11",
+        "route_cluster_weight": 0.30000000000000004,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Up-weighted; median 38.3 km closely matches overall median 39.9 km, most consistent."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1993,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-10",
+        "representative_date": "2023-01-17",
+        "truck_appearance_frequency": 0.0753701211305518,
+        "route_cluster_weight": 0.26,
+        "joint_scenario_frequency": 0.019596231493943468,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Frequency retained; lower mean 94 km but with wide range."
+      }
+    },
+    {
+      "scenario_day": 5,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-27",
+        "representative_date": "2023-01-11",
+        "route_cluster_weight": 0.30000000000000004,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Up-weighted; median 38.3 km closely matches overall median 39.9 km, most consistent."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1785,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-30",
+        "representative_date": "2023-01-05",
+        "truck_appearance_frequency": 0.030955585464333777,
+        "route_cluster_weight": 0.16,
+        "joint_scenario_frequency": 0.004952893674293405,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Retained."
+      }
+    }
+  ]
+}
