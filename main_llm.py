@@ -41,6 +41,7 @@ def build_llm_scenario_generation(
     distance_file: Path = DEFAULT_DISTANCE_FILE,
     llm_provider: str = "anthropic",
     llm_model: Optional[str] = None,
+    include_global_context: bool = True,
 ) -> dict:
     normalized_start = _normalize_date(start_date)
     normalized_end = _normalize_date(end_date)
@@ -106,6 +107,7 @@ def build_llm_scenario_generation(
         distance_file=distance_file,
         llm_provider=llm_provider,
         llm_model=llm_model,
+        include_global_context=include_global_context,
     )
     _write_json(run_dir / "argument_correlations_llm.json", argument_correlation)
 
@@ -179,6 +181,7 @@ def build_llm_scenario_generation(
             "distance_file": str(distance_file),
             "llm_provider": llm_provider,
             "llm_model": argument_correlation["method"].get("llm_model"),
+            "include_global_context": include_global_context,
         },
         "method": {
             "step_1": "Represent each truck-day with stop-zone, GPS image, route distance, and fleet metadata.",

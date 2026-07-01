@@ -1,0 +1,122 @@
+{
+  "scenario_days_requested": 5,
+  "seed": 5,
+  "sampling_method": "LLM-adjusted route-cluster weights. Target routes sample from llm_route_cluster_weight; other routes sample from truck_appearance_frequency * llm_route_cluster_weight.",
+  "days": [
+    {
+      "scenario_day": 1,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-28",
+        "representative_date": "2023-01-07",
+        "route_cluster_weight": 0.22580645161290322,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": ""
+      },
+      "other_vehicle": {
+        "vehicle_id": 2965,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-04",
+        "representative_date": "2023-01-15",
+        "truck_appearance_frequency": 0.025641025641025637,
+        "route_cluster_weight": 0.25806451612903225,
+        "joint_scenario_frequency": 0.0066170388751033895,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    },
+    {
+      "scenario_day": 2,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-02",
+        "representative_date": "2023-01-01",
+        "route_cluster_weight": 0.16129032258064516,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": ""
+      },
+      "other_vehicle": {
+        "vehicle_id": 3017,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-04",
+        "representative_date": "2023-01-13",
+        "truck_appearance_frequency": 0.013714967203339295,
+        "route_cluster_weight": 0.3870967741935484,
+        "joint_scenario_frequency": 0.005309019562582952,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    },
+    {
+      "scenario_day": 3,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-20",
+        "representative_date": "2023-01-01",
+        "route_cluster_weight": 0.16129032258064516,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": ""
+      },
+      "other_vehicle": {
+        "vehicle_id": 1363,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-16",
+        "representative_date": "2023-01-16",
+        "truck_appearance_frequency": 0.02862254025044722,
+        "route_cluster_weight": 0.12903225806451615,
+        "joint_scenario_frequency": 0.0036932310000577064,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    },
+    {
+      "scenario_day": 4,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 2,
+        "sampled_route_date": "2023-01-15",
+        "representative_date": "2023-01-11",
+        "route_cluster_weight": 0.25806451612903225,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": ""
+      },
+      "other_vehicle": {
+        "vehicle_id": 1363,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-11",
+        "representative_date": "2023-01-23",
+        "truck_appearance_frequency": 0.02862254025044722,
+        "route_cluster_weight": 0.22580645161290325,
+        "joint_scenario_frequency": 0.0064631542501009855,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    },
+    {
+      "scenario_day": 5,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-06",
+        "representative_date": "2023-01-07",
+        "route_cluster_weight": 0.22580645161290322,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": ""
+      },
+      "other_vehicle": {
+        "vehicle_id": 2518,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-24",
+        "representative_date": "2023-01-24",
+        "truck_appearance_frequency": 0.025044722719141318,
+        "route_cluster_weight": 0.19354838709677413,
+        "joint_scenario_frequency": 0.004847365687575738,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": ""
+      }
+    }
+  ]
+}

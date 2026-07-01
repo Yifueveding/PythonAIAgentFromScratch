@@ -1,0 +1,60 @@
+{
+  "validation_dates": [
+    "2023-01-05",
+    "2023-01-15",
+    "2023-01-15",
+    "2023-01-31",
+    "2023-01-25"
+  ],
+  "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+  "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+  "metric": "mean_individual_relative_distance_error",
+  "combined_error": 0.37284632523257155,
+  "mean_individual_relative_distance_error": 0.37284632523257155,
+  "fleet_total_relative_distance_error": 0.4879693230761217,
+  "generated_fleet_average_distance_km": 115.33306666666667,
+  "real_fleet_average_distance_km": 225.2464,
+  "valid_fleet_count": 3,
+  "trucks": [
+    {
+      "vehicle_id": 155,
+      "generated_average_distance_km": 38.9054,
+      "real_average_distance_km": 36.555400000000006,
+      "relative_distance_error": 0.0642859878431092,
+      "generated_distance_count": 5,
+      "real_distance_count": 5
+    },
+    {
+      "vehicle_id": 1181,
+      "generated_average_distance_km": 25.293,
+      "real_average_distance_km": 42.428,
+      "relative_distance_error": 0.40386065805600074,
+      "generated_distance_count": 1,
+      "real_distance_count": 1
+    },
+    {
+      "vehicle_id": 689,
+      "generated_average_distance_km": 194.937,
+      "real_average_distance_km": null,
+      "relative_distance_error": null,
+      "generated_distance_count": 1,
+      "real_distance_count": 0
+    },
+    {
+      "vehicle_id": 1236,
+      "generated_average_distance_km": null,
+      "real_average_distance_km": null,
+      "relative_distance_error": null,
+      "generated_distance_count": 0,
+      "real_distance_count": 0
+    },
+    {
+      "vehicle_id": 1206,
+      "generated_average_distance_km": 51.13466666666667,
+      "real_average_distance_km": 146.263,
+      "relative_distance_error": 0.6503923297986047,
+      "generated_distance_count": 3,
+      "real_distance_count": 2
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "validation_dates": [
+    "2023-01-05",
+    "2023-01-15",
+    "2023-01-15",
+    "2023-01-31",
+    "2023-01-25"
+  ],
+  "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+  "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+  "metric": "mean_individual_relative_distance_error",
+  "combined_error": 0.4894199238100677,
+  "mean_individual_relative_distance_error": 0.4894199238100677,
+  "fleet_total_relative_distance_error": 0.08548414471171481,
+  "generated_fleet_average_distance_km": 118.36386666666667,
+  "real_fleet_average_distance_km": 129.42790000000002,
+  "valid_fleet_count": 2,
+  "trucks": [
+    {
+      "vehicle_id": 155,
+      "generated_average_distance_km": 59.1062,
+      "real_average_distance_km": 36.555400000000006,
+      "relative_distance_error": 0.6168938104903787,
+      "generated_distance_count": 5,
+      "real_distance_count": 5
+    },
+    {
+      "vehicle_id": 1181,
+      "generated_average_distance_km": 20.2125,
+      "real_average_distance_km": null,
+      "relative_distance_error": null,
+      "generated_distance_count": 2,
+      "real_distance_count": 0
+    },
+    {
+      "vehicle_id": 689,
+      "generated_average_distance_km": 59.257666666666665,
+      "real_average_distance_km": 92.8725,
+      "relative_distance_error": 0.36194603712975676,
+      "generated_distance_count": 3,
+      "real_distance_count": 2
+    },
+    {
+      "vehicle_id": 1236,
+      "generated_average_distance_km": null,
+      "real_average_distance_km": null,
+      "relative_distance_error": null,
+      "generated_distance_count": 0,
+      "real_distance_count": 0
+    },
+    {
+      "vehicle_id": 1206,
+      "generated_average_distance_km": null,
+      "real_average_distance_km": null,
+      "relative_distance_error": null,
+      "generated_distance_count": 0,
+      "real_distance_count": 0
+    }
+  ]
+}

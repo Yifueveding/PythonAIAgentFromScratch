@@ -456,13 +456,12 @@ def _validate_scenario_distances(
         }
         for vehicle_id in vehicles:
             participant = participant_by_vehicle.get(vehicle_id)
-            generated_distance = (
-                _route_distance_km(lookup, vehicle_id, participant["sampled_route_date"])
-                if participant is not None
-                else 0.0
-            )
+            if participant is None:
+                continue
+            generated_distance = _route_distance_km(lookup, vehicle_id, participant["sampled_route_date"])
             real_distance = _route_distance_km(lookup, vehicle_id, real_date)
-            generated_distances[vehicle_id].append(generated_distance)
+            if generated_distance is not None:
+                generated_distances[vehicle_id].append(generated_distance)
             if real_distance is not None:
                 real_distances[vehicle_id].append(real_distance)
 
@@ -509,7 +508,7 @@ def _validate_scenario_distances(
     return {
         "validation_dates": validation_dates,
         "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
-        "fleet_scope": "All requested vehicles are validated together; non-sampled other trucks contribute generated distance 0 for that scenario day.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
         "metric": "mean_individual_relative_distance_error",
         "combined_error": mean_individual_error,
         "mean_individual_relative_distance_error": mean_individual_error,

@@ -1,0 +1,60 @@
+{
+  "validation_dates": [
+    "2023-01-05",
+    "2023-01-15",
+    "2023-01-15",
+    "2023-01-31",
+    "2023-01-25"
+  ],
+  "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+  "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+  "metric": "mean_individual_relative_distance_error",
+  "combined_error": 0.2737132731070736,
+  "mean_individual_relative_distance_error": 0.2737132731070736,
+  "fleet_total_relative_distance_error": 0.2500474784253788,
+  "generated_fleet_average_distance_km": 247.2019,
+  "real_fleet_average_distance_km": 329.6234,
+  "valid_fleet_count": 4,
+  "trucks": [
+    {
+      "vehicle_id": 155,
+      "generated_average_distance_km": 33.410399999999996,
+      "real_average_distance_km": 36.555400000000006,
+      "relative_distance_error": 0.08603380075173599,
+      "generated_distance_count": 5,
+      "real_distance_count": 5
+    },
+    {
+      "vehicle_id": 1181,
+      "generated_average_distance_km": 25.732999999999997,
+      "real_average_distance_km": 23.141,
+      "relative_distance_error": 0.11200898837561034,
+      "generated_distance_count": 2,
+      "real_distance_count": 1
+    },
+    {
+      "vehicle_id": 689,
+      "generated_average_distance_km": 146.251,
+      "real_average_distance_km": 123.664,
+      "relative_distance_error": 0.182648143356191,
+      "generated_distance_count": 1,
+      "real_distance_count": 1
+    },
+    {
+      "vehicle_id": 1236,
+      "generated_average_distance_km": null,
+      "real_average_distance_km": null,
+      "relative_distance_error": null,
+      "generated_distance_count": 0,
+      "real_distance_count": 0
+    },
+    {
+      "vehicle_id": 1206,
+      "generated_average_distance_km": 41.807500000000005,
+      "real_average_distance_km": 146.263,
+      "relative_distance_error": 0.7141621599447571,
+      "generated_distance_count": 2,
+      "real_distance_count": 1
+    }
+  ]
+}

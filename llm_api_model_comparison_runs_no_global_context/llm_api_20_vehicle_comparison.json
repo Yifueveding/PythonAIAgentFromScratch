@@ -1,0 +1,2161 @@
+{
+  "inputs": {
+    "target_vehicle": 155,
+    "other_vehicles": [
+      1247,
+      1311,
+      1312,
+      1350,
+      1363,
+      1421,
+      1423,
+      1506,
+      1575,
+      1576,
+      1578,
+      1667,
+      1687,
+      1688,
+      1785,
+      1993,
+      2191,
+      2201,
+      2518
+    ],
+    "start_date": "2023-01-01",
+    "end_date": "2023-01-31",
+    "image_feature_method": "pca",
+    "image_clusters": 5,
+    "scenario_days": 5,
+    "seed": 0,
+    "validation_dates": [
+      "2023-01-05",
+      "2023-01-15",
+      "2023-01-15",
+      "2023-01-31",
+      "2023-01-25"
+    ],
+    "previous_comparison_file": "model_comparison_runs/comparison_5_9_20_vehicle_runs.json",
+    "include_global_context": false,
+    "validation_note": "Corrected metric: non-sampled vehicles are excluded from distance error calculations instead of being assigned generated distance 0."
+  },
+  "model_specs": [
+    {
+      "label": "GPT-4o Mini",
+      "provider": "openai",
+      "model": "gpt-4o-mini"
+    },
+    {
+      "label": "GPT 5.5",
+      "provider": "openai",
+      "model": "gpt-5.5"
+    },
+    {
+      "label": "Claude Haiku 4.5",
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "label": "Claude Sonnet 5",
+      "provider": "anthropic",
+      "model": "claude-sonnet-5"
+    },
+    {
+      "label": "DeepSeek V4 Pro",
+      "provider": "deepseek",
+      "model": "deepseek-v4-pro"
+    }
+  ],
+  "results": [
+    {
+      "model_label": "Statistical baseline",
+      "provider": "statistical",
+      "model": "non_llm",
+      "variant": "Statistical baseline",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.3397754617732585,
+      "fleet_total_relative_distance_error": 0.22189492104143596,
+      "output_path": "scenario_generation/target_155_others_1247_1311_1312_1350_1363_1421_1423_1506_1575_1576_1578_1667_1687_1688_1785_1993_2191_2201_2518_2023-01-01_2023-01-31/final_two_day_scenario.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.3397754617732585,
+        "mean_individual_relative_distance_error": 0.3397754617732585,
+        "fleet_total_relative_distance_error": 0.22189492104143596,
+        "generated_fleet_average_distance_km": 736.7102,
+        "real_fleet_average_distance_km": 946.8004,
+        "valid_fleet_count": 6,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 43.9402,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.20201666511650782,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": 298.371,
+            "real_average_distance_km": 220.508,
+            "relative_distance_error": 0.3531073702541403,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": 44.888,
+            "real_average_distance_km": 76.236,
+            "relative_distance_error": 0.41119680990608115,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": 253.966,
+            "real_average_distance_km": 399.581,
+            "relative_distance_error": 0.3644192291425268,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": 41.528,
+            "real_average_distance_km": 40.722,
+            "relative_distance_error": 0.019792741024507572,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": 54.017,
+            "real_average_distance_km": 173.198,
+            "relative_distance_error": 0.6881199551957875,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "GPT-4o Mini",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "variant": "LLM_reasoning_correlation_no_global_context",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.22077385927375706,
+      "fleet_total_relative_distance_error": 0.04953036193891862,
+      "output_path": "llm_api_model_comparison_runs_no_global_context/gpt_4o_mini/llm_reasoning_correlation/scenario_summary_llm.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.22077385927375706,
+        "mean_individual_relative_distance_error": 0.22077385927375706,
+        "fleet_total_relative_distance_error": 0.04953036193891862,
+        "generated_fleet_average_distance_km": 879.3127,
+        "real_fleet_average_distance_km": 837.8154000000001,
+        "valid_fleet_count": 5,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 43.9402,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.20201666511650782,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": 348.293,
+            "real_average_distance_km": 381.741,
+            "relative_distance_error": 0.08761961644151396,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": 224.914,
+            "real_average_distance_km": 144.11,
+            "relative_distance_error": 0.5607105683158696,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": 110.3815,
+            "real_average_distance_km": 99.064,
+            "relative_distance_error": 0.11424432689978206,
+            "generated_distance_count": 2,
+            "real_distance_count": 2
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": 151.784,
+            "real_average_distance_km": 176.345,
+            "relative_distance_error": 0.13927811959511188,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "GPT-4o Mini",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "variant": "Route-cluster_sampling_LLM_no_global_context",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 1.4086792568536726,
+      "fleet_total_relative_distance_error": 0.4723201159630054,
+      "output_path": "llm_api_model_comparison_runs_no_global_context/gpt_4o_mini/route_cluster_sampling_llm/llm_reasoning_correlation_route_cluster_llm/route_cluster_sampling_summary.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 1.4086792568536726,
+        "mean_individual_relative_distance_error": 1.4086792568536726,
+        "fleet_total_relative_distance_error": 0.4723201159630054,
+        "generated_fleet_average_distance_km": 1087.2236,
+        "real_fleet_average_distance_km": 738.4424,
+        "valid_fleet_count": 6,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 51.7586,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.41589477888355736,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": 381.34,
+            "real_average_distance_km": 185.291,
+            "relative_distance_error": 1.0580600245019995,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": 197.943,
+            "real_average_distance_km": 169.938,
+            "relative_distance_error": 0.1647953959679414,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": 87.016,
+            "real_average_distance_km": 137.423,
+            "relative_distance_error": 0.36680177262903585,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": 216.718,
+            "real_average_distance_km": 29.705,
+            "relative_distance_error": 6.295674128934523,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": 152.448,
+            "real_average_distance_km": 179.53,
+            "relative_distance_error": 0.15084944020497965,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "GPT 5.5",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "variant": "LLM_reasoning_correlation_no_global_context",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.2982079009674228,
+      "fleet_total_relative_distance_error": 0.22862099277464848,
+      "output_path": "llm_api_model_comparison_runs_no_global_context/gpt_5_5/llm_reasoning_correlation/scenario_summary_llm.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.2982079009674228,
+        "mean_individual_relative_distance_error": 0.2982079009674228,
+        "fleet_total_relative_distance_error": 0.22862099277464848,
+        "generated_fleet_average_distance_km": 819.4262,
+        "real_fleet_average_distance_km": 1062.2874000000002,
+        "valid_fleet_count": 5,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 43.9402,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.20201666511650782,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": 272.25,
+            "real_average_distance_km": 381.741,
+            "relative_distance_error": 0.28682012149598807,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": 75.458,
+            "real_average_distance_km": 169.938,
+            "relative_distance_error": 0.5559674704892372,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": 40.534,
+            "real_average_distance_km": 67.385,
+            "relative_distance_error": 0.39847146991170146,
+            "generated_distance_count": 2,
+            "real_distance_count": 2
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": 387.244,
+            "real_average_distance_km": 406.668,
+            "relative_distance_error": 0.047763777823679215,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "GPT 5.5",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "variant": "Route-cluster_sampling_LLM_no_global_context",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.2741223229124669,
+      "fleet_total_relative_distance_error": 0.2573229814539361,
+      "output_path": "llm_api_model_comparison_runs_no_global_context/gpt_5_5/route_cluster_sampling_llm/llm_reasoning_correlation_route_cluster_llm/route_cluster_sampling_summary.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.2741223229124669,
+        "mean_individual_relative_distance_error": 0.2741223229124669,
+        "fleet_total_relative_distance_error": 0.2573229814539361,
+        "generated_fleet_average_distance_km": 928.4606000000001,
+        "real_fleet_average_distance_km": 738.4424,
+        "valid_fleet_count": 6,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 50.556599999999996,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.3830131799952945,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": 358.112,
+            "real_average_distance_km": 185.291,
+            "relative_distance_error": 0.932700454960036,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": 200.216,
+            "real_average_distance_km": 169.938,
+            "relative_distance_error": 0.1781708623144913,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": 137.423,
+            "real_average_distance_km": 137.423,
+            "relative_distance_error": 0.0,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": 29.705,
+            "real_average_distance_km": 29.705,
+            "relative_distance_error": 0.0,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": 152.448,
+            "real_average_distance_km": 179.53,
+            "relative_distance_error": 0.15084944020497965,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "Claude Haiku 4.5",
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "variant": "LLM_reasoning_correlation_no_global_context",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.5500606523552506,
+      "fleet_total_relative_distance_error": 0.21188260175398352,
+      "output_path": "llm_api_model_comparison_runs_no_global_context/claude_haiku_4_5/llm_reasoning_correlation/scenario_summary_llm.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.5500606523552506,
+        "mean_individual_relative_distance_error": 0.5500606523552506,
+        "fleet_total_relative_distance_error": 0.21188260175398352,
+        "generated_fleet_average_distance_km": 407.7602,
+        "real_fleet_average_distance_km": 336.4684,
+        "valid_fleet_count": 5,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 43.9402,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.20201666511650782,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": 44.888,
+            "real_average_distance_km": 76.236,
+            "relative_distance_error": 0.41119680990608115,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": 140.975,
+            "real_average_distance_km": 95.587,
+            "relative_distance_error": 0.4748344440143533,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": 137.423,
+            "real_average_distance_km": 60.705,
+            "relative_distance_error": 1.263783872827609,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": 40.534,
+            "real_average_distance_km": 67.385,
+            "relative_distance_error": 0.39847146991170146,
+            "generated_distance_count": 2,
+            "real_distance_count": 2
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "Claude Haiku 4.5",
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "variant": "Route-cluster_sampling_LLM_no_global_context",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.9776188202072109,
+      "fleet_total_relative_distance_error": 0.7298738197413359,
+      "output_path": "llm_api_model_comparison_runs_no_global_context/claude_haiku_4_5/route_cluster_sampling_llm/llm_reasoning_correlation_route_cluster_llm/route_cluster_sampling_summary.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.9776188202072109,
+        "mean_individual_relative_distance_error": 0.9776188202072109,
+        "fleet_total_relative_distance_error": 0.7298738197413359,
+        "generated_fleet_average_distance_km": 901.2243,
+        "real_fleet_average_distance_km": 520.9769,
+        "valid_fleet_count": 5,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 40.2208,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.10026972759154572,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": 378.552,
+            "real_average_distance_km": 232.095,
+            "relative_distance_error": 0.6310217798746204,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": 137.423,
+            "real_average_distance_km": 137.423,
+            "relative_distance_error": 0.0,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": 154.504,
+            "real_average_distance_km": 63.995,
+            "relative_distance_error": 1.4143136182514258,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": 190.5245,
+            "real_average_distance_km": 50.9085,
+            "relative_distance_error": 2.7424889753184636,
+            "generated_distance_count": 2,
+            "real_distance_count": 2
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "Claude Sonnet 5",
+      "provider": "anthropic",
+      "model": "claude-sonnet-5",
+      "variant": "LLM_reasoning_correlation_no_global_context",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.2316436245842713,
+      "fleet_total_relative_distance_error": 0.10398334763266522,
+      "output_path": "llm_api_model_comparison_runs_no_global_context/claude_sonnet_5/llm_reasoning_correlation/scenario_summary_llm.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.2316436245842713,
+        "mean_individual_relative_distance_error": 0.2316436245842713,
+        "fleet_total_relative_distance_error": 0.10398334763266522,
+        "generated_fleet_average_distance_km": 951.8272000000001,
+        "real_fleet_average_distance_km": 1062.2874000000002,
+        "valid_fleet_count": 5,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 43.9402,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.20201666511650782,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": 272.25,
+            "real_average_distance_km": 381.741,
+            "relative_distance_error": 0.28682012149598807,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": 207.859,
+            "real_average_distance_km": 169.938,
+            "relative_distance_error": 0.22314608857347987,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": 40.534,
+            "real_average_distance_km": 67.385,
+            "relative_distance_error": 0.39847146991170146,
+            "generated_distance_count": 2,
+            "real_distance_count": 2
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": 387.244,
+            "real_average_distance_km": 406.668,
+            "relative_distance_error": 0.047763777823679215,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "Claude Sonnet 5",
+      "provider": "anthropic",
+      "model": "claude-sonnet-5",
+      "variant": "Route-cluster_sampling_LLM_no_global_context",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.30614745771492263,
+      "fleet_total_relative_distance_error": 0.3036439944401893,
+      "output_path": "llm_api_model_comparison_runs_no_global_context/claude_sonnet_5/route_cluster_sampling_llm/llm_reasoning_correlation_route_cluster_llm/route_cluster_sampling_summary.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.30614745771492263,
+        "mean_individual_relative_distance_error": 0.30614745771492263,
+        "fleet_total_relative_distance_error": 0.3036439944401893,
+        "generated_fleet_average_distance_km": 962.666,
+        "real_fleet_average_distance_km": 738.4424,
+        "valid_fleet_count": 6,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 47.730000000000004,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.3056894467028126,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": 358.112,
+            "real_average_distance_km": 185.291,
+            "relative_distance_error": 0.932700454960036,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": 200.216,
+            "real_average_distance_km": 169.938,
+            "relative_distance_error": 0.1781708623144913,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": 174.455,
+            "real_average_distance_km": 137.423,
+            "relative_distance_error": 0.2694745421072165,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": 29.705,
+            "real_average_distance_km": 29.705,
+            "relative_distance_error": 0.0,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": 152.448,
+            "real_average_distance_km": 179.53,
+            "relative_distance_error": 0.15084944020497965,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "DeepSeek V4 Pro",
+      "provider": "deepseek",
+      "model": "deepseek-v4-pro",
+      "variant": "LLM_reasoning_correlation_no_global_context",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.4390453587898689,
+      "fleet_total_relative_distance_error": 0.07540968868294862,
+      "output_path": "llm_api_model_comparison_runs_no_global_context/deepseek_v4_pro/llm_reasoning_correlation/scenario_summary_llm.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.4390453587898689,
+        "mean_individual_relative_distance_error": 0.4390453587898689,
+        "fleet_total_relative_distance_error": 0.07540968868294862,
+        "generated_fleet_average_distance_km": 770.3422,
+        "real_fleet_average_distance_km": 716.3244000000001,
+        "valid_fleet_count": 5,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 43.9402,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.20201666511650782,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": 340.586,
+            "real_average_distance_km": 381.741,
+            "relative_distance_error": 0.10780869752004625,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": 207.859,
+            "real_average_distance_km": 169.938,
+            "relative_distance_error": 0.22314608857347987,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": 137.423,
+            "real_average_distance_km": 60.705,
+            "relative_distance_error": 1.263783872827609,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": 40.534,
+            "real_average_distance_km": 67.385,
+            "relative_distance_error": 0.39847146991170146,
+            "generated_distance_count": 2,
+            "real_distance_count": 2
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "DeepSeek V4 Pro",
+      "provider": "deepseek",
+      "model": "deepseek-v4-pro",
+      "variant": "Route-cluster_sampling_LLM_no_global_context",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.26123503403038656,
+      "fleet_total_relative_distance_error": 0.25349519475046395,
+      "output_path": "llm_api_model_comparison_runs_no_global_context/deepseek_v4_pro/route_cluster_sampling_llm/llm_reasoning_correlation_route_cluster_llm/route_cluster_sampling_summary.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.26123503403038656,
+        "mean_individual_relative_distance_error": 0.26123503403038656,
+        "fleet_total_relative_distance_error": 0.25349519475046395,
+        "generated_fleet_average_distance_km": 925.634,
+        "real_fleet_average_distance_km": 738.4424,
+        "valid_fleet_count": 6,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 47.730000000000004,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.3056894467028126,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1247,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1311,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1312,
+            "generated_average_distance_km": 358.112,
+            "real_average_distance_km": 185.291,
+            "relative_distance_error": 0.932700454960036,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1350,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1363,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1421,
+            "generated_average_distance_km": 200.216,
+            "real_average_distance_km": 169.938,
+            "relative_distance_error": 0.1781708623144913,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1423,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1506,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1575,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1576,
+            "generated_average_distance_km": 137.423,
+            "real_average_distance_km": 137.423,
+            "relative_distance_error": 0.0,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 1578,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1667,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1687,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1688,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1785,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 1993,
+            "generated_average_distance_km": 29.705,
+            "real_average_distance_km": 29.705,
+            "relative_distance_error": 0.0,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          },
+          {
+            "vehicle_id": 2191,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2201,
+            "generated_average_distance_km": null,
+            "real_average_distance_km": null,
+            "relative_distance_error": null,
+            "generated_distance_count": 0,
+            "real_distance_count": 0
+          },
+          {
+            "vehicle_id": 2518,
+            "generated_average_distance_km": 152.448,
+            "real_average_distance_km": 179.53,
+            "relative_distance_error": 0.15084944020497965,
+            "generated_distance_count": 1,
+            "real_distance_count": 1
+          }
+        ]
+      }
+    }
+  ]
+}

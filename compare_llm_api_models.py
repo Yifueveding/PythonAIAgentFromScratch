@@ -167,13 +167,19 @@ def run_model_experiment(
     args: argparse.Namespace,
     output_dir: Path,
 ) -> list[dict]:
+    llm_variant = "LLM_reasoning_correlation"
+    route_variant = "Route-cluster_sampling_LLM"
+    if not args.include_global_context:
+        llm_variant = "LLM_reasoning_correlation_no_global_context"
+        route_variant = "Route-cluster_sampling_LLM_no_global_context"
+
     if not _env_available(model_spec["required_env"]):
         return [
             {
                 "model_label": model_spec["label"],
                 "provider": model_spec["provider"],
                 "model": model_spec["model"],
-                "variant": "LLM_reasoning_correlation",
+                "variant": llm_variant,
                 "status": "skipped",
                 "reason": f"Missing required environment variable: {model_spec['required_env']}",
             },
@@ -181,7 +187,7 @@ def run_model_experiment(
                 "model_label": model_spec["label"],
                 "provider": model_spec["provider"],
                 "model": model_spec["model"],
-                "variant": "Route-cluster_sampling_LLM",
+                "variant": route_variant,
                 "status": "skipped",
                 "reason": f"Missing required environment variable: {model_spec['required_env']}",
             },
@@ -206,6 +212,7 @@ def run_model_experiment(
             run_dir=run_dir,
             llm_provider=model_spec["provider"],
             llm_model=model_spec["model"],
+            include_global_context=args.include_global_context,
         )
         llm_validation = _validate_scenario_distances(
             llm_result,
@@ -215,7 +222,7 @@ def run_model_experiment(
         rows = [
             _validation_row(
                 model_spec,
-                "LLM_reasoning_correlation",
+                llm_variant,
                 llm_result,
                 llm_validation,
                 llm_result["output_files"]["summary"],
@@ -229,6 +236,7 @@ def run_model_experiment(
             seed=args.seed,
             llm_provider=model_spec["provider"],
             llm_model=model_spec["model"],
+            include_global_context=args.include_global_context,
         )
         route_validation = _validate_scenario_distances(
             {"final_scenario": route_result["final_scenario"]},
@@ -238,7 +246,7 @@ def run_model_experiment(
         rows.append(
             _validation_row(
                 model_spec,
-                "Route-cluster_sampling_LLM",
+                route_variant,
                 route_result,
                 route_validation,
                 route_result["output_files"]["summary"],
@@ -251,7 +259,7 @@ def run_model_experiment(
                 "model_label": model_spec["label"],
                 "provider": model_spec["provider"],
                 "model": model_spec["model"],
-                "variant": "LLM_reasoning_correlation",
+                "variant": llm_variant,
                 "status": "failed",
                 "reason": str(exc),
             },
@@ -259,7 +267,7 @@ def run_model_experiment(
                 "model_label": model_spec["label"],
                 "provider": model_spec["provider"],
                 "model": model_spec["model"],
-                "variant": "Route-cluster_sampling_LLM",
+                "variant": route_variant,
                 "status": "not_run",
                 "reason": "Route-cluster sampling depends on a completed LLM reasoning correlation run.",
             },
@@ -282,6 +290,17 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=Path("llm_api_model_comparison_runs"))
     parser.add_argument("--previous-comparison-file", type=Path, default=DEFAULT_PREVIOUS_COMPARISON_FILE)
     parser.add_argument("--exclude-openai-before", action="store_true")
+    parser.add_argument(
+        "--no-global-context",
+        dest="include_global_context",
+        action="store_false",
+        help=(
+            "Run an ablation where LLM prompts do not receive global contextual "
+            "metadata, representative routes, operational evidence, or compact "
+            "argument context."
+        ),
+    )
+    parser.set_defaults(include_global_context=True)
     parser.add_argument(
         "--model-specs",
         type=Path,
@@ -316,6 +335,7 @@ def main() -> None:
             "seed": args.seed,
             "validation_dates": args.validation_dates,
             "previous_comparison_file": str(args.previous_comparison_file),
+            "include_global_context": args.include_global_context,
         },
         "model_specs": model_specs,
         "results": rows,

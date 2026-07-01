@@ -201,6 +201,7 @@ def _request_llm_route_weights(
     argument_context: dict,
     provider: str,
     model_name: Optional[str],
+    include_global_context: bool = True,
 ) -> dict:
     llm, resolved_model = _build_llm(provider, model_name)
     payload = {
@@ -212,8 +213,13 @@ def _request_llm_route_weights(
         "inputs": scenario_summary["inputs"],
         "truck_appearance_frequencies": scenario_summary.get("truck_appearance_frequencies", {}),
         "cluster_options_by_vehicle": cluster_options,
-        "argument_context": argument_context,
+        "argument_context": argument_context if include_global_context else {},
     }
+    if not include_global_context:
+        payload["ablation"] = (
+            "global_context_removed: compact argument context and operational evidence "
+            "are withheld from the route-weight LLM."
+        )
     prompt = f"""
 You are improving route-cluster sampling for truck scenario generation.
 
@@ -387,6 +393,7 @@ def build_llm_route_cluster_sampling(
     seed: Optional[int] = None,
     llm_provider: str = "anthropic",
     llm_model: Optional[str] = None,
+    include_global_context: bool = True,
 ) -> dict:
     scenario_summary = _read_json(scenario_summary_path)
     output_files = scenario_summary.get("output_files", {})
@@ -406,6 +413,7 @@ def build_llm_route_cluster_sampling(
         argument_context,
         llm_provider,
         llm_model,
+        include_global_context=include_global_context,
     )
     adjusted_options = _normalize_cluster_weights(llm_result, cluster_options)
     resolved_days = scenario_days or int(scenario_summary["inputs"]["scenario_days"])
@@ -428,6 +436,7 @@ def build_llm_route_cluster_sampling(
             "seed": resolved_seed,
             "llm_provider": llm_provider,
             "llm_model": llm_result.get("llm_model"),
+            "include_global_context": include_global_context,
         },
         "llm_route_weight_response": llm_result,
         "cluster_options_by_vehicle": cluster_options,

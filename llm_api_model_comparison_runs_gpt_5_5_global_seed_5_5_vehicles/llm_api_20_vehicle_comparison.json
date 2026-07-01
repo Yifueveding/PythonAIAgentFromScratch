@@ -1,0 +1,176 @@
+{
+  "inputs": {
+    "target_vehicle": 155,
+    "other_vehicles": [
+      1181,
+      689,
+      1236,
+      1206
+    ],
+    "start_date": "2023-01-01",
+    "end_date": "2023-01-31",
+    "image_feature_method": "pca",
+    "image_clusters": 5,
+    "scenario_days": 5,
+    "seed": 5,
+    "validation_dates": [
+      "2023-01-05",
+      "2023-01-15",
+      "2023-01-15",
+      "2023-01-31",
+      "2023-01-25"
+    ],
+    "previous_comparison_file": "model_comparison_runs/comparison_5_9_20_vehicle_runs.json",
+    "include_global_context": true
+  },
+  "model_specs": [
+    {
+      "label": "GPT 5.5",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "required_env": "OPENAI_API_KEY"
+    }
+  ],
+  "results": [
+    {
+      "model_label": "GPT 5.5",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "variant": "LLM_reasoning_correlation",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.631232971087061,
+      "fleet_total_relative_distance_error": 0.7788096035476785,
+      "output_path": "llm_api_model_comparison_runs_gpt_5_5_global_seed_5_5_vehicles/gpt_5_5/llm_reasoning_correlation/scenario_summary_llm.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "All requested vehicles are validated together; non-sampled other trucks contribute generated distance 0 for that scenario day.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.631232971087061,
+        "mean_individual_relative_distance_error": 0.631232971087061,
+        "fleet_total_relative_distance_error": 0.7788096035476785,
+        "generated_fleet_average_distance_km": 71.6386,
+        "real_fleet_average_distance_km": 323.87753333333336,
+        "valid_fleet_count": 5,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 38.9054,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.0642859878431092,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1181,
+            "generated_average_distance_km": 9.337,
+            "real_average_distance_km": 81.94133333333333,
+            "relative_distance_error": 0.8860526230148399,
+            "generated_distance_count": 5,
+            "real_distance_count": 3
+          },
+          {
+            "vehicle_id": 689,
+            "generated_average_distance_km": 0.0,
+            "real_average_distance_km": 92.8725,
+            "relative_distance_error": 1.0,
+            "generated_distance_count": 5,
+            "real_distance_count": 2
+          },
+          {
+            "vehicle_id": 1236,
+            "generated_average_distance_km": 23.3962,
+            "real_average_distance_km": 29.4598,
+            "relative_distance_error": 0.2058262445773563,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1206,
+            "generated_average_distance_km": 0.0,
+            "real_average_distance_km": 83.0485,
+            "relative_distance_error": 1.0,
+            "generated_distance_count": 5,
+            "real_distance_count": 4
+          }
+        ]
+      }
+    },
+    {
+      "model_label": "GPT 5.5",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "variant": "Route-cluster_sampling_LLM",
+      "status": "completed",
+      "mean_individual_relative_distance_error": 0.7004188782624308,
+      "fleet_total_relative_distance_error": 0.6802173990456887,
+      "output_path": "llm_api_model_comparison_runs_gpt_5_5_global_seed_5_5_vehicles/gpt_5_5/route_cluster_sampling_llm/llm_reasoning_correlation_route_cluster_llm/route_cluster_sampling_summary.json",
+      "validation": {
+        "validation_dates": [
+          "2023-01-05",
+          "2023-01-15",
+          "2023-01-15",
+          "2023-01-31",
+          "2023-01-25"
+        ],
+        "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+        "fleet_scope": "All requested vehicles are validated together; non-sampled other trucks contribute generated distance 0 for that scenario day.",
+        "metric": "mean_individual_relative_distance_error",
+        "combined_error": 0.7004188782624308,
+        "mean_individual_relative_distance_error": 0.7004188782624308,
+        "fleet_total_relative_distance_error": 0.6802173990456887,
+        "generated_fleet_average_distance_km": 103.57040000000002,
+        "real_fleet_average_distance_km": 323.87753333333336,
+        "valid_fleet_count": 5,
+        "trucks": [
+          {
+            "vehicle_id": 155,
+            "generated_average_distance_km": 44.595800000000004,
+            "real_average_distance_km": 36.555400000000006,
+            "relative_distance_error": 0.21995108793776014,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1181,
+            "generated_average_distance_km": 47.5382,
+            "real_average_distance_km": 81.94133333333333,
+            "relative_distance_error": 0.41985078755532407,
+            "generated_distance_count": 5,
+            "real_distance_count": 3
+          },
+          {
+            "vehicle_id": 689,
+            "generated_average_distance_km": 0.0,
+            "real_average_distance_km": 92.8725,
+            "relative_distance_error": 1.0,
+            "generated_distance_count": 5,
+            "real_distance_count": 2
+          },
+          {
+            "vehicle_id": 1236,
+            "generated_average_distance_km": 0.0,
+            "real_average_distance_km": 29.4598,
+            "relative_distance_error": 1.0,
+            "generated_distance_count": 5,
+            "real_distance_count": 5
+          },
+          {
+            "vehicle_id": 1206,
+            "generated_average_distance_km": 11.4364,
+            "real_average_distance_km": 83.0485,
+            "relative_distance_error": 0.8622925158190695,
+            "generated_distance_count": 5,
+            "real_distance_count": 4
+          }
+        ]
+      }
+    }
+  ]
+}

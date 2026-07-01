@@ -1,0 +1,60 @@
+{
+  "validation_dates": [
+    "2023-01-05",
+    "2023-01-15",
+    "2023-01-15",
+    "2023-01-31",
+    "2023-01-25"
+  ],
+  "goal": "Compare generated sampled-route distances against random real dates in the selected period.",
+  "fleet_scope": "Only sampled/generated vehicle-days are counted; non-sampled trucks are excluded rather than assigned generated distance 0.",
+  "metric": "mean_individual_relative_distance_error",
+  "combined_error": 0.44075874381218466,
+  "mean_individual_relative_distance_error": 0.44075874381218466,
+  "fleet_total_relative_distance_error": 0.4267986138227255,
+  "generated_fleet_average_distance_km": 173.8075,
+  "real_fleet_average_distance_km": 303.2224,
+  "valid_fleet_count": 3,
+  "trucks": [
+    {
+      "vehicle_id": 155,
+      "generated_average_distance_km": 51.944,
+      "real_average_distance_km": 36.555400000000006,
+      "relative_distance_error": 0.4209665329882861,
+      "generated_distance_count": 5,
+      "real_distance_count": 5
+    },
+    {
+      "vehicle_id": 1181,
+      "generated_average_distance_km": 51.715,
+      "real_average_distance_km": 180.255,
+      "relative_distance_error": 0.7131008848575628,
+      "generated_distance_count": 1,
+      "real_distance_count": 1
+    },
+    {
+      "vehicle_id": 689,
+      "generated_average_distance_km": 64.54599999999999,
+      "real_average_distance_km": null,
+      "relative_distance_error": null,
+      "generated_distance_count": 2,
+      "real_distance_count": 0
+    },
+    {
+      "vehicle_id": 1236,
+      "generated_average_distance_km": null,
+      "real_average_distance_km": null,
+      "relative_distance_error": null,
+      "generated_distance_count": 0,
+      "real_distance_count": 0
+    },
+    {
+      "vehicle_id": 1206,
+      "generated_average_distance_km": 70.1485,
+      "real_average_distance_km": 86.412,
+      "relative_distance_error": 0.18820881359070507,
+      "generated_distance_count": 2,
+      "real_distance_count": 2
+    }
+  ]
+}

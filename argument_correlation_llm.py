@@ -404,6 +404,7 @@ def _llm_payload_from_statistical_result(
     result: dict,
     operational_evidence: Optional[dict] = None,
     focus_vehicle_id: Optional[int] = None,
+    include_global_context: bool = True,
 ) -> dict:
     pairwise_rows = result["pairwise_argument_correlations"]
     if focus_vehicle_id is not None:
@@ -412,11 +413,8 @@ def _llm_payload_from_statistical_result(
             for row in pairwise_rows
             if focus_vehicle_id in (int(row["vehicle_a"]), int(row["vehicle_b"]))
         ]
-    return {
+    payload = {
         "method": result["method"],
-        "fleet_metadata": result["fleet_metadata"],
-        "representative_routes": _summarize_representative_routes(result),
-        "operational_evidence": operational_evidence or {},
         "pairwise_evidence": [
             {
                 "vehicle_a": row["vehicle_a"],
@@ -430,6 +428,20 @@ def _llm_payload_from_statistical_result(
             for row in pairwise_rows
         ],
     }
+    if include_global_context:
+        payload.update(
+            {
+                "fleet_metadata": result["fleet_metadata"],
+                "representative_routes": _summarize_representative_routes(result),
+                "operational_evidence": operational_evidence or {},
+            }
+        )
+    else:
+        payload["ablation"] = (
+            "global_context_removed: fleet-wide metadata, representative routes, "
+            "and operational evidence are withheld from the LLM."
+        )
+    return payload
 
 
 def _request_llm_correlations(
@@ -438,12 +450,14 @@ def _request_llm_correlations(
     model_name: Optional[str],
     operational_evidence: Optional[dict] = None,
     focus_vehicle_id: Optional[int] = None,
+    include_global_context: bool = True,
 ) -> dict:
     llm, resolved_model = _build_llm(provider, model_name)
     payload = _llm_payload_from_statistical_result(
         statistical_result,
-        operational_evidence,
+        operational_evidence if include_global_context else None,
         focus_vehicle_id=focus_vehicle_id,
+        include_global_context=include_global_context,
     )
     prompt = f"""
 You are reasoning about truck-to-truck behavioral similarity for scenario generation.
@@ -541,6 +555,7 @@ def calculate_llm_argument_correlation(
     distance_file: Path = DEFAULT_DISTANCE_FILE,
     llm_provider: str = "anthropic",
     llm_model: Optional[str] = None,
+    include_global_context: bool = True,
 ) -> dict:
     statistical_result = calculate_statistical_argument_correlation(
         vehicle_ids=vehicle_ids,
@@ -573,6 +588,7 @@ def calculate_llm_argument_correlation(
         llm_model,
         operational_evidence=operational_evidence,
         focus_vehicle_id=vehicle_ids[0],
+        include_global_context=include_global_context,
     )
     rows = _merge_llm_correlations(statistical_result, llm_result)
     return {
@@ -587,10 +603,11 @@ def calculate_llm_argument_correlation(
             ),
             "llm_provider": llm_result["llm_provider"],
             "llm_model": llm_result["llm_model"],
+            "include_global_context": include_global_context,
             "global_rationale": llm_result.get("global_rationale", ""),
             "risks": llm_result.get("risks", []),
         },
-        "operational_evidence": operational_evidence,
+        "operational_evidence": operational_evidence if include_global_context else {},
         "statistical_pairwise_argument_correlations": statistical_result["pairwise_argument_correlations"],
         "pairwise_argument_correlations": rows,
     }
