@@ -1,0 +1,311 @@
+{
+  "vehicle_id": 1311,
+  "start_date": "2023-01-01",
+  "end_date": "2023-01-31",
+  "image_count": 31,
+  "method": {
+    "feature_method": "pca",
+    "source": "route_ink_pixels",
+    "image_size": 128,
+    "pca_components": 21,
+    "requested_clusters": 5,
+    "actual_clusters": 5,
+    "notebook_reference": "autoeconoder_cnn_best_example.ipynb"
+  },
+  "cluster_summary": [
+    {
+      "cluster": 2,
+      "days": 11,
+      "share": 0.3548387096774194,
+      "representative_date": "2023-01-05",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-11",
+        "2023-01-16",
+        "2023-01-17",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-20",
+        "2023-01-28"
+      ]
+    },
+    {
+      "cluster": 3,
+      "days": 6,
+      "share": 0.1935483870967742,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-13",
+        "2023-01-21",
+        "2023-01-22",
+        "2023-01-23",
+        "2023-01-26",
+        "2023-01-27"
+      ]
+    },
+    {
+      "cluster": 1,
+      "days": 5,
+      "share": 0.16129032258064516,
+      "representative_date": "2023-01-10",
+      "example_dates": [
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-12",
+        "2023-01-14"
+      ]
+    },
+    {
+      "cluster": 4,
+      "days": 5,
+      "share": 0.16129032258064516,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-15",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-30",
+        "2023-01-31"
+      ]
+    },
+    {
+      "cluster": 0,
+      "days": 4,
+      "share": 0.12903225806451613,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-04"
+      ]
+    }
+  ],
+  "clusters_by_date": [
+    {
+      "date": "2023-01-01",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-01.png",
+      "cluster": 0,
+      "distance_to_centroid": 0.3258812129497528
+    },
+    {
+      "date": "2023-01-02",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-02.png",
+      "cluster": 0,
+      "distance_to_centroid": 0.6820405125617981
+    },
+    {
+      "date": "2023-01-03",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-03.png",
+      "cluster": 0,
+      "distance_to_centroid": 0.6008486747741699
+    },
+    {
+      "date": "2023-01-04",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-04.png",
+      "cluster": 0,
+      "distance_to_centroid": 0.32755744457244873
+    },
+    {
+      "date": "2023-01-05",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-05.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.7553848624229431
+    },
+    {
+      "date": "2023-01-06",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-06.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.7931517362594604
+    },
+    {
+      "date": "2023-01-07",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-07.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.9720744490623474
+    },
+    {
+      "date": "2023-01-08",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-08.png",
+      "cluster": 1,
+      "distance_to_centroid": 0.8463888764381409
+    },
+    {
+      "date": "2023-01-09",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-09.png",
+      "cluster": 1,
+      "distance_to_centroid": 0.6326806545257568
+    },
+    {
+      "date": "2023-01-10",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-10.png",
+      "cluster": 1,
+      "distance_to_centroid": 0.5866407752037048
+    },
+    {
+      "date": "2023-01-11",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-11.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.8931602835655212
+    },
+    {
+      "date": "2023-01-12",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-12.png",
+      "cluster": 1,
+      "distance_to_centroid": 0.7989500164985657
+    },
+    {
+      "date": "2023-01-13",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-13.png",
+      "cluster": 3,
+      "distance_to_centroid": 0.9942305088043213
+    },
+    {
+      "date": "2023-01-14",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-14.png",
+      "cluster": 1,
+      "distance_to_centroid": 0.9115537405014038
+    },
+    {
+      "date": "2023-01-15",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-15.png",
+      "cluster": 4,
+      "distance_to_centroid": 0.7289749383926392
+    },
+    {
+      "date": "2023-01-16",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-16.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.768643319606781
+    },
+    {
+      "date": "2023-01-17",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-17.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.7591152787208557
+    },
+    {
+      "date": "2023-01-18",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-18.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.973904013633728
+    },
+    {
+      "date": "2023-01-19",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-19.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.968341052532196
+    },
+    {
+      "date": "2023-01-20",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-20.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.8929937481880188
+    },
+    {
+      "date": "2023-01-21",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-21.png",
+      "cluster": 3,
+      "distance_to_centroid": 0.9122512340545654
+    },
+    {
+      "date": "2023-01-22",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-22.png",
+      "cluster": 3,
+      "distance_to_centroid": 0.7193393707275391
+    },
+    {
+      "date": "2023-01-23",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-23.png",
+      "cluster": 3,
+      "distance_to_centroid": 0.7054266929626465
+    },
+    {
+      "date": "2023-01-24",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-24.png",
+      "cluster": 4,
+      "distance_to_centroid": 0.5629073977470398
+    },
+    {
+      "date": "2023-01-25",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-25.png",
+      "cluster": 4,
+      "distance_to_centroid": 0.47907647490501404
+    },
+    {
+      "date": "2023-01-26",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-26.png",
+      "cluster": 3,
+      "distance_to_centroid": 0.7437655329704285
+    },
+    {
+      "date": "2023-01-27",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-27.png",
+      "cluster": 3,
+      "distance_to_centroid": 0.771645724773407
+    },
+    {
+      "date": "2023-01-28",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-28.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.9596206545829773
+    },
+    {
+      "date": "2023-01-29",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-29.png",
+      "cluster": 2,
+      "distance_to_centroid": 0.860566258430481
+    },
+    {
+      "date": "2023-01-30",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-30.png",
+      "cluster": 4,
+      "distance_to_centroid": 0.810181736946106
+    },
+    {
+      "date": "2023-01-31",
+      "vehicle_id": 1311,
+      "image_path": "Vehicle/Vehicle_1311/2023-01-31.png",
+      "cluster": 4,
+      "distance_to_centroid": 0.2689511179924011
+    }
+  ],
+  "output_files": {
+    "json": "llm_api_model_comparison_runs_no_global_context_seed_5/non_llm_baseline/target_155_others_1247_1311_1312_1350_1363_1421_1423_1506_1575_1576_1578_1667_1687_1688_1785_1993_2191_2201_2518_2023-01-01_2023-01-31/image_cluster/vehicle_1311_2023-01-01_2023-01-31_pca.json",
+    "csv": "llm_api_model_comparison_runs_no_global_context_seed_5/non_llm_baseline/target_155_others_1247_1311_1312_1350_1363_1421_1423_1506_1575_1576_1578_1667_1687_1688_1785_1993_2191_2201_2518_2023-01-01_2023-01-31/image_cluster/vehicle_1311_2023-01-01_2023-01-31_pca.csv",
+    "cluster_contact_sheet": "llm_api_model_comparison_runs_no_global_context_seed_5/non_llm_baseline/target_155_others_1247_1311_1312_1350_1363_1421_1423_1506_1575_1576_1578_1667_1687_1688_1785_1993_2191_2201_2518_2023-01-01_2023-01-31/image_cluster/vehicle_1311_2023-01-01_2023-01-31_pca_clusters.png"
+  }
+}

@@ -1,0 +1,27 @@
+\begin{table}[ht]
+\centering
+\caption{Benchmark against non-LLM scenario generation for the 20-vehicle case with global contextual information}
+\label{tab:llm-api-benchmark-global}
+\begin{tabular}{l l c c}
+\hline
+\textbf{Model ID} & \textbf{Method} & \textbf{Mean Individual Error} & \textbf{Fleet Total Error} \\
+\hline
+-- & Statistical baseline & 3.15 & 0.21 \\
+\hline
+\texttt{gpt-4o-mini} & LLM correlation & 0.27 (-91.41\%) & 0.13 (-36.35\%) \\
+\texttt{gpt-4o-mini} & LLM correlation+sample & 0.60 (-81.03\%) & 0.48 (+134.97\%) \\
+\hline
+\texttt{gpt-5.5} & LLM correlation & 0.66 (-79.12\%) & 0.16 (-24.40\%) \\
+\texttt{gpt-5.5} & LLM correlation+sample & 1.40 (-55.73\%) & 0.23 (+12.35\%) \\
+\hline
+\texttt{claude-haiku-4-5} & LLM correlation & 0.33 (-89.53\%) & 0.33 (+61.32\%) \\
+\texttt{claude-haiku-4-5} & LLM correlation+sample & 0.25 (-92.13\%) & 0.25 (+21.41\%) \\
+\hline
+\texttt{claude-sonnet-5} & LLM correlation & 0.49 (-84.55\%) & 0.05 (-75.23\%) \\
+\texttt{claude-sonnet-5} & LLM correlation+sample & 0.35 (-89.01\%) & 0.05 (-76.45\%) \\
+\hline
+\texttt{deepseek-v4-pro} & LLM correlation & 0.29 (-90.75\%) & 0.08 (-63.13\%) \\
+\texttt{deepseek-v4-pro} & LLM correlation+sample & 0.33 (-89.41\%) & 0.33 (+61.18\%) \\
+\hline
+\end{tabular}
+\end{table}

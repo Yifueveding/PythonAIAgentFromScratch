@@ -1,0 +1,32 @@
+[
+  {
+    "label": "GPT-4o Mini",
+    "provider": "openai",
+    "model": "gpt-4o-mini",
+    "required_env": "OPENAI_API_KEY"
+  },
+  {
+    "label": "GPT 5.5",
+    "provider": "openai",
+    "model": "gpt-5.5",
+    "required_env": "OPENAI_API_KEY"
+  },
+  {
+    "label": "Claude Haiku 4.5",
+    "provider": "anthropic",
+    "model": "claude-haiku-4-5-20251001",
+    "required_env": "ANTHROPIC_API_KEY"
+  },
+  {
+    "label": "Claude Sonnet 5",
+    "provider": "anthropic",
+    "model": "claude-sonnet-5",
+    "required_env": "ANTHROPIC_API_KEY"
+  },
+  {
+    "label": "DeepSeek V4 Pro",
+    "provider": "deepseek",
+    "model": "deepseek-v4-pro",
+    "required_env": "DEEPSEEK_API_KEY"
+  }
+]

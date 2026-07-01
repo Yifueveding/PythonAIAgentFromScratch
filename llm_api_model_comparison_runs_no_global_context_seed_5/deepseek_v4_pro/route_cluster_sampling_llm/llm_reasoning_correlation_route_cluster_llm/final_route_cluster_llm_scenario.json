@@ -1,0 +1,122 @@
+{
+  "scenario_days_requested": 5,
+  "seed": 5,
+  "sampling_method": "LLM-adjusted route-cluster weights. Target routes sample from llm_route_cluster_weight; other routes sample from truck_appearance_frequency * llm_route_cluster_weight.",
+  "days": [
+    {
+      "scenario_day": 1,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-28",
+        "representative_date": "2023-01-07",
+        "route_cluster_weight": 0.2,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Reduced due to outlier day (92 km max vs typical ~48 km mean) to avoid over-representing extreme."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1993,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-01",
+        "representative_date": "2023-01-18",
+        "truck_appearance_frequency": 0.07497331910352188,
+        "route_cluster_weight": 0.3,
+        "joint_scenario_frequency": 0.022491995731056563,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Most frequent, moderate distance; kept."
+      }
+    },
+    {
+      "scenario_day": 2,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-02",
+        "representative_date": "2023-01-01",
+        "route_cluster_weight": 0.16,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Slightly reduced from empirical; moderate distance, stable."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1993,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-03",
+        "representative_date": "2023-01-04",
+        "truck_appearance_frequency": 0.07497331910352188,
+        "route_cluster_weight": 0.16,
+        "joint_scenario_frequency": 0.011995731056563501,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Moderate frequency, moderate distance; kept."
+      }
+    },
+    {
+      "scenario_day": 3,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-20",
+        "representative_date": "2023-01-01",
+        "route_cluster_weight": 0.16,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Slightly reduced from empirical; moderate distance, stable."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1312,
+        "cluster": 4,
+        "sampled_route_date": "2023-01-31",
+        "representative_date": "2023-01-30",
+        "truck_appearance_frequency": 0.07070437566702241,
+        "route_cluster_weight": 0.23,
+        "joint_scenario_frequency": 0.016262006403415154,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Moderate frequency, typical; slight boost."
+      }
+    },
+    {
+      "scenario_day": 4,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 3,
+        "sampled_route_date": "2023-01-10",
+        "representative_date": "2023-01-22",
+        "route_cluster_weight": 0.28,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Frequent and representative mean distance; boosted."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1576,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-02",
+        "representative_date": "2023-01-29",
+        "truck_appearance_frequency": 0.07924226254002134,
+        "route_cluster_weight": 0.11,
+        "joint_scenario_frequency": 0.008716648879402348,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Low frequency, stable; slight boost."
+      }
+    },
+    {
+      "scenario_day": 5,
+      "target_vehicle": {
+        "vehicle_id": 155,
+        "cluster": 1,
+        "sampled_route_date": "2023-01-06",
+        "representative_date": "2023-01-07",
+        "route_cluster_weight": 0.2,
+        "sampling_weight": "llm_route_cluster_weight",
+        "llm_rationale": "Reduced due to outlier day (92 km max vs typical ~48 km mean) to avoid over-representing extreme."
+      },
+      "other_vehicle": {
+        "vehicle_id": 1575,
+        "cluster": 0,
+        "sampled_route_date": "2023-01-19",
+        "representative_date": "2023-01-19",
+        "truck_appearance_frequency": 0.0688367129135539,
+        "route_cluster_weight": 0.36,
+        "joint_scenario_frequency": 0.0247812166488794,
+        "sampling_weight": "llm_joint_scenario_frequency",
+        "llm_rationale": "Most frequent, representative high distance; boosted."
+      }
+    }
+  ]
+}

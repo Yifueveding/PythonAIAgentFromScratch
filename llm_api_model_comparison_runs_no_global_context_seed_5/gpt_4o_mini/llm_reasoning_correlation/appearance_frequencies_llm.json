@@ -1,0 +1,1900 @@
+{
+  "truck_appearance_frequencies": {
+    "1247": {
+      "raw_total_correlation": 0.577,
+      "appearance_frequency": 0.0694511314395763,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1311": {
+      "raw_total_correlation": 0.124,
+      "appearance_frequency": 0.014925373134328358,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1312": {
+      "raw_total_correlation": 0.586,
+      "appearance_frequency": 0.07053442465093886,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1350": {
+      "raw_total_correlation": 0.673,
+      "appearance_frequency": 0.08100625902744343,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1363": {
+      "raw_total_correlation": 0.46,
+      "appearance_frequency": 0.05536831969186327,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1421": {
+      "raw_total_correlation": 0.601,
+      "appearance_frequency": 0.07233991333654309,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1423": {
+      "raw_total_correlation": 0.125,
+      "appearance_frequency": 0.015045739046701975,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1506": {
+      "raw_total_correlation": 0.08,
+      "appearance_frequency": 0.009629272989889264,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1575": {
+      "raw_total_correlation": 0.55,
+      "appearance_frequency": 0.06620125180548869,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1576": {
+      "raw_total_correlation": 0.676,
+      "appearance_frequency": 0.08136735676456429,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1578": {
+      "raw_total_correlation": 0.564,
+      "appearance_frequency": 0.06788637457871931,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1667": {
+      "raw_total_correlation": 0.189,
+      "appearance_frequency": 0.022749157438613384,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1687": {
+      "raw_total_correlation": 0.394,
+      "appearance_frequency": 0.04742416947520463,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1688": {
+      "raw_total_correlation": 0.257,
+      "appearance_frequency": 0.03093403948001926,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1785": {
+      "raw_total_correlation": 0.233,
+      "appearance_frequency": 0.028045257583052482,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "1993": {
+      "raw_total_correlation": 0.623,
+      "appearance_frequency": 0.07498796340876264,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "2191": {
+      "raw_total_correlation": 0.516,
+      "appearance_frequency": 0.06210881078478575,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "2201": {
+      "raw_total_correlation": 0.543,
+      "appearance_frequency": 0.06535869041887338,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    },
+    "2518": {
+      "raw_total_correlation": 0.537,
+      "appearance_frequency": 0.06463649494463168,
+      "source": "normalized_positive_llm_reasoned_argument_correlation"
+    }
+  },
+  "target_route_appearance_frequencies": [
+    {
+      "vehicle_id": 155,
+      "cluster": 3,
+      "route_days": 8,
+      "period_days": 31,
+      "route_appearance_frequency": 0.25806451612903225,
+      "representative_date": "2023-01-22",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-04",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-13",
+        "2023-01-22",
+        "2023-01-23",
+        "2023-01-24"
+      ]
+    },
+    {
+      "vehicle_id": 155,
+      "cluster": 2,
+      "route_days": 8,
+      "period_days": 31,
+      "route_appearance_frequency": 0.25806451612903225,
+      "representative_date": "2023-01-11",
+      "example_dates": [
+        "2023-01-11",
+        "2023-01-12",
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-27",
+        "2023-01-29",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 155,
+      "cluster": 1,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "representative_date": "2023-01-07",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-18",
+        "2023-01-25",
+        "2023-01-28"
+      ]
+    },
+    {
+      "vehicle_id": 155,
+      "cluster": 0,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-17",
+        "2023-01-20",
+        "2023-01-21"
+      ]
+    },
+    {
+      "vehicle_id": 155,
+      "cluster": 4,
+      "route_days": 3,
+      "period_days": 31,
+      "route_appearance_frequency": 0.0967741935483871,
+      "representative_date": "2023-01-26",
+      "example_dates": [
+        "2023-01-19",
+        "2023-01-26",
+        "2023-01-31"
+      ]
+    }
+  ],
+  "route_appearance_frequencies": [
+    {
+      "vehicle_id": 1350,
+      "cluster": 2,
+      "route_days": 10,
+      "period_days": 31,
+      "route_appearance_frequency": 0.3225806451612903,
+      "truck_appearance_frequency": 0.08100625902744343,
+      "joint_scenario_frequency": 0.0261310512991753,
+      "representative_date": "2023-01-16",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-05",
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-16",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-27",
+        "2023-01-29",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 1687,
+      "cluster": 1,
+      "route_days": 15,
+      "period_days": 31,
+      "route_appearance_frequency": 0.4838709677419355,
+      "truck_appearance_frequency": 0.04742416947520463,
+      "joint_scenario_frequency": 0.02294717877832482,
+      "representative_date": "2023-01-06",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-11",
+        "2023-01-16",
+        "2023-01-17",
+        "2023-01-18"
+      ]
+    },
+    {
+      "vehicle_id": 2518,
+      "cluster": 2,
+      "route_days": 11,
+      "period_days": 31,
+      "route_appearance_frequency": 0.3548387096774194,
+      "truck_appearance_frequency": 0.06463649494463168,
+      "joint_scenario_frequency": 0.022935530464224144,
+      "representative_date": "2023-01-28",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-09",
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-19",
+        "2023-01-21",
+        "2023-01-26",
+        "2023-01-27"
+      ]
+    },
+    {
+      "vehicle_id": 1247,
+      "cluster": 3,
+      "route_days": 10,
+      "period_days": 31,
+      "route_appearance_frequency": 0.3225806451612903,
+      "truck_appearance_frequency": 0.0694511314395763,
+      "joint_scenario_frequency": 0.0224035907869601,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-09",
+        "2023-01-12",
+        "2023-01-13",
+        "2023-01-18",
+        "2023-01-23",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-29",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 1993,
+      "cluster": 0,
+      "route_days": 9,
+      "period_days": 31,
+      "route_appearance_frequency": 0.2903225806451613,
+      "truck_appearance_frequency": 0.07498796340876264,
+      "joint_scenario_frequency": 0.021770699054156895,
+      "representative_date": "2023-01-18",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-21",
+        "2023-01-25",
+        "2023-01-26",
+        "2023-01-27"
+      ]
+    },
+    {
+      "vehicle_id": 1575,
+      "cluster": 0,
+      "route_days": 10,
+      "period_days": 31,
+      "route_appearance_frequency": 0.3225806451612903,
+      "truck_appearance_frequency": 0.06620125180548869,
+      "joint_scenario_frequency": 0.021355242517899577,
+      "representative_date": "2023-01-19",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-11",
+        "2023-01-12",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-21",
+        "2023-01-22",
+        "2023-01-28"
+      ]
+    },
+    {
+      "vehicle_id": 2201,
+      "cluster": 3,
+      "route_days": 10,
+      "period_days": 31,
+      "route_appearance_frequency": 0.3225806451612903,
+      "truck_appearance_frequency": 0.06535869041887338,
+      "joint_scenario_frequency": 0.02108344852221722,
+      "representative_date": "2023-01-06",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-09",
+        "2023-01-15",
+        "2023-01-18",
+        "2023-01-23",
+        "2023-01-28",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 1421,
+      "cluster": 1,
+      "route_days": 9,
+      "period_days": 31,
+      "route_appearance_frequency": 0.2903225806451613,
+      "truck_appearance_frequency": 0.07233991333654309,
+      "joint_scenario_frequency": 0.02100191032351251,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-14",
+        "2023-01-20",
+        "2023-01-21",
+        "2023-01-22",
+        "2023-01-27"
+      ]
+    },
+    {
+      "vehicle_id": 1576,
+      "cluster": 4,
+      "route_days": 8,
+      "period_days": 31,
+      "route_appearance_frequency": 0.25806451612903225,
+      "truck_appearance_frequency": 0.08136735676456429,
+      "joint_scenario_frequency": 0.020998027552145623,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-05",
+        "2023-01-10",
+        "2023-01-12",
+        "2023-01-20",
+        "2023-01-22",
+        "2023-01-28",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1576,
+      "cluster": 3,
+      "route_days": 8,
+      "period_days": 31,
+      "route_appearance_frequency": 0.25806451612903225,
+      "truck_appearance_frequency": 0.08136735676456429,
+      "joint_scenario_frequency": 0.020998027552145623,
+      "representative_date": "2023-01-07",
+      "example_dates": [
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-13",
+        "2023-01-18",
+        "2023-01-23",
+        "2023-01-24",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 1350,
+      "cluster": 4,
+      "route_days": 8,
+      "period_days": 31,
+      "route_appearance_frequency": 0.25806451612903225,
+      "truck_appearance_frequency": 0.08100625902744343,
+      "joint_scenario_frequency": 0.02090484103934024,
+      "representative_date": "2023-01-09",
+      "example_dates": [
+        "2023-01-09",
+        "2023-01-12",
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-17",
+        "2023-01-22",
+        "2023-01-28",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1312,
+      "cluster": 0,
+      "route_days": 9,
+      "period_days": 31,
+      "route_appearance_frequency": 0.2903225806451613,
+      "truck_appearance_frequency": 0.07053442465093886,
+      "joint_scenario_frequency": 0.02047773618898225,
+      "representative_date": "2023-01-19",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-19",
+        "2023-01-20",
+        "2023-01-22",
+        "2023-01-24",
+        "2023-01-26",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1578,
+      "cluster": 3,
+      "route_days": 9,
+      "period_days": 31,
+      "route_appearance_frequency": 0.2903225806451613,
+      "truck_appearance_frequency": 0.06788637457871931,
+      "joint_scenario_frequency": 0.019708947458337865,
+      "representative_date": "2023-01-20",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-09",
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-20",
+        "2023-01-23",
+        "2023-01-27"
+      ]
+    },
+    {
+      "vehicle_id": 1993,
+      "cluster": 4,
+      "route_days": 8,
+      "period_days": 31,
+      "route_appearance_frequency": 0.25806451612903225,
+      "truck_appearance_frequency": 0.07498796340876264,
+      "joint_scenario_frequency": 0.019351732492583908,
+      "representative_date": "2023-01-17",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-10",
+        "2023-01-12",
+        "2023-01-14",
+        "2023-01-17",
+        "2023-01-30",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 2518,
+      "cluster": 3,
+      "route_days": 9,
+      "period_days": 31,
+      "route_appearance_frequency": 0.2903225806451613,
+      "truck_appearance_frequency": 0.06463649494463168,
+      "joint_scenario_frequency": 0.018765434016183392,
+      "representative_date": "2023-01-10",
+      "example_dates": [
+        "2023-01-06",
+        "2023-01-10",
+        "2023-01-11",
+        "2023-01-12",
+        "2023-01-13",
+        "2023-01-17",
+        "2023-01-23",
+        "2023-01-29",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 1350,
+      "cluster": 1,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.08100625902744343,
+      "joint_scenario_frequency": 0.01829173590942271,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-21",
+        "2023-01-26"
+      ]
+    },
+    {
+      "vehicle_id": 2191,
+      "cluster": 0,
+      "route_days": 9,
+      "period_days": 31,
+      "route_appearance_frequency": 0.2903225806451613,
+      "truck_appearance_frequency": 0.06210881078478575,
+      "joint_scenario_frequency": 0.018031590227841024,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-04",
+        "2023-01-07",
+        "2023-01-09",
+        "2023-01-13",
+        "2023-01-19",
+        "2023-01-27",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1247,
+      "cluster": 2,
+      "route_days": 8,
+      "period_days": 31,
+      "route_appearance_frequency": 0.25806451612903225,
+      "truck_appearance_frequency": 0.0694511314395763,
+      "joint_scenario_frequency": 0.017922872629568078,
+      "representative_date": "2023-01-16",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-11",
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-28"
+      ]
+    },
+    {
+      "vehicle_id": 1575,
+      "cluster": 2,
+      "route_days": 8,
+      "period_days": 31,
+      "route_appearance_frequency": 0.25806451612903225,
+      "truck_appearance_frequency": 0.06620125180548869,
+      "joint_scenario_frequency": 0.01708419401431966,
+      "representative_date": "2023-01-15",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-20",
+        "2023-01-25",
+        "2023-01-27"
+      ]
+    },
+    {
+      "vehicle_id": 1312,
+      "cluster": 4,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.07053442465093886,
+      "joint_scenario_frequency": 0.015927128146986193,
+      "representative_date": "2023-01-30",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-04",
+        "2023-01-09",
+        "2023-01-12",
+        "2023-01-14",
+        "2023-01-30",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1576,
+      "cluster": 0,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.08136735676456429,
+      "joint_scenario_frequency": 0.015748520664109217,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-04",
+        "2023-01-17",
+        "2023-01-19",
+        "2023-01-26",
+        "2023-01-27"
+      ]
+    },
+    {
+      "vehicle_id": 1578,
+      "cluster": 1,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.06788637457871931,
+      "joint_scenario_frequency": 0.015329181356485004,
+      "representative_date": "2023-01-15",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-08",
+        "2023-01-12",
+        "2023-01-15",
+        "2023-01-22",
+        "2023-01-24",
+        "2023-01-26"
+      ]
+    },
+    {
+      "vehicle_id": 1578,
+      "cluster": 2,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.06788637457871931,
+      "joint_scenario_frequency": 0.015329181356485004,
+      "representative_date": "2023-01-17",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-05",
+        "2023-01-16",
+        "2023-01-17",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-25"
+      ]
+    },
+    {
+      "vehicle_id": 2191,
+      "cluster": 3,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.06210881078478575,
+      "joint_scenario_frequency": 0.014024570177209685,
+      "representative_date": "2023-01-18",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-17",
+        "2023-01-18",
+        "2023-01-20",
+        "2023-01-21",
+        "2023-01-23",
+        "2023-01-28"
+      ]
+    },
+    {
+      "vehicle_id": 1421,
+      "cluster": 3,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.07233991333654309,
+      "joint_scenario_frequency": 0.01400127354900834,
+      "representative_date": "2023-01-06",
+      "example_dates": [
+        "2023-01-06",
+        "2023-01-15",
+        "2023-01-18",
+        "2023-01-23",
+        "2023-01-24",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1421,
+      "cluster": 2,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.07233991333654309,
+      "joint_scenario_frequency": 0.01400127354900834,
+      "representative_date": "2023-01-30",
+      "example_dates": [
+        "2023-01-10",
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-16",
+        "2023-01-17",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 1687,
+      "cluster": 0,
+      "route_days": 9,
+      "period_days": 31,
+      "route_appearance_frequency": 0.2903225806451613,
+      "truck_appearance_frequency": 0.04742416947520463,
+      "joint_scenario_frequency": 0.013768307266994894,
+      "representative_date": "2023-01-13",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-03",
+        "2023-01-04",
+        "2023-01-13",
+        "2023-01-15",
+        "2023-01-21",
+        "2023-01-25",
+        "2023-01-28",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1312,
+      "cluster": 2,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.07053442465093886,
+      "joint_scenario_frequency": 0.013651824125988166,
+      "representative_date": "2023-01-16",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-18"
+      ]
+    },
+    {
+      "vehicle_id": 1576,
+      "cluster": 2,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.08136735676456429,
+      "joint_scenario_frequency": 0.013123767220091015,
+      "representative_date": "2023-01-15",
+      "example_dates": [
+        "2023-01-09",
+        "2023-01-11",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-25"
+      ]
+    },
+    {
+      "vehicle_id": 1575,
+      "cluster": 3,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.06620125180548869,
+      "joint_scenario_frequency": 0.012813145510739747,
+      "representative_date": "2023-01-17",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-10",
+        "2023-01-13",
+        "2023-01-17",
+        "2023-01-23",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 2201,
+      "cluster": 1,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.06535869041887338,
+      "joint_scenario_frequency": 0.012650069113330331,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-08",
+        "2023-01-19",
+        "2023-01-20",
+        "2023-01-22",
+        "2023-01-25",
+        "2023-01-27"
+      ]
+    },
+    {
+      "vehicle_id": 2518,
+      "cluster": 4,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.06463649494463168,
+      "joint_scenario_frequency": 0.012510289344122261,
+      "representative_date": "2023-01-24",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-18",
+        "2023-01-20",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1363,
+      "cluster": 1,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.05536831969186327,
+      "joint_scenario_frequency": 0.01250252380138848,
+      "representative_date": "2023-01-27",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-12",
+        "2023-01-21",
+        "2023-01-25",
+        "2023-01-27"
+      ]
+    },
+    {
+      "vehicle_id": 1363,
+      "cluster": 4,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.05536831969186327,
+      "joint_scenario_frequency": 0.01250252380138848,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-22",
+        "2023-01-26",
+        "2023-01-29",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1363,
+      "cluster": 3,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.05536831969186327,
+      "joint_scenario_frequency": 0.01250252380138848,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-11",
+        "2023-01-13",
+        "2023-01-15",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-23",
+        "2023-01-28"
+      ]
+    },
+    {
+      "vehicle_id": 1993,
+      "cluster": 3,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.07498796340876264,
+      "joint_scenario_frequency": 0.012094832807864941,
+      "representative_date": "2023-01-04",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-04",
+        "2023-01-09",
+        "2023-01-23",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1993,
+      "cluster": 2,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.07498796340876264,
+      "joint_scenario_frequency": 0.012094832807864941,
+      "representative_date": "2023-01-24",
+      "example_dates": [
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-20",
+        "2023-01-22",
+        "2023-01-24"
+      ]
+    },
+    {
+      "vehicle_id": 2191,
+      "cluster": 1,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.06210881078478575,
+      "joint_scenario_frequency": 0.012021060151894017,
+      "representative_date": "2023-01-26",
+      "example_dates": [
+        "2023-01-08",
+        "2023-01-10",
+        "2023-01-11",
+        "2023-01-12",
+        "2023-01-22",
+        "2023-01-26"
+      ]
+    },
+    {
+      "vehicle_id": 1421,
+      "cluster": 0,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.07233991333654309,
+      "joint_scenario_frequency": 0.01166772795750695,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-03",
+        "2023-01-04",
+        "2023-01-19",
+        "2023-01-26"
+      ]
+    },
+    {
+      "vehicle_id": 1421,
+      "cluster": 4,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.07233991333654309,
+      "joint_scenario_frequency": 0.01166772795750695,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-09",
+        "2023-01-12",
+        "2023-01-25",
+        "2023-01-28",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1312,
+      "cluster": 1,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.07053442465093886,
+      "joint_scenario_frequency": 0.011376520104990137,
+      "representative_date": "2023-01-10",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-08",
+        "2023-01-10",
+        "2023-01-17",
+        "2023-01-25"
+      ]
+    },
+    {
+      "vehicle_id": 1247,
+      "cluster": 0,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.0694511314395763,
+      "joint_scenario_frequency": 0.01120179539348005,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-10",
+        "2023-01-20",
+        "2023-01-21",
+        "2023-01-26"
+      ]
+    },
+    {
+      "vehicle_id": 1247,
+      "cluster": 4,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.0694511314395763,
+      "joint_scenario_frequency": 0.01120179539348005,
+      "representative_date": "2023-01-27",
+      "example_dates": [
+        "2023-01-07",
+        "2023-01-17",
+        "2023-01-19",
+        "2023-01-27",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1785,
+      "cluster": 0,
+      "route_days": 12,
+      "period_days": 31,
+      "route_appearance_frequency": 0.3870967741935484,
+      "truck_appearance_frequency": 0.028045257583052482,
+      "joint_scenario_frequency": 0.010856228741826767,
+      "representative_date": "2023-01-14",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-10",
+        "2023-01-11",
+        "2023-01-14",
+        "2023-01-17",
+        "2023-01-20",
+        "2023-01-22",
+        "2023-01-25"
+      ]
+    },
+    {
+      "vehicle_id": 1363,
+      "cluster": 0,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.05536831969186327,
+      "joint_scenario_frequency": 0.010716448972618697,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-14",
+        "2023-01-17",
+        "2023-01-20"
+      ]
+    },
+    {
+      "vehicle_id": 1575,
+      "cluster": 1,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06620125180548869,
+      "joint_scenario_frequency": 0.010677621258949789,
+      "representative_date": "2023-01-26",
+      "example_dates": [
+        "2023-01-06",
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-24",
+        "2023-01-26"
+      ]
+    },
+    {
+      "vehicle_id": 2201,
+      "cluster": 0,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06535869041887338,
+      "joint_scenario_frequency": 0.01054172426110861,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-03",
+        "2023-01-12",
+        "2023-01-13",
+        "2023-01-17"
+      ]
+    },
+    {
+      "vehicle_id": 2201,
+      "cluster": 4,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06535869041887338,
+      "joint_scenario_frequency": 0.01054172426110861,
+      "representative_date": "2023-01-02",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-11",
+        "2023-01-14",
+        "2023-01-21",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 2201,
+      "cluster": 2,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06535869041887338,
+      "joint_scenario_frequency": 0.01054172426110861,
+      "representative_date": "2023-01-26",
+      "example_dates": [
+        "2023-01-10",
+        "2023-01-16",
+        "2023-01-24",
+        "2023-01-26",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1576,
+      "cluster": 1,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.08136735676456429,
+      "joint_scenario_frequency": 0.010499013776072812,
+      "representative_date": "2023-01-29",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-14",
+        "2023-01-21",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1350,
+      "cluster": 0,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.08100625902744343,
+      "joint_scenario_frequency": 0.01045242051967012,
+      "representative_date": "2023-01-24",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-10",
+        "2023-01-24",
+        "2023-01-25"
+      ]
+    },
+    {
+      "vehicle_id": 2191,
+      "cluster": 4,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.06210881078478575,
+      "joint_scenario_frequency": 0.010017550126578347,
+      "representative_date": "2023-01-24",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1688,
+      "cluster": 1,
+      "route_days": 10,
+      "period_days": 31,
+      "route_appearance_frequency": 0.3225806451612903,
+      "truck_appearance_frequency": 0.03093403948001926,
+      "joint_scenario_frequency": 0.009978722412909438,
+      "representative_date": "2023-01-07",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-04",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-08",
+        "2023-01-11",
+        "2023-01-14",
+        "2023-01-17",
+        "2023-01-18"
+      ]
+    },
+    {
+      "vehicle_id": 1993,
+      "cluster": 1,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.07498796340876264,
+      "joint_scenario_frequency": 0.009675866246291954,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-06",
+        "2023-01-08",
+        "2023-01-28"
+      ]
+    },
+    {
+      "vehicle_id": 1312,
+      "cluster": 3,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.07053442465093886,
+      "joint_scenario_frequency": 0.00910121608399211,
+      "representative_date": "2023-01-28",
+      "example_dates": [
+        "2023-01-21",
+        "2023-01-23",
+        "2023-01-27",
+        "2023-01-28"
+      ]
+    },
+    {
+      "vehicle_id": 1578,
+      "cluster": 0,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.06788637457871931,
+      "joint_scenario_frequency": 0.008759532203705718,
+      "representative_date": "2023-01-21",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-10",
+        "2023-01-14",
+        "2023-01-21"
+      ]
+    },
+    {
+      "vehicle_id": 1578,
+      "cluster": 4,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.06788637457871931,
+      "joint_scenario_frequency": 0.008759532203705718,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-28",
+        "2023-01-29",
+        "2023-01-30",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 2191,
+      "cluster": 2,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.06210881078478575,
+      "joint_scenario_frequency": 0.008014040101262677,
+      "representative_date": "2023-01-15",
+      "example_dates": [
+        "2023-01-14",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 1688,
+      "cluster": 4,
+      "route_days": 8,
+      "period_days": 31,
+      "route_appearance_frequency": 0.25806451612903225,
+      "truck_appearance_frequency": 0.03093403948001926,
+      "joint_scenario_frequency": 0.007982977930327552,
+      "representative_date": "2023-01-21",
+      "example_dates": [
+        "2023-01-16",
+        "2023-01-19",
+        "2023-01-20",
+        "2023-01-21",
+        "2023-01-26",
+        "2023-01-27",
+        "2023-01-30",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1667,
+      "cluster": 3,
+      "route_days": 10,
+      "period_days": 31,
+      "route_appearance_frequency": 0.3225806451612903,
+      "truck_appearance_frequency": 0.022749157438613384,
+      "joint_scenario_frequency": 0.0073384378834236725,
+      "representative_date": "2023-01-05",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-13",
+        "2023-01-19",
+        "2023-01-23",
+        "2023-01-25",
+        "2023-01-27",
+        "2023-01-28",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1363,
+      "cluster": 2,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.05536831969186327,
+      "joint_scenario_frequency": 0.007144299315079131,
+      "representative_date": "2023-01-16",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-16",
+        "2023-01-24",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 1688,
+      "cluster": 2,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.03093403948001926,
+      "joint_scenario_frequency": 0.006985105689036607,
+      "representative_date": "2023-01-25",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-12",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1247,
+      "cluster": 1,
+      "route_days": 3,
+      "period_days": 31,
+      "route_appearance_frequency": 0.0967741935483871,
+      "truck_appearance_frequency": 0.0694511314395763,
+      "joint_scenario_frequency": 0.006721077236088029,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-08",
+        "2023-01-22"
+      ]
+    },
+    {
+      "vehicle_id": 2518,
+      "cluster": 0,
+      "route_days": 3,
+      "period_days": 31,
+      "route_appearance_frequency": 0.0967741935483871,
+      "truck_appearance_frequency": 0.06463649494463168,
+      "joint_scenario_frequency": 0.0062551446720611305,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-22"
+      ]
+    },
+    {
+      "vehicle_id": 1687,
+      "cluster": 4,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.04742416947520463,
+      "joint_scenario_frequency": 0.006119247674219952,
+      "representative_date": "2023-01-07",
+      "example_dates": [
+        "2023-01-07",
+        "2023-01-22",
+        "2023-01-24",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1785,
+      "cluster": 2,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.028045257583052482,
+      "joint_scenario_frequency": 0.005428114370913384,
+      "representative_date": "2023-01-28",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-13",
+        "2023-01-16",
+        "2023-01-24",
+        "2023-01-28"
+      ]
+    },
+    {
+      "vehicle_id": 1311,
+      "cluster": 2,
+      "route_days": 11,
+      "period_days": 31,
+      "route_appearance_frequency": 0.3548387096774194,
+      "truck_appearance_frequency": 0.014925373134328358,
+      "joint_scenario_frequency": 0.005296100144439095,
+      "representative_date": "2023-01-05",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-06",
+        "2023-01-07",
+        "2023-01-11",
+        "2023-01-16",
+        "2023-01-17",
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-20",
+        "2023-01-28"
+      ]
+    },
+    {
+      "vehicle_id": 1350,
+      "cluster": 3,
+      "route_days": 2,
+      "period_days": 31,
+      "route_appearance_frequency": 0.06451612903225806,
+      "truck_appearance_frequency": 0.08100625902744343,
+      "joint_scenario_frequency": 0.00522621025983506,
+      "representative_date": "2023-01-20",
+      "example_dates": [
+        "2023-01-20",
+        "2023-01-23"
+      ]
+    },
+    {
+      "vehicle_id": 1667,
+      "cluster": 4,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.022749157438613384,
+      "joint_scenario_frequency": 0.005136906518396571,
+      "representative_date": "2023-01-24",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-21",
+        "2023-01-24",
+        "2023-01-30",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1423,
+      "cluster": 2,
+      "route_days": 10,
+      "period_days": 31,
+      "route_appearance_frequency": 0.3225806451612903,
+      "truck_appearance_frequency": 0.015045739046701975,
+      "joint_scenario_frequency": 0.00485346420861354,
+      "representative_date": "2023-01-20",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-06",
+        "2023-01-10",
+        "2023-01-13",
+        "2023-01-14",
+        "2023-01-16",
+        "2023-01-17",
+        "2023-01-20",
+        "2023-01-29",
+        "2023-01-30"
+      ]
+    },
+    {
+      "vehicle_id": 1785,
+      "cluster": 3,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.028045257583052482,
+      "joint_scenario_frequency": 0.00452342864242782,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-12",
+        "2023-01-19",
+        "2023-01-23",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1785,
+      "cluster": 4,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.028045257583052482,
+      "joint_scenario_frequency": 0.00452342864242782,
+      "representative_date": "2023-01-05",
+      "example_dates": [
+        "2023-01-05",
+        "2023-01-15",
+        "2023-01-21",
+        "2023-01-30",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1667,
+      "cluster": 2,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.022749157438613384,
+      "joint_scenario_frequency": 0.004403062730054203,
+      "representative_date": "2023-01-18",
+      "example_dates": [
+        "2023-01-03",
+        "2023-01-07",
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-18",
+        "2023-01-22"
+      ]
+    },
+    {
+      "vehicle_id": 1506,
+      "cluster": 1,
+      "route_days": 14,
+      "period_days": 31,
+      "route_appearance_frequency": 0.45161290322580644,
+      "truck_appearance_frequency": 0.009629272989889264,
+      "joint_scenario_frequency": 0.0043487039309177316,
+      "representative_date": "2023-01-12",
+      "example_dates": [
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-11",
+        "2023-01-12",
+        "2023-01-13",
+        "2023-01-14",
+        "2023-01-17",
+        "2023-01-18"
+      ]
+    },
+    {
+      "vehicle_id": 1575,
+      "cluster": 4,
+      "route_days": 2,
+      "period_days": 31,
+      "route_appearance_frequency": 0.06451612903225806,
+      "truck_appearance_frequency": 0.06620125180548869,
+      "joint_scenario_frequency": 0.004271048503579915,
+      "representative_date": "2023-01-29",
+      "example_dates": [
+        "2023-01-29",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 2518,
+      "cluster": 1,
+      "route_days": 2,
+      "period_days": 31,
+      "route_appearance_frequency": 0.06451612903225806,
+      "truck_appearance_frequency": 0.06463649494463168,
+      "joint_scenario_frequency": 0.004170096448040754,
+      "representative_date": "2023-01-04",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-08"
+      ]
+    },
+    {
+      "vehicle_id": 1688,
+      "cluster": 3,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.03093403948001926,
+      "joint_scenario_frequency": 0.003991488965163776,
+      "representative_date": "2023-01-13",
+      "example_dates": [
+        "2023-01-13",
+        "2023-01-22",
+        "2023-01-23",
+        "2023-01-28"
+      ]
+    },
+    {
+      "vehicle_id": 1667,
+      "cluster": 0,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.022749157438613384,
+      "joint_scenario_frequency": 0.0036692189417118362,
+      "representative_date": "2023-01-14",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-08",
+        "2023-01-12",
+        "2023-01-14",
+        "2023-01-17"
+      ]
+    },
+    {
+      "vehicle_id": 1423,
+      "cluster": 3,
+      "route_days": 7,
+      "period_days": 31,
+      "route_appearance_frequency": 0.22580645161290322,
+      "truck_appearance_frequency": 0.015045739046701975,
+      "joint_scenario_frequency": 0.003397424946029478,
+      "representative_date": "2023-01-25",
+      "example_dates": [
+        "2023-01-15",
+        "2023-01-21",
+        "2023-01-22",
+        "2023-01-23",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-27"
+      ]
+    },
+    {
+      "vehicle_id": 1687,
+      "cluster": 2,
+      "route_days": 2,
+      "period_days": 31,
+      "route_appearance_frequency": 0.06451612903225806,
+      "truck_appearance_frequency": 0.04742416947520463,
+      "joint_scenario_frequency": 0.003059623837109976,
+      "representative_date": "2023-01-12",
+      "example_dates": [
+        "2023-01-12",
+        "2023-01-14"
+      ]
+    },
+    {
+      "vehicle_id": 1423,
+      "cluster": 1,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.015045739046701975,
+      "joint_scenario_frequency": 0.002912078525168124,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-04",
+        "2023-01-05",
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-11",
+        "2023-01-12"
+      ]
+    },
+    {
+      "vehicle_id": 1311,
+      "cluster": 3,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.014925373134328358,
+      "joint_scenario_frequency": 0.002888781896966779,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-13",
+        "2023-01-21",
+        "2023-01-22",
+        "2023-01-23",
+        "2023-01-26",
+        "2023-01-27"
+      ]
+    },
+    {
+      "vehicle_id": 1785,
+      "cluster": 1,
+      "route_days": 3,
+      "period_days": 31,
+      "route_appearance_frequency": 0.0967741935483871,
+      "truck_appearance_frequency": 0.028045257583052482,
+      "joint_scenario_frequency": 0.002714057185456692,
+      "representative_date": "2023-01-08",
+      "example_dates": [
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-18"
+      ]
+    },
+    {
+      "vehicle_id": 1423,
+      "cluster": 4,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.015045739046701975,
+      "joint_scenario_frequency": 0.00242673210430677,
+      "representative_date": "2023-01-19",
+      "example_dates": [
+        "2023-01-18",
+        "2023-01-19",
+        "2023-01-26",
+        "2023-01-28",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1311,
+      "cluster": 1,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.014925373134328358,
+      "joint_scenario_frequency": 0.0024073182474723155,
+      "representative_date": "2023-01-10",
+      "example_dates": [
+        "2023-01-08",
+        "2023-01-09",
+        "2023-01-10",
+        "2023-01-12",
+        "2023-01-14"
+      ]
+    },
+    {
+      "vehicle_id": 1311,
+      "cluster": 4,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.014925373134328358,
+      "joint_scenario_frequency": 0.0024073182474723155,
+      "representative_date": "2023-01-31",
+      "example_dates": [
+        "2023-01-15",
+        "2023-01-24",
+        "2023-01-25",
+        "2023-01-30",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1667,
+      "cluster": 1,
+      "route_days": 3,
+      "period_days": 31,
+      "route_appearance_frequency": 0.0967741935483871,
+      "truck_appearance_frequency": 0.022749157438613384,
+      "joint_scenario_frequency": 0.0022015313650271015,
+      "representative_date": "2023-01-11",
+      "example_dates": [
+        "2023-01-11",
+        "2023-01-20",
+        "2023-01-26"
+      ]
+    },
+    {
+      "vehicle_id": 1688,
+      "cluster": 0,
+      "route_days": 2,
+      "period_days": 31,
+      "route_appearance_frequency": 0.06451612903225806,
+      "truck_appearance_frequency": 0.03093403948001926,
+      "joint_scenario_frequency": 0.001995744482581888,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-15"
+      ]
+    },
+    {
+      "vehicle_id": 1311,
+      "cluster": 0,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.014925373134328358,
+      "joint_scenario_frequency": 0.0019258545979778526,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-03",
+        "2023-01-04"
+      ]
+    },
+    {
+      "vehicle_id": 1506,
+      "cluster": 0,
+      "route_days": 6,
+      "period_days": 31,
+      "route_appearance_frequency": 0.1935483870967742,
+      "truck_appearance_frequency": 0.009629272989889264,
+      "joint_scenario_frequency": 0.0018637302561075994,
+      "representative_date": "2023-01-01",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-04",
+        "2023-01-08",
+        "2023-01-20",
+        "2023-01-24",
+        "2023-01-29"
+      ]
+    },
+    {
+      "vehicle_id": 1506,
+      "cluster": 3,
+      "route_days": 5,
+      "period_days": 31,
+      "route_appearance_frequency": 0.16129032258064516,
+      "truck_appearance_frequency": 0.009629272989889264,
+      "joint_scenario_frequency": 0.0015531085467563328,
+      "representative_date": "2023-01-27",
+      "example_dates": [
+        "2023-01-15",
+        "2023-01-16",
+        "2023-01-23",
+        "2023-01-27",
+        "2023-01-31"
+      ]
+    },
+    {
+      "vehicle_id": 1687,
+      "cluster": 3,
+      "route_days": 1,
+      "period_days": 31,
+      "route_appearance_frequency": 0.03225806451612903,
+      "truck_appearance_frequency": 0.04742416947520463,
+      "joint_scenario_frequency": 0.001529811918554988,
+      "representative_date": "2023-01-23",
+      "example_dates": [
+        "2023-01-23"
+      ]
+    },
+    {
+      "vehicle_id": 1423,
+      "cluster": 0,
+      "route_days": 3,
+      "period_days": 31,
+      "route_appearance_frequency": 0.0967741935483871,
+      "truck_appearance_frequency": 0.015045739046701975,
+      "joint_scenario_frequency": 0.001456039262584062,
+      "representative_date": "2023-01-07",
+      "example_dates": [
+        "2023-01-01",
+        "2023-01-02",
+        "2023-01-07"
+      ]
+    },
+    {
+      "vehicle_id": 1506,
+      "cluster": 2,
+      "route_days": 4,
+      "period_days": 31,
+      "route_appearance_frequency": 0.12903225806451613,
+      "truck_appearance_frequency": 0.009629272989889264,
+      "joint_scenario_frequency": 0.0012424868374050662,
+      "representative_date": "2023-01-09",
+      "example_dates": [
+        "2023-01-06",
+        "2023-01-09",
+        "2023-01-21",
+        "2023-01-26"
+      ]
+    },
+    {
+      "vehicle_id": 1506,
+      "cluster": 4,
+      "route_days": 2,
+      "period_days": 31,
+      "route_appearance_frequency": 0.06451612903225806,
+      "truck_appearance_frequency": 0.009629272989889264,
+      "joint_scenario_frequency": 0.0006212434187025331,
+      "representative_date": "2023-01-10",
+      "example_dates": [
+        "2023-01-10",
+        "2023-01-22"
+      ]
+    }
+  ]
+}
