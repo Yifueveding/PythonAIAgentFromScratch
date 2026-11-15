@@ -15,6 +15,8 @@ HERE = Path(__file__).resolve().parent
 DATA = HERE / "all_trucks_energy_consumption_data_with_category.csv"
 DUTY_CYCLE = HERE.parent / "Other_data" / "West_Ang_Fleet_duty_cycle.csv"
 DUTY_COLORS = {"LIGHT": "#3a9a6a", "MEDIUM": "#2a6ebb", "HEAVY": "#b8434f"}
+FLEET = HERE.parent / "Other_data" / "West_Ang_Fleet.csv"
+AGE_COLORS = ["#3a9a6a", "#2a6ebb", "#b8434f"]  # young -> old
 
 COLORS = {
     "Dril_Blast": "#2a6ebb", "Fixed_plant": "#e08a1e", "Ghosts": "#3a9a6a",
@@ -87,29 +89,51 @@ def main():
     plt.close(fig)
 
     plot_duty_cycle(hourly)
+    plot_age_groups(hourly)
 
 
 def plot_duty_cycle(hourly: pd.DataFrame) -> None:
     """Energy by fleet duty cycle (trucks without a duty cycle are dropped)."""
-    duty = pd.read_csv(DUTY_CYCLE).rename(columns={"VehicleId": "TruckId", "Duty Cycle": "duty_cycle"})
+    duty = pd.read_csv(DUTY_CYCLE).rename(columns={"VehicleId": "TruckId", "Duty Cycle": "group"})
     h = hourly.merge(duty, on="TruckId", how="inner")
-    order = [d for d in DUTY_COLORS if d in set(h["duty_cycle"])]
-    n_trucks = h.groupby("duty_cycle")["TruckId"].nunique()
+    order = [d for d in DUTY_COLORS if d in set(h["group"])]
+    plot_groups(h, order, [DUTY_COLORS[d] for d in order], "duty cycle",
+                HERE / "duty_cycle_average_energy_by_time_of_day_ci.png")
+
+
+def plot_age_groups(hourly: pd.DataFrame) -> None:
+    """Energy by vehicle age, split into three equal-count groups (tertiles)."""
+    fleet = pd.read_csv(FLEET, usecols=["VehicleId", "Age"]).dropna()
+    fleet = fleet.rename(columns={"VehicleId": "TruckId"})
+    fleet["TruckId"] = fleet["TruckId"].astype(int)
+    fleet = fleet[fleet["TruckId"].isin(hourly["TruckId"].unique())]
+    edges = fleet["Age"].quantile([0, 1 / 3, 2 / 3, 1]).to_numpy()
+    labels = [f"{edges[0]:.1f}–{edges[1]:.1f} yr", f"{edges[1]:.1f}–{edges[2]:.1f} yr", f"{edges[2]:.1f}–{edges[3]:.1f} yr"]
+    fleet["group"] = pd.qcut(fleet["Age"], 3, labels=labels)
+    fleet["group"] = fleet["group"].astype(str)
+    h = hourly.merge(fleet[["TruckId", "group"]], on="TruckId", how="inner")
+    plot_groups(h, labels, AGE_COLORS, "vehicle age",
+                HERE / "age_group_average_energy_by_time_of_day_ci.png")
+
+
+def plot_groups(h: pd.DataFrame, order: list[str], colors: list[str], what: str, out: Path) -> None:
+    """Hourly profile (left) and mean daily energy (right) for each value of ``h['group']``."""
+    n_trucks = h.groupby("group")["TruckId"].nunique()
 
     fig, (ax, bx) = plt.subplots(1, 2, figsize=(15, 6), dpi=180, gridspec_kw={"width_ratios": [3, 1]})
 
-    s = summarize(h, ["duty_cycle", "hour_of_day"])
-    for dc in order:
-        d, c = s[s["duty_cycle"] == dc], DUTY_COLORS[dc]
+    s = summarize(h, ["group", "hour_of_day"])
+    for g, c in zip(order, colors):
+        d = s[s["group"] == g]
         ax.fill_between(d["hour_of_day"], d["lo"], d["hi"], color=c, alpha=0.18, lw=0)
-        ax.plot(d["hour_of_day"], d["mean"], color=c, lw=2, marker="o", ms=4, label=f"{dc} (n={n_trucks[dc]} trucks)")
-    style(ax, "Average hourly energy by time of day — by duty cycle (shaded: 95% CI)")
+        ax.plot(d["hour_of_day"], d["mean"], color=c, lw=2, marker="o", ms=4, label=f"{g} (n={n_trucks[g]} trucks)")
+    style(ax, f"Average hourly energy by time of day — by {what} (shaded: 95% CI)")
     ax.legend(frameon=False, loc="upper left")
 
-    daily = h.groupby(["TruckId", "duty_cycle", "month", "day"], as_index=False)["energy_consumption"].sum()
-    ds = summarize(daily, ["duty_cycle"]).set_index("duty_cycle").loc[order]
+    daily = h.groupby(["TruckId", "group", "month", "day"], as_index=False)["energy_consumption"].sum()
+    ds = summarize(daily, ["group"]).set_index("group").loc[order]
     x = np.arange(len(order))
-    bx.bar(x, ds["mean"], color=[DUTY_COLORS[d] for d in order], width=0.6)
+    bx.bar(x, ds["mean"], color=colors, width=0.6)
     bx.errorbar(x, ds["mean"], yerr=[ds["mean"] - ds["lo"], ds["hi"] - ds["mean"]], fmt="none", ecolor="black", capsize=5)
     for xi, hi, m in zip(x, ds["hi"], ds["mean"]):
         bx.text(xi, hi + ds["hi"].max() * 0.02, f"{m:.1f}", ha="center", va="bottom", fontsize=10)
@@ -121,7 +145,7 @@ def plot_duty_cycle(hourly: pd.DataFrame) -> None:
     bx.set_axisbelow(True)
 
     fig.tight_layout()
-    fig.savefig(HERE / "duty_cycle_average_energy_by_time_of_day_ci.png")
+    fig.savefig(out)
     plt.close(fig)
 
 
