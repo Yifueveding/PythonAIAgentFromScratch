@@ -76,17 +76,9 @@ def main():
     fig.savefig(HERE / "all_trucks_average_energy_by_time_of_day_ci.png")
     plt.close(fig)
 
-    s = summarize(hourly, ["truck_category", "hour_of_day"])
-    fig, ax = plt.subplots(figsize=(12, 6), dpi=180)
-    for cat, d in s.groupby("truck_category"):
-        c = COLORS.get(cat)
-        ax.fill_between(d["hour_of_day"], d["lo"], d["hi"], color=c, alpha=0.15, lw=0)
-        ax.plot(d["hour_of_day"], d["mean"], color=c, lw=2, marker="o", ms=3, label=cat)
-    style(ax, "Average hourly energy by time of day — by truck category (shaded: 95% CI)")
-    ax.legend(frameon=False, loc="upper left", ncol=2)
-    fig.tight_layout()
-    fig.savefig(HERE / "truck_category_average_energy_by_time_of_day_ci.png")
-    plt.close(fig)
+    cats = sorted(hourly["truck_category"].unique())
+    plot_groups(hourly.assign(group=hourly["truck_category"]), cats, [COLORS[c] for c in cats],
+                "truck category", HERE / "truck_category_average_energy_by_time_of_day_ci.png")
 
     plot_duty_cycle(hourly)
     plot_age_groups(hourly)
@@ -128,7 +120,10 @@ def plot_groups(h: pd.DataFrame, order: list[str], colors: list[str], what: str,
         ax.fill_between(d["hour_of_day"], d["lo"], d["hi"], color=c, alpha=0.18, lw=0)
         ax.plot(d["hour_of_day"], d["mean"], color=c, lw=2, marker="o", ms=4, label=f"{g} (n={n_trucks[g]} trucks)")
     style(ax, f"Average hourly energy by time of day — by {what} (shaded: 95% CI)")
-    ax.legend(frameon=False, loc="upper left")
+    many = len(order) > 4
+    if many:  # leave room above the lines for the two-column legend
+        ax.set_ylim(0, s["hi"].max() * 1.35)
+    ax.legend(frameon=False, loc="upper left", ncol=2 if many else 1, fontsize=9 if many else 10)
 
     daily = h.groupby(["TruckId", "group", "month", "day"], as_index=False)["energy_consumption"].sum()
     ds = summarize(daily, ["group"]).set_index("group").loc[order]
@@ -136,9 +131,9 @@ def plot_groups(h: pd.DataFrame, order: list[str], colors: list[str], what: str,
     bx.bar(x, ds["mean"], color=colors, width=0.6)
     bx.errorbar(x, ds["mean"], yerr=[ds["mean"] - ds["lo"], ds["hi"] - ds["mean"]], fmt="none", ecolor="black", capsize=5)
     for xi, hi, m in zip(x, ds["hi"], ds["mean"]):
-        bx.text(xi, hi + ds["hi"].max() * 0.02, f"{m:.1f}", ha="center", va="bottom", fontsize=10)
+        bx.text(xi, hi + ds["hi"].max() * 0.02, f"{m:.1f}", ha="center", va="bottom", fontsize=8 if many else 10)
     bx.set_ylim(0, ds["hi"].max() * 1.12)
-    bx.set_xticks(x, order)
+    bx.set_xticks(x, order, rotation=45 if many else 0, ha="right" if many else "center")
     bx.set_title("Mean daily energy per active truck-day", fontsize=12)
     bx.set_ylabel("Energy per day (dataset units)")
     bx.grid(axis="y", color="#e5e5e5")
