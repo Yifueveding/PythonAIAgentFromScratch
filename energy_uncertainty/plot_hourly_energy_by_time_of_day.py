@@ -76,24 +76,43 @@ def main():
     fig.savefig(HERE / "all_trucks_average_energy_by_time_of_day_ci.png")
     plt.close(fig)
 
+    groupings = [
+        (category_groups(hourly), "truck_category_average_energy_by_time_of_day_ci.png"),
+        (duty_cycle_groups(hourly), "duty_cycle_average_energy_by_time_of_day_ci.png"),
+        (age_groups(hourly), "age_group_average_energy_by_time_of_day_ci.png"),
+    ]
+
+    for grouping, fname in groupings:
+        fig, (ax, bx) = plt.subplots(1, 2, figsize=(15, 6), dpi=180, gridspec_kw={"width_ratios": [3, 1]})
+        draw_groups(ax, bx, *grouping)
+        fig.tight_layout()
+        fig.savefig(HERE / fname)
+        plt.close(fig)
+
+    fig, axes = plt.subplots(3, 2, figsize=(15, 18), dpi=180, gridspec_kw={"width_ratios": [3, 1]})
+    for (ax, bx), (grouping, _), tag in zip(axes, groupings, "abc"):
+        draw_groups(ax, bx, *grouping)
+        ax.set_title(f"({tag}) {ax.get_title()}", fontsize=13)
+    fig.tight_layout(h_pad=2.5)
+    fig.savefig(HERE / "combined_average_energy_by_time_of_day_ci.png")
+    plt.close(fig)
+
+
+def category_groups(hourly: pd.DataFrame):
+    """Energy by truck category."""
     cats = sorted(hourly["truck_category"].unique())
-    plot_groups(hourly.assign(group=hourly["truck_category"]), cats, [COLORS[c] for c in cats],
-                "truck category", HERE / "truck_category_average_energy_by_time_of_day_ci.png")
-
-    plot_duty_cycle(hourly)
-    plot_age_groups(hourly)
+    return hourly.assign(group=hourly["truck_category"]), cats, [COLORS[c] for c in cats], "truck category"
 
 
-def plot_duty_cycle(hourly: pd.DataFrame) -> None:
+def duty_cycle_groups(hourly: pd.DataFrame):
     """Energy by fleet duty cycle (trucks without a duty cycle are dropped)."""
     duty = pd.read_csv(DUTY_CYCLE).rename(columns={"VehicleId": "TruckId", "Duty Cycle": "group"})
     h = hourly.merge(duty, on="TruckId", how="inner")
     order = [d for d in DUTY_COLORS if d in set(h["group"])]
-    plot_groups(h, order, [DUTY_COLORS[d] for d in order], "duty cycle",
-                HERE / "duty_cycle_average_energy_by_time_of_day_ci.png")
+    return h, order, [DUTY_COLORS[d] for d in order], "duty cycle"
 
 
-def plot_age_groups(hourly: pd.DataFrame) -> None:
+def age_groups(hourly: pd.DataFrame):
     """Energy by vehicle age, split into three equal-count groups (tertiles)."""
     fleet = pd.read_csv(FLEET, usecols=["VehicleId", "Age"]).dropna()
     fleet = fleet.rename(columns={"VehicleId": "TruckId"})
@@ -101,18 +120,14 @@ def plot_age_groups(hourly: pd.DataFrame) -> None:
     fleet = fleet[fleet["TruckId"].isin(hourly["TruckId"].unique())]
     edges = fleet["Age"].quantile([0, 1 / 3, 2 / 3, 1]).to_numpy()
     labels = [f"{edges[0]:.1f}–{edges[1]:.1f} yr", f"{edges[1]:.1f}–{edges[2]:.1f} yr", f"{edges[2]:.1f}–{edges[3]:.1f} yr"]
-    fleet["group"] = pd.qcut(fleet["Age"], 3, labels=labels)
-    fleet["group"] = fleet["group"].astype(str)
+    fleet["group"] = pd.qcut(fleet["Age"], 3, labels=labels).astype(str)
     h = hourly.merge(fleet[["TruckId", "group"]], on="TruckId", how="inner")
-    plot_groups(h, labels, AGE_COLORS, "vehicle age",
-                HERE / "age_group_average_energy_by_time_of_day_ci.png")
+    return h, labels, AGE_COLORS, "vehicle age"
 
 
-def plot_groups(h: pd.DataFrame, order: list[str], colors: list[str], what: str, out: Path) -> None:
-    """Hourly profile (left) and mean daily energy (right) for each value of ``h['group']``."""
+def draw_groups(ax, bx, h: pd.DataFrame, order: list[str], colors: list[str], what: str) -> None:
+    """Hourly profile on ``ax`` and mean daily energy on ``bx`` for each value of ``h['group']``."""
     n_trucks = h.groupby("group")["TruckId"].nunique()
-
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(15, 6), dpi=180, gridspec_kw={"width_ratios": [3, 1]})
 
     s = summarize(h, ["group", "hour_of_day"])
     for g, c in zip(order, colors):
@@ -138,10 +153,6 @@ def plot_groups(h: pd.DataFrame, order: list[str], colors: list[str], what: str,
     bx.set_ylabel("Energy per day (dataset units)")
     bx.grid(axis="y", color="#e5e5e5")
     bx.set_axisbelow(True)
-
-    fig.tight_layout()
-    fig.savefig(out)
-    plt.close(fig)
 
 
 if __name__ == "__main__":
