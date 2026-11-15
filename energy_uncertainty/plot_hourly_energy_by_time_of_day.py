@@ -13,6 +13,8 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parent
 DATA = HERE / "all_trucks_energy_consumption_data_with_category.csv"
+DUTY_CYCLE = HERE.parent / "Other_data" / "West_Ang_Fleet_duty_cycle.csv"
+DUTY_COLORS = {"LIGHT": "#3a9a6a", "MEDIUM": "#2a6ebb", "HEAVY": "#b8434f"}
 
 COLORS = {
     "Dril_Blast": "#2a6ebb", "Fixed_plant": "#e08a1e", "Ghosts": "#3a9a6a",
@@ -82,6 +84,44 @@ def main():
     ax.legend(frameon=False, loc="upper left", ncol=2)
     fig.tight_layout()
     fig.savefig(HERE / "truck_category_average_energy_by_time_of_day_ci.png")
+    plt.close(fig)
+
+    plot_duty_cycle(hourly)
+
+
+def plot_duty_cycle(hourly: pd.DataFrame) -> None:
+    """Energy by fleet duty cycle (trucks without a duty cycle are dropped)."""
+    duty = pd.read_csv(DUTY_CYCLE).rename(columns={"VehicleId": "TruckId", "Duty Cycle": "duty_cycle"})
+    h = hourly.merge(duty, on="TruckId", how="inner")
+    order = [d for d in DUTY_COLORS if d in set(h["duty_cycle"])]
+    n_trucks = h.groupby("duty_cycle")["TruckId"].nunique()
+
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(15, 6), dpi=180, gridspec_kw={"width_ratios": [3, 1]})
+
+    s = summarize(h, ["duty_cycle", "hour_of_day"])
+    for dc in order:
+        d, c = s[s["duty_cycle"] == dc], DUTY_COLORS[dc]
+        ax.fill_between(d["hour_of_day"], d["lo"], d["hi"], color=c, alpha=0.18, lw=0)
+        ax.plot(d["hour_of_day"], d["mean"], color=c, lw=2, marker="o", ms=4, label=f"{dc} (n={n_trucks[dc]} trucks)")
+    style(ax, "Average hourly energy by time of day — by duty cycle (shaded: 95% CI)")
+    ax.legend(frameon=False, loc="upper left")
+
+    daily = h.groupby(["TruckId", "duty_cycle", "month", "day"], as_index=False)["energy_consumption"].sum()
+    ds = summarize(daily, ["duty_cycle"]).set_index("duty_cycle").loc[order]
+    x = np.arange(len(order))
+    bx.bar(x, ds["mean"], color=[DUTY_COLORS[d] for d in order], width=0.6)
+    bx.errorbar(x, ds["mean"], yerr=[ds["mean"] - ds["lo"], ds["hi"] - ds["mean"]], fmt="none", ecolor="black", capsize=5)
+    for xi, hi, m in zip(x, ds["hi"], ds["mean"]):
+        bx.text(xi, hi + ds["hi"].max() * 0.02, f"{m:.1f}", ha="center", va="bottom", fontsize=10)
+    bx.set_ylim(0, ds["hi"].max() * 1.12)
+    bx.set_xticks(x, order)
+    bx.set_title("Mean daily energy per active truck-day", fontsize=12)
+    bx.set_ylabel("Energy per day (dataset units)")
+    bx.grid(axis="y", color="#e5e5e5")
+    bx.set_axisbelow(True)
+
+    fig.tight_layout()
+    fig.savefig(HERE / "duty_cycle_average_energy_by_time_of_day_ci.png")
     plt.close(fig)
 
 
