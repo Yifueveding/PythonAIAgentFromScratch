@@ -1,13 +1,11 @@
 """Correlation between daily average temperature and daily energy consumption.
 
-Energy data: ``day`` is days since the 1st of ``month`` (each month block runs
-34 days and overlaps the next month by a few days with identical rows), so the
-calendar date is ``2019-<month>-01 + day``. Overlapping copies are dropped.
-November holds two conflicting copies of every slot, so dates from
-2019-11-01 onwards are excluded.
+Energy data is cleaned by energy_data.load_energy (calendar dates, overlap
+de-duplicated, November dropped).
 
 Temperature: hourly MERRA-2 2 m temperature (Renewables.ninja), averaged per
-local (Australia/Perth) calendar day.
+local (Australia/Perth) calendar day. The weather file is for 2019, while the
+energy data appears to be 2023, so the two are aligned on month and day only.
 """
 from pathlib import Path
 
@@ -16,10 +14,11 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
+from energy_data import load_energy
+
 HERE = Path(__file__).resolve().parent
-ENERGY = HERE / "all_trucks_energy_consumption_data_with_category.csv"
 TEMPERATURE = HERE.parent / "Other_data" / "temperature.csv"
-CUTOFF = pd.Timestamp("2019-11-01")  # November data is internally inconsistent
+WEATHER_YEAR = 2019  # year of temperature.csv; energy is placed on the same year to join
 
 COLORS = {
     "Dril_Blast": "#2a6ebb", "Fixed_plant": "#e08a1e", "Ghosts": "#3a9a6a",
@@ -30,10 +29,7 @@ COLORS = {
 
 def load_truck_days() -> pd.DataFrame:
     """Daily energy per truck per calendar date."""
-    df = pd.read_csv(ENERGY, dtype={"month": str})
-    df["date"] = pd.to_datetime("2019-" + df["month"] + "-01") + pd.to_timedelta(df["day"], unit="D")
-    df = df[df["date"] < CUTOFF]
-    df = df.drop_duplicates(["TruckId", "date", "hour", "energy_consumption"])
+    df = load_energy(WEATHER_YEAR)
     return df.groupby(["TruckId", "truck_category", "date"], as_index=False)["energy_consumption"].sum()
 
 

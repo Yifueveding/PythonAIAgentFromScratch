@@ -1,9 +1,10 @@
 """Hourly average energy by time of day (all trucks, and per truck category).
 
 The raw data has 48 half-hour slots per day (column ``hour`` = 0..47).
-Two consecutive slots are summed per truck/month/day to get hourly energy,
-then averaged across all truck-hours, with a 95% confidence interval
-(mean +/- 1.96 * standard error).
+Two consecutive slots are summed per truck and calendar date to get hourly
+energy, then averaged across all truck-hours, with a 95% confidence interval
+(mean +/- 1.96 * standard error). Rows are cleaned by energy_data.load_energy
+(calendar dates, overlap de-duplicated, November dropped).
 """
 from pathlib import Path
 
@@ -11,8 +12,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from energy_data import load_energy
+
 HERE = Path(__file__).resolve().parent
-DATA = HERE / "all_trucks_energy_consumption_data_with_category.csv"
 DUTY_CYCLE = HERE.parent / "Other_data" / "West_Ang_Fleet_duty_cycle.csv"
 DUTY_COLORS = {"LIGHT": "#3a9a6a", "MEDIUM": "#2a6ebb", "HEAVY": "#b8434f"}
 FLEET = HERE.parent / "Other_data" / "West_Ang_Fleet.csv"
@@ -33,9 +35,9 @@ def load_hourly() -> pd.DataFrame:
     24 hours, with absent hours filled with 0, so the average is not biased
     by how many slots happen to be present at each time of day.
     """
-    df = pd.read_csv(DATA, dtype={"month": str})
+    df = load_energy()
     df["hour_of_day"] = df["hour"] // 2
-    day_keys = ["TruckId", "truck_category", "month", "day"]
+    day_keys = ["TruckId", "truck_category", "date"]
     wide = (
         df.groupby(day_keys + ["hour_of_day"])["energy_consumption"].sum()
         .unstack("hour_of_day")
@@ -152,7 +154,7 @@ def draw_groups(ax, bx, h: pd.DataFrame, order: list[str], colors: list[str], wh
     ax.set_ylim(0, s["hi"].max() * (1.35 if many else 1.2))
     ax.legend(frameon=False, loc="upper left", ncol=2 if many else 1, fontsize=9 if many else 10)
 
-    daily = h.groupby(["TruckId", "group", "month", "day"], as_index=False)["energy_consumption"].sum()
+    daily = h.groupby(["TruckId", "group", "date"], as_index=False)["energy_consumption"].sum()
     ds = summarize(daily, ["group"]).set_index("group").loc[order]
     x = np.arange(len(order))
     bx.bar(x, ds["mean"], color=colors, width=0.6)
