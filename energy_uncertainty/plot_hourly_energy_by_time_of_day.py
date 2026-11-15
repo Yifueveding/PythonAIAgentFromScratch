@@ -80,6 +80,7 @@ def main():
         (category_groups(hourly), "truck_category_average_energy_by_time_of_day_ci.png"),
         (duty_cycle_groups(hourly), "duty_cycle_average_energy_by_time_of_day_ci.png"),
         (age_groups(hourly), "age_group_average_energy_by_time_of_day_ci.png"),
+        (km_groups(hourly), "km_group_average_energy_by_time_of_day_ci.png"),
     ]
 
     for grouping, fname in groupings:
@@ -89,8 +90,9 @@ def main():
         fig.savefig(HERE / fname)
         plt.close(fig)
 
-    fig, axes = plt.subplots(3, 2, figsize=(15, 18), dpi=180, gridspec_kw={"width_ratios": [3, 1]})
-    for (ax, bx), (grouping, _), tag in zip(axes, groupings, "abc"):
+    fig, axes = plt.subplots(len(groupings), 2, figsize=(15, 6 * len(groupings)), dpi=180,
+                             gridspec_kw={"width_ratios": [3, 1]})
+    for (ax, bx), (grouping, _), tag in zip(axes, groupings, "abcdefgh"):
         draw_groups(ax, bx, *grouping)
         ax.set_title(f"({tag}) {ax.get_title()}", fontsize=13)
     fig.tight_layout(h_pad=2.5)
@@ -112,17 +114,27 @@ def duty_cycle_groups(hourly: pd.DataFrame):
     return h, order, [DUTY_COLORS[d] for d in order], "duty cycle"
 
 
-def age_groups(hourly: pd.DataFrame):
-    """Energy by vehicle age, split into three equal-count groups (tertiles)."""
-    fleet = pd.read_csv(FLEET, usecols=["VehicleId", "Age"]).dropna()
+def tertile_groups(hourly: pd.DataFrame, column: str, fmt, unit: str, what: str):
+    """Split trucks into three equal-count groups (tertiles) on a fleet column."""
+    fleet = pd.read_csv(FLEET, usecols=["VehicleId", column]).dropna()
     fleet = fleet.rename(columns={"VehicleId": "TruckId"})
     fleet["TruckId"] = fleet["TruckId"].astype(int)
     fleet = fleet[fleet["TruckId"].isin(hourly["TruckId"].unique())]
-    edges = fleet["Age"].quantile([0, 1 / 3, 2 / 3, 1]).to_numpy()
-    labels = [f"{edges[0]:.1f}–{edges[1]:.1f} yr", f"{edges[1]:.1f}–{edges[2]:.1f} yr", f"{edges[2]:.1f}–{edges[3]:.1f} yr"]
-    fleet["group"] = pd.qcut(fleet["Age"], 3, labels=labels).astype(str)
+    edges = fleet[column].quantile([0, 1 / 3, 2 / 3, 1]).to_numpy()
+    labels = [f"{fmt(lo)}–{fmt(hi)} {unit}" for lo, hi in zip(edges[:-1], edges[1:])]
+    fleet["group"] = pd.qcut(fleet[column], 3, labels=labels).astype(str)
     h = hourly.merge(fleet[["TruckId", "group"]], on="TruckId", how="inner")
-    return h, labels, AGE_COLORS, "vehicle age"
+    return h, labels, AGE_COLORS, what
+
+
+def age_groups(hourly: pd.DataFrame):
+    """Energy by vehicle age, split into tertiles."""
+    return tertile_groups(hourly, "Age", lambda v: f"{v:.1f}", "yr", "vehicle age")
+
+
+def km_groups(hourly: pd.DataFrame):
+    """Energy by odometer reading (Km's), split into tertiles."""
+    return tertile_groups(hourly, "Km's", lambda v: f"{v / 1000:.0f}k", "km", "odometer (km)")
 
 
 def draw_groups(ax, bx, h: pd.DataFrame, order: list[str], colors: list[str], what: str) -> None:
@@ -136,8 +148,8 @@ def draw_groups(ax, bx, h: pd.DataFrame, order: list[str], colors: list[str], wh
         ax.plot(d["hour_of_day"], d["mean"], color=c, lw=2, marker="o", ms=4, label=f"{g} (n={n_trucks[g]} trucks)")
     style(ax, f"Average hourly energy by time of day — by {what} (shaded: 95% CI)")
     many = len(order) > 4
-    if many:  # leave room above the lines for the two-column legend
-        ax.set_ylim(0, s["hi"].max() * 1.35)
+    # leave room above the lines for the legend
+    ax.set_ylim(0, s["hi"].max() * (1.35 if many else 1.2))
     ax.legend(frameon=False, loc="upper left", ncol=2 if many else 1, fontsize=9 if many else 10)
 
     daily = h.groupby(["TruckId", "group", "month", "day"], as_index=False)["energy_consumption"].sum()
