@@ -4,8 +4,14 @@ Target: energy of one truck on one active calendar day (sum of its half-hour slo
 
 Features
   truck-level : truck_category, duty cycle, age (yr), odometer (km)
+  truck-day   : the truck's own GPS distance (km), moving GPS points, average
+                speed and zone passes that day (vehicle_daily_distance_speed.csv,
+                vehicle_day_zone_passes.csv)
   day-level   : fleet total distance (Total_Distance.csv), daily mean temperature
                 (temperature.csv), month
+
+The truck-day GPS features describe the same day being predicted, so this is
+"energy given the day's driving", not a forecast made before the day starts.
 
 Trucks missing from West_Ang_Fleet.csv (all Ghosts, a few Mobile_Eq) get duty
 cycle "UNKNOWN", median age/km and an ``in_fleet`` = 0 flag.
@@ -36,14 +42,19 @@ from energy_data import load_energy
 
 HERE = Path(__file__).resolve().parent
 OTHER = HERE.parent / "Other_data"
+GPS_DAILY = HERE.parent / "vehicle_daily_distance_speed.csv"
+ZONE_PASSES = HERE.parent / "vehicle_day_zone_passes.csv"
 SEED = 0
 GB_PARAMS = dict(n_estimators=300, max_depth=4, learning_rate=0.05, subsample=0.8, random_state=SEED)
 
-NUMERIC = ["age", "km_k", "in_fleet", "distance_k", "temp", "month"]
+NUMERIC = ["age", "km_k", "in_fleet", "truck_km", "moving_points", "avg_speed", "zone_passes",
+           "distance_k", "temp", "month"]
 CATEGORICAL = ["truck_category", "duty_cycle"]
 FEATURE_LABELS = {
     "truck_category": "Truck category", "duty_cycle": "Duty cycle", "age": "Age",
-    "km_k": "Odometer (km)", "in_fleet": "In fleet list", "distance_k": "Fleet distance",
+    "km_k": "Odometer (km)", "in_fleet": "In fleet list", "truck_km": "Truck's own daily km",
+    "moving_points": "Moving GPS points", "avg_speed": "Average speed", "zone_passes": "Zone passes",
+    "distance_k": "Fleet distance",
     "temp": "Temperature", "month": "Month",
 }
 
@@ -71,7 +82,15 @@ def build_dataset() -> pd.DataFrame:
     t = pd.read_csv(OTHER / "temperature.csv", comment="#", parse_dates=["local_time"])
     temp = t.groupby(t["local_time"].dt.strftime("%m-%d"))["t2m"].mean().rename("temp")
     d = d.join(dist, on="md").join(temp, on="md")
-    return d.dropna(subset=["distance_k", "temp"]).reset_index(drop=True)
+
+    gps = pd.read_csv(GPS_DAILY, parse_dates=["date"]).rename(columns={
+        "VehicleId": "TruckId", "total_distance_km": "truck_km",
+        "moving_point_count": "moving_points", "average_speed": "avg_speed"})
+    zones = pd.read_csv(ZONE_PASSES, parse_dates=["date"]).rename(columns={
+        "VehicleId": "TruckId", "passes_any_zone": "zone_passes"})
+    d = d.merge(gps[["TruckId", "date", "truck_km", "moving_points", "avg_speed"]], on=["TruckId", "date"], how="left")
+    d = d.merge(zones[["TruckId", "date", "zone_passes"]], on=["TruckId", "date"], how="left")
+    return d.dropna(subset=["distance_k", "temp", "truck_km"]).reset_index(drop=True)
 
 
 def design(d: pd.DataFrame, columns=None) -> pd.DataFrame:
