@@ -3,7 +3,7 @@
 Models (trained Jan-Aug on all trucks, as in predict_energy_route_cluster_refined.py):
   refined cluster km : planned km from distance-refined route clusters, assigned
                        by route image only (realistic forecast)
-  actual km          : the truck's actual GPS km that day (upper bound)
+  predicted with known km : uses the truck's actual GPS km that day (upper bound)
 
 Each panel shows one truck: actual energy, the refined-cluster forecast with its
 90% interval, and the actual-km prediction for reference. A final panel shows
@@ -67,12 +67,12 @@ def main(trucks=None):
         ax.fill_between(tt["date"], lo, hi, color="#7e5fa6", alpha=0.18, lw=0, label="90% interval (route-cluster)")
         ax.plot(tt["date"], y, color="black", lw=1.2, marker="o", ms=2.5, label="Actual")
         ax.plot(tt["date"], p, color="#7e5fa6", lw=1.8, label="Forecast: refined route-cluster km")
-        ax.plot(tt["date"], pa, color="#2a6ebb", lw=1, ls="--", label="Reference: actual km")
+        ax.plot(tt["date"], pa, color="#2a6ebb", lw=1, ls="--", label="Predicted with known km")
         info = tt.iloc[0]
         attrs = f"duty {info['duty_cycle']}, {info['km']:,.0f} km odometer" if info["in_fleet"] else "not in fleet list"
         ax.set_title(f"Truck {tid} — {info['truck_category']} ({attrs}) | route-cluster forecast: "
                      f"R² {r2_score(y, p):.2f}, MAE {mean_absolute_error(y, p):.1f}, 90% cover {cov:.0%} | "
-                     f"actual km: R² {r2_score(y, pa):.2f}", fontsize=10)
+                     f"predicted with known km: R² {r2_score(y, pa):.2f}", fontsize=10)
         ax.set_ylabel("Daily energy")
         ax.set_ylim(0, max(y.max(), hi.max()) * 1.1)
         ax.set_xlim(test["date"].min(), test["date"].max())
@@ -85,7 +85,7 @@ def main(trucks=None):
     ax.hist(scores["R2"].clip(-1, 1), bins=bins, color="#7e5fa6", alpha=0.75,
             label=f"Refined route-cluster km (median R² {scores['R2'].median():.2f})")
     ax.hist(scores_actual["R2"].clip(-1, 1), bins=bins, color="#2a6ebb", alpha=0.45,
-            label=f"Actual km (median R² {scores_actual['R2'].median():.2f})")
+            label=f"Predicted with known km (median R² {scores_actual['R2'].median():.2f})")
     ax.set_xlabel("Per-truck R² over Sep–Oct (values below −1 shown at −1)")
     ax.set_ylabel("Trucks")
     ax.set_title(f"Per-truck accuracy across all {len(scores)} trucks with ≥{MIN_TEST_DAYS} test days", fontsize=11)
