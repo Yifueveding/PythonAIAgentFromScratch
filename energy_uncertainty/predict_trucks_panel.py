@@ -1,15 +1,18 @@
-"""Sep-Oct daily energy forecasts for several trucks, one per category.
+"""Sep-Oct daily energy for several trucks: forecast without distance vs known km.
 
-Models (trained Jan-Aug on all trucks, as in predict_energy_route_cluster_refined.py):
-  refined cluster km : planned km from distance-refined route clusters, assigned
-                       by route image only (realistic forecast)
+Models (trained Jan-Aug on all trucks, tested Sep-Oct):
+  unknown distance + past 7 days : forecast using only information available
+      before the day: truck attributes, temperature, month, zone passes, and the
+      truck's own previous active days (last day's energy and km, mean and std
+      of the last 7 active days, days since last active). No route clusters and
+      no same-day distance.
   predicted with known km : uses the truck's actual GPS km that day (upper bound)
 
-Each panel shows one truck: actual energy, the refined-cluster forecast with its
-90% interval, and the actual-km prediction for reference. A final panel shows
-the distribution of per-truck R^2 across all trucks with enough test days.
+Each panel shows one truck: actual energy, the unknown-distance forecast with
+its 90% interval, and the known-km prediction. A final panel shows the
+distribution of per-truck R^2 across all trucks with enough test days.
 
-Usage: python predict_trucks_panel.py [TruckId ...]   (default: one per category)
+Usage: python predict_trucks_panel.py [TruckId ...]
 """
 import sys
 from pathlib import Path
@@ -20,13 +23,13 @@ import pandas as pd
 from sklearn.metrics import mean_absolute_error, r2_score
 
 from predict_energy import build_dataset
-from predict_energy_route_cluster import fit_with_planned
-from predict_energy_route_cluster_refined import SPLIT, image_features, planned_km
+from predict_energy_forecast import HISTORY, STATIC, add_history, fit
 from predict_energy_scenarios import run
 
 HERE = Path(__file__).resolve().parent
-BEST_K, BEST_W = 20, 0.5  # best image-only setting from predict_energy_route_cluster_refined.py
+SPLIT = "2023-09-01"
 MIN_TEST_DAYS = 20
+DEFAULT_TRUCKS = [13873, 3019, 12263, 1988, 2921, 2705, 8065, 2201]  # one per category, most Sep-Oct days
 
 
 def per_truck_scores(test: pd.DataFrame, pred: np.ndarray) -> pd.DataFrame:
@@ -40,21 +43,15 @@ def per_truck_scores(test: pd.DataFrame, pred: np.ndarray) -> pd.DataFrame:
 
 
 def main(trucks=None):
-    d = build_dataset()
-    d = planned_km(d, image_features(d), BEST_W, BEST_K)
+    d = add_history(build_dataset())
     train, test = d[d["date"] < SPLIT], d[d["date"] >= SPLIT]
     print("fitting models...")
-    refined = fit_with_planned(train, test)
-    actual = run(train, test, 0.0)
+    forecast = fit(train, test, STATIC + HISTORY, quantiles=True)
+    known = run(train, test, 0.0)
 
-    if not trucks:
-        counts = test.groupby(["truck_category", "TruckId"]).size().rename("n").reset_index()
-        trucks = counts.sort_values("n", ascending=False).groupby("truck_category").head(1)
-        trucks = trucks.sort_values("truck_category")["TruckId"].tolist()
-    trucks = [t for t in trucks if t in set(test["TruckId"])]
-
-    scores = per_truck_scores(test, refined["pred"])
-    scores_actual = per_truck_scores(test, actual["pred"])
+    trucks = [t for t in (trucks or DEFAULT_TRUCKS) if t in set(test["TruckId"])]
+    scores = per_truck_scores(test, forecast["pred"])
+    scores_known = per_truck_scores(test, known["pred"])
 
     n = len(trucks)
     fig, axes = plt.subplots(n + 1, 1, figsize=(16, 3.1 * (n + 1)), dpi=150)
@@ -62,17 +59,17 @@ def main(trucks=None):
         m = (test["TruckId"] == tid).to_numpy()
         tt = test[m]
         y = tt["energy"].to_numpy()
-        p, lo, hi, pa = refined["pred"][m], refined["lo"][m], refined["hi"][m], actual["pred"][m]
+        p, lo, hi, pk = forecast["pred"][m], forecast["lo"][m], forecast["hi"][m], known["pred"][m]
         cov = np.mean((y >= lo) & (y <= hi))
-        ax.fill_between(tt["date"], lo, hi, color="#7e5fa6", alpha=0.18, lw=0, label="90% interval (route-cluster)")
+        ax.fill_between(tt["date"], lo, hi, color="#e08a1e", alpha=0.18, lw=0, label="90% interval (unknown distance)")
         ax.plot(tt["date"], y, color="black", lw=1.2, marker="o", ms=2.5, label="Actual")
-        ax.plot(tt["date"], p, color="#7e5fa6", lw=1.8, label="Forecast: refined route-cluster km")
-        ax.plot(tt["date"], pa, color="#2a6ebb", lw=1, ls="--", label="Predicted with known km")
+        ax.plot(tt["date"], p, color="#e08a1e", lw=1.8, label="Forecast: unknown distance + past 7 days")
+        ax.plot(tt["date"], pk, color="#2a6ebb", lw=1, ls="--", label="Predicted with known km")
         info = tt.iloc[0]
         attrs = f"duty {info['duty_cycle']}, {info['km']:,.0f} km odometer" if info["in_fleet"] else "not in fleet list"
-        ax.set_title(f"Truck {tid} — {info['truck_category']} ({attrs}) | route-cluster forecast: "
+        ax.set_title(f"Truck {tid} — {info['truck_category']} ({attrs}) | unknown distance + past 7 days: "
                      f"R² {r2_score(y, p):.2f}, MAE {mean_absolute_error(y, p):.1f}, 90% cover {cov:.0%} | "
-                     f"predicted with known km: R² {r2_score(y, pa):.2f}", fontsize=10)
+                     f"known km: R² {r2_score(y, pk):.2f}", fontsize=10)
         ax.set_ylabel("Daily energy")
         ax.set_ylim(0, max(y.max(), hi.max()) * 1.1)
         ax.set_xlim(test["date"].min(), test["date"].max())
@@ -82,10 +79,10 @@ def main(trucks=None):
 
     ax = axes[-1]
     bins = np.linspace(-1, 1, 41)
-    ax.hist(scores["R2"].clip(-1, 1), bins=bins, color="#7e5fa6", alpha=0.75,
-            label=f"Refined route-cluster km (median R² {scores['R2'].median():.2f})")
-    ax.hist(scores_actual["R2"].clip(-1, 1), bins=bins, color="#2a6ebb", alpha=0.45,
-            label=f"Predicted with known km (median R² {scores_actual['R2'].median():.2f})")
+    ax.hist(scores["R2"].clip(-1, 1), bins=bins, color="#e08a1e", alpha=0.75,
+            label=f"Unknown distance + past 7 days (median R² {scores['R2'].median():.2f})")
+    ax.hist(scores_known["R2"].clip(-1, 1), bins=bins, color="#2a6ebb", alpha=0.45,
+            label=f"Predicted with known km (median R² {scores_known['R2'].median():.2f})")
     ax.set_xlabel("Per-truck R² over Sep–Oct (values below −1 shown at −1)")
     ax.set_ylabel("Trucks")
     ax.set_title(f"Per-truck accuracy across all {len(scores)} trucks with ≥{MIN_TEST_DAYS} test days", fontsize=11)
@@ -97,8 +94,13 @@ def main(trucks=None):
     fig.savefig(HERE / "energy_prediction_trucks_panel.png")
     plt.close(fig)
 
+    y = test["energy"].to_numpy()
+    print(f"all truck-days: unknown distance + past 7 days R2 {r2_score(y, forecast['pred']):.3f}, "
+          f"MAE {mean_absolute_error(y, forecast['pred']):.2f}, "
+          f"90% coverage {np.mean((y >= forecast['lo']) & (y <= forecast['hi'])):.1%}; "
+          f"known km R2 {r2_score(y, known['pred']):.3f}")
     print(scores[scores["TruckId"].isin(trucks)].round(2).to_string(index=False))
-    print("\nper-truck R2 (refined cluster km) by category, median:")
+    print("\nper-truck R2 (unknown distance + past 7 days) by category, median:")
     print(scores.groupby("category")["R2"].agg(["median", "count"]).round(2).to_string())
     print(f"\nshare of trucks with R2 > 0: {np.mean(scores['R2'] > 0):.0%}, > 0.5: {np.mean(scores['R2'] > 0.5):.0%}")
 
