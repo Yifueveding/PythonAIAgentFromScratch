@@ -10,12 +10,11 @@ Only information available before the day starts is used:
 The same-day fleet total distance and the truck's same-day GPS measures are
 NOT used (they are only known after the day).
 
-Route representations compared
-  image clusters : distance-refined clusters of Vehicle/*.png route images
-                   (predict_energy_route_cluster_refined.py)
-  GPS rasters    : fixed-extent binary route rasters from Positions/*.csv
-                   (build_route_rasters.py), clustered the same way, plus the
-                   number of fine/coarse cells the route covers
+Route representation
+  GPS rasters : fixed-extent binary route rasters from Positions/*.csv
+                (build_route_rasters.py), clustered per truck with distance
+                refinement (assigned by route only), plus the number of
+                fine/coarse cells the route covers
 
 Trained Jan-Aug, tested Sep-Oct.
 """
@@ -30,7 +29,7 @@ from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error, r2_score
 
 from predict_energy import CATEGORICAL, GB_PARAMS, build_dataset
-from predict_energy_route_cluster_refined import SPLIT, image_features, planned_km
+from predict_energy_route_cluster_refined import SPLIT
 
 HERE = Path(__file__).resolve().parent
 RASTERS = HERE / "route_rasters.npz"
@@ -112,19 +111,17 @@ def per_truck_r2(test, pred, min_days=20):
 
 def main():
     d = build_dataset()
-    d = planned_km(d, image_features(d), W, K)          # image-cluster planned km -> planned_km
     d = add_history(d)
     d = raster_planned_km(d)
     d = d.dropna(subset=["raster_km"])                  # same truck-days for every variant
     train, test = d[d["date"] < SPLIT], d[d["date"] >= SPLIT]
     print(f"{len(train)} train / {len(test)} test truck-days, {d['TruckId'].nunique()} trucks")
     r = np.corrcoef(test["raster_km"], test["truck_km"])[0, 1]
-    r_img = np.corrcoef(test["planned_km"], test["truck_km"])[0, 1]
-    print(f"planned km vs actual (Sep-Oct): image clusters r={r_img:.3f}, GPS raster clusters r={r:.3f}")
+    print(f"planned km vs actual (Sep-Oct): GPS raster clusters r={r:.3f}")
 
     variants = {
-        "Image clusters\n(current)": STATIC + ["planned_km"],
-        "Image clusters\n+ history": STATIC + ["planned_km"] + HISTORY,
+        "No route,\nno history": STATIC,
+        "History only": STATIC + HISTORY,
         "GPS rasters": STATIC + ["raster_km", "n_fine", "n_coarse"],
         "GPS rasters\n+ history": STATIC + ["raster_km", "n_fine", "n_coarse"] + HISTORY,
     }
@@ -141,7 +138,7 @@ def main():
     summary = pd.DataFrame(summary).set_index("variant")
     print(summary.round(3).to_string())
     best = "GPS rasters\n+ history"
-    pt_best, pt_cur = per_truck_r2(test, res[best]["pred"]), per_truck_r2(test, res["Image clusters\n(current)"]["pred"])
+    pt_best, pt_cur = per_truck_r2(test, res[best]["pred"]), per_truck_r2(test, res["No route,\nno history"]["pred"])
 
     # --- figure -------------------------------------------------------------------
     trucks = [t for t in PANEL_TRUCKS if t in set(test["TruckId"])]
@@ -168,7 +165,7 @@ def main():
     ax_b.set_axisbelow(True)
 
     bins = np.linspace(-1, 1, 41)
-    ax_h.hist(pt_cur.clip(-1, 1), bins=bins, color="#9aa0a6", alpha=0.7, label=f"Image clusters (median {pt_cur.median():.2f})")
+    ax_h.hist(pt_cur.clip(-1, 1), bins=bins, color="#9aa0a6", alpha=0.7, label=f"No route, no history (median {pt_cur.median():.2f})")
     ax_h.hist(pt_best.clip(-1, 1), bins=bins, color="#2a6ebb", alpha=0.55, label=f"GPS rasters + history (median {pt_best.median():.2f})")
     ax_h.set_xlabel("Per-truck R² over Sep–Oct (values below −1 shown at −1)")
     ax_h.set_ylabel("Trucks")
@@ -177,7 +174,7 @@ def main():
     ax_h.grid(color="#e5e5e5")
     ax_h.set_axisbelow(True)
 
-    cur = res["Image clusters\n(current)"]["pred"]
+    cur = res["No route,\nno history"]["pred"]
     for i, tid in enumerate(trucks):
         ax = fig.add_subplot(gs[i + 1, :])
         m = (test["TruckId"] == tid).to_numpy()
@@ -186,10 +183,10 @@ def main():
         cov = np.mean((y >= lo) & (y <= hi))
         ax.fill_between(tt["date"], lo, hi, color="#2a6ebb", alpha=0.15, lw=0, label="90% interval")
         ax.plot(tt["date"], y, color="black", lw=1.2, marker="o", ms=2.5, label="Actual")
-        ax.plot(tt["date"], cur[m], color="#9aa0a6", lw=1.2, ls="--", label="Image clusters (current)")
+        ax.plot(tt["date"], cur[m], color="#9aa0a6", lw=1.2, ls="--", label="No route, no history")
         ax.plot(tt["date"], p, color="#2a6ebb", lw=1.8, label="GPS rasters + history")
         ax.set_title(f"Truck {tid} — {tt['truck_category'].iloc[0]} | GPS rasters + history: R² {r2_score(y, p):.2f}, "
-                     f"MAE {mean_absolute_error(y, p):.1f}, 90% cover {cov:.0%} | image clusters: R² {r2_score(y, cur[m]):.2f}",
+                     f"MAE {mean_absolute_error(y, p):.1f}, 90% cover {cov:.0%} | no route/history: R² {r2_score(y, cur[m]):.2f}",
                      fontsize=10)
         ax.set_ylabel("Daily energy")
         ax.set_ylim(0, max(y.max(), hi.max()) * 1.1)
